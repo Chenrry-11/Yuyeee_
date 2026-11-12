@@ -1,0 +1,72 @@
+name: Set app icon
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  icon:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare icon files
+        run: |
+          echo "download start"
+          curl -fsSL "https://aka.doubaocdn.com/s/i5Ag28rRYU" -o icon-src.png
+          ls -la icon-src.png
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          import os
+          from PIL import Image
+          src = Image.open('icon-src.png').convert('RGBA')
+          w, h = src.size
+          print('source size', w, h)
+          cut = int(min(w, h) * 0.06)
+          src = src.crop((cut, cut, w - cut, h - cut))
+          for size, name in [(180, 'apple-touch-icon.png'), (192, 'icon-192.png'), (512, 'icon-512.png')]:
+              src.resize((size, size), Image.LANCZOS).save(name)
+          print('icons done', sorted(os.listdir('.')))
+          PY
+
+      - name: Inject icon links
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          LINKS = (
+              '<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">\n'
+              '<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">\n'
+              '<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">\n'
+          )
+          for name in ('index.html',):
+              p = Path(name)
+              if not p.exists():
+                  continue
+              t = p.read_text(encoding='utf-8')
+              if 'apple-touch-icon' in t:
+                  print('skip', name)
+                  continue
+              if '</head>' not in t:
+                  print('no head tag', name)
+                  continue
+              t = t.replace('</head>', LINKS + '</head>', 1)
+              p.write_text(t, encoding='utf-8')
+              print('injected', name)
+          PY
+
+      - name: Commit icons
+        run: |
+          git config user.name "icon-bot"
+          git config user.email "icon-bot@users.noreply.github.com"
+          rm -f icon-src.png
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+            exit 0
+          fi
+          git commit -m "add bunny icon [skip ci]"
+          git push

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # add draw-api settings page to index.html (OpenAI-compatible relay, e.g. breadog.cn)
+# v2
 import sys, io
 
 PATH = 'index.html'

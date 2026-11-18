@@ -11716,7 +11716,9 @@ previewChatImage: function(imageId) {
 sendChatImage: function(imageId, dataUrl) {
     var _applyAvatarSwitch = function(replyText) {
       if (!imageMsg.content.desc) return Promise.resolve(replyText);
-      if (!/(^|\n)\s*\[换头像\]\s*($|\n)/m.test(replyText)) return Promise.resolve(replyText);
+      var hasMarker = /(^|\n)\s*\[换头像\]\s*($|\n)/m.test(replyText);
+      var explicitAgree = /(现在就换|就换这个|好[，,。\s]{0,10}换|同意[，,。\s]{0,10}换)/.test(replyText) && !/(不换|别换|不想换|不愿意|再想想)/.test(replyText);
+      if (!hasMarker && !explicitAgree) return Promise.resolve(replyText);
       var cleanedText = replyText.replace(/(^|\n)\s*\[换头像\]\s*($|\n)/g, '\n').trim();
       var avatarDesc = imageMsg.content.desc.length > 300 ? imageMsg.content.desc.substring(0, 300) : imageMsg.content.desc;
       return app.imageDB.get(imageId).then(function(data) {
@@ -11751,7 +11753,7 @@ sendChatImage: function(imageId, dataUrl) {
                 if (!desc) return null;
                 imageMsg.content.desc = desc.length > 300 ? desc.substring(0, 300) : desc;
                 app.saveAll();
-                var prompt = '用户刚发来一张照片。图片内容（由视觉识别得到）：' + desc + '。请结合你的性格、审美、你们的关系和当前聊天，像真的看到照片一样自然回应，可以问照片里的内容；想回表情包就单独一行写 [表情包]档名（如 [表情包]开心）。是否把这张照片设为头像必须由你自己判断：同意就在回复末尾单独一行写 [换头像]；不同意就自然拒绝或商量，不要写。'; // avatarSwitchFix
+                var prompt = '用户刚发来一张照片。图片内容（由视觉识别得到）：' + desc + '。请结合你的性格、审美、你们的关系和当前聊天，像真的看到照片一样自然回应，可以问照片里的内容；想回表情包就单独一行写 [表情包]档名（如 [表情包]开心）。是否把这张照片设为头像必须由你自己判断：同意就必须在回复末尾单独一行写 [换头像]，不能只口头答应；不同意就自然拒绝或商量，不要写。'; // avatarSwitchFix2
                 return app.fetchAI(prompt, role);
             })
             .catch(function(e) { console.warn('[照片] 识图失败，回退为普通消息:', e); app._flash('识图失败：' + ((e && e.message) || '未知错误')); return null; });

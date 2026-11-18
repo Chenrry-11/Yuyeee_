@@ -22764,9 +22764,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 </script>
 
 <script>
-(function(){
-  if (!window.app) { console.log('photoV2: app not found'); return; }
-  var app = window.app;
+if (typeof app !== 'undefined') { // photoV2ConstFix
 
   function esc2(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
@@ -22988,13 +22986,11 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
       app.renderChatMessages();
     });
   };
-})();
+}
 </script>
 
 <script>
-(function(){
-  if (!window.app) return;
-  var app = window.app;
+if (typeof app !== 'undefined') { // photoV2ConstFix
   window._imgUrlCache = new WeakMap();
 
   app._imgSrcOf = function(data) {
@@ -23340,7 +23336,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
   document.addEventListener('change', function(e) {
     if (e.target && e.target.id === 'gal-file-input') app._galFileChosen(e);
   }, false);
-})();
+}
 </script>
 </body>
 </html>

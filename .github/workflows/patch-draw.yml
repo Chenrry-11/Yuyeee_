@@ -5,6 +5,7 @@ on:
     paths:
       - patch_draw_api.py
       - patch_photo_flow.py
+      - patch_photo_v2.py
       - patch_trigger.txt
   workflow_dispatch:
 
@@ -21,6 +22,7 @@ jobs:
         run: |
           python3 patch_draw_api.py
           python3 patch_photo_flow.py
+          python3 patch_photo_v2.py
 
       - name: Commit
         run: |
@@ -31,5 +33,5 @@ jobs:
             echo "nothing to commit"
             exit 0
           fi
-          git commit -m "feat: art style settings and chat photo flow"
+          git commit -m "feat: photo frame v2"
           git push

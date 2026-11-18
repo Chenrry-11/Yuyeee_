@@ -1,1 +1,1 @@
-run 5 nav fix
+run 6 image quality

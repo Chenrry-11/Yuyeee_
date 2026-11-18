@@ -10,6 +10,7 @@ on:
       - patch_const_fix.py
       - patch_nav_fix.py
       - patch_image_quality.py
+      - patch_avatar_switch.py
       - patch_trigger.txt
   workflow_dispatch:
 
@@ -31,6 +32,7 @@ jobs:
           python3 patch_const_fix.py
           python3 patch_nav_fix.py
           python3 patch_image_quality.py
+          python3 patch_avatar_switch.py
 
       - name: Commit
         run: |
@@ -41,5 +43,5 @@ jobs:
             echo "nothing to commit"
             exit 0
           fi
-          git commit -m "fix: gallery image quality"
+          git commit -m "feat: role-driven avatar switch"
           git push

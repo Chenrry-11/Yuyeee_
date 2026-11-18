@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - patch_draw_api.py
+      - patch_photo_flow.py
   workflow_dispatch:
 
 permissions:
@@ -15,8 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Apply patch
-        run: python3 patch_draw_api.py
+      - name: Apply patches
+        run: |
+          python3 patch_draw_api.py
+          python3 patch_photo_flow.py
 
       - name: Commit
         run: |
@@ -27,5 +30,5 @@ jobs:
             echo "nothing to commit"
             exit 0
           fi
-          git commit -m "feat: draw api settings page"
+          git commit -m "feat: art style settings and chat photo flow"
           git push

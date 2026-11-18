@@ -1,1 +1,1 @@
-run 7 avatar switch
+run 8 avatar consent

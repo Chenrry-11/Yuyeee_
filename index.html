@@ -7181,6 +7181,8 @@ case 'traces-view':
     app.currentView = 'traces';
     break;
             case 'sticker-manage-view': tv = $('sticker-manage-view'); app.currentView = 'sticker-manage'; app.renderStickerManage(); break;
+            case 'art-style-config-view': tv = $('art-style-config-view'); app.currentView = 'art-style-config'; if (app.fillArtStyle) app.fillArtStyle(); break;
+            case 'character-gallery-view': tv = $('character-gallery-view'); app.currentView = 'character-gallery'; if (app._galRender) app._galRender(); break;
             default: tv = $('home-view'); app.currentView = 'home';
         }
         if (tv) tv.classList.add('active');

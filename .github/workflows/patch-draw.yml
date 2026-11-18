@@ -5,6 +5,7 @@ on:
     paths:
       - patch_draw_api.py
       - patch_photo_flow.py
+      - patch_trigger.txt
   workflow_dispatch:
 
 permissions:

@@ -11714,6 +11714,22 @@ previewChatImage: function(imageId) {
 },
 
 sendChatImage: function(imageId, dataUrl) {
+    var _applyAvatarSwitch = function(replyText) {
+      if (!imageMsg.content.desc) return Promise.resolve(replyText);
+      if (!/(^|\n)\s*\[换头像\]\s*($|\n)/m.test(replyText)) return Promise.resolve(replyText);
+      var cleanedText = replyText.replace(/(^|\n)\s*\[换头像\]\s*($|\n)/g, '\n').trim();
+      var avatarDesc = imageMsg.content.desc.length > 300 ? imageMsg.content.desc.substring(0, 300) : imageMsg.content.desc;
+      return app.imageDB.get(imageId).then(function(data) {
+        var avatarId = 'img_avatar_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        return app.imageDB.save(avatarId, data).then(function() {
+          app._ceWriteCharacter(roleId, function(c) { c.profile.avatar = avatarId; c.profile.avatarDesc = avatarDesc; });
+          app.caRenderProfile && app.caRenderProfile();
+          app.renderPocketChatList && app.renderPocketChatList();
+          return cleanedText;
+        });
+      }).catch(function() { return cleanedText; });
+    };
+
     var roleId = app.activeRoleId;
     var role = app.roles.find(function(r) { return String(r.id) === String(roleId); });
     if (!role || !imageId) return;
@@ -11726,7 +11742,7 @@ sendChatImage: function(imageId, dataUrl) {
     var status = document.getElementById('chat-reply-status');
     if (status) { status.style.opacity = '1'; resetReplyStatusText(); }
     app.showThinkingBubble();
-    var fallbackText = '用户刚刚给你发来了一张照片。请结合你们的关系和当前聊天，自然回应收到照片这件事；不要假装看到了照片里的具体细节。';
+    var fallbackText = '用户刚刚给你发来了一张照片，但你这边没有成功看清图片内容。请自然回应，并说明你没看清，不能假装看到具体内容，也不能同意换头像。'; // avatarSwitchFix
     var visionPromise = Promise.resolve(null);
     if (dataUrl && /^data:image\//i.test(dataUrl)) {
         // 先用视觉模型看懂图片生成描述，再把描述喂给主模型（主模型即使不支持视觉也能知道图里是什么）
@@ -11735,14 +11751,15 @@ sendChatImage: function(imageId, dataUrl) {
                 if (!desc) return null;
                 imageMsg.content.desc = desc.length > 300 ? desc.substring(0, 300) : desc;
                 app.saveAll();
-                var prompt = '用户刚发来一张照片。图片内容（由视觉识别得到）：' + desc + '。请结合你们的关系和人设，像真的看到照片一样自然回应，可以问照片里的内容；想回表情包就单独一行写 [表情包]档名（如 [表情包]开心）。';
+                var prompt = '用户刚发来一张照片。图片内容（由视觉识别得到）：' + desc + '。请结合你的性格、审美、你们的关系和当前聊天，像真的看到照片一样自然回应，可以问照片里的内容；想回表情包就单独一行写 [表情包]档名（如 [表情包]开心）。是否把这张照片设为头像必须由你自己判断：同意就在回复末尾单独一行写 [换头像]；不同意就自然拒绝或商量，不要写。'; // avatarSwitchFix
                 return app.fetchAI(prompt, role);
             })
             .catch(function(e) { console.warn('[照片] 识图失败，回退为普通消息:', e); app._flash('识图失败：' + ((e && e.message) || '未知错误')); return null; });
     }
     visionPromise.then(function(reply) { return reply ? String(reply) : app.fetchAI(fallbackText, role); }).then(function(reply) {
         app.removeThinkingBubble();
-        var cleaned = String(reply || '').trim();
+        return _applyAvatarSwitch(String(reply || '').trim());
+      }).then(function(cleaned) {
         if (!cleaned || /请在设置中配置|请配置 API Key|网络波动中/.test(cleaned)) cleaned = '照片收到啦。刚刚我这边没能看清图片内容，你可以再跟我说说照片里是什么。';
         // 先解析 [表情包] 等卡片标记，有非文本段就按分段发送
         var parsed = app.parseAIResponse(cleaned, role);

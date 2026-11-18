@@ -23051,21 +23051,31 @@ if (typeof app !== 'undefined') { // photoV2ConstFix
       img.onload = function() {
         try {
           var w = img.naturalWidth, h = img.naturalHeight;
+          if (!w || !h) throw new Error('invalid image size');
           var scale = Math.min(1, maxSide / Math.max(w, h));
           var cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
-          var cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
-          cv.getContext('2d').drawImage(img, 0, 0, cw, ch);
+          var cv = document.createElement('canvas');
+          cv.width = cw; cv.height = ch;
+          var ctx = cv.getContext('2d', { alpha: false });
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, cw, ch);
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, 0, 0, cw, ch);
           URL.revokeObjectURL(url);
           cv.toBlob(function(b) {
-            if (b && b.type === 'image/webp') { resolve(b); return; }
-            cv.toBlob(function(b2) { resolve(b2 || b); }, 'image/jpeg', quality);
-          }, 'image/webp', quality);
-        } catch (e) { reject(e); }
+            if (b && b.size > 0) resolve(b);
+            else reject(new Error('jpeg encode failed'));
+          }, 'image/jpeg', Math.max(0.88, quality || 0.9));
+        } catch (e) {
+          URL.revokeObjectURL(url);
+          reject(e);
+        }
       };
       img.onerror = function() { URL.revokeObjectURL(url); reject(new Error('image load fail')); };
       img.src = url;
     });
-  };
+  }; // imageQualityJpegFix
 
   app._imgToDataUrl = function(blob) {
     return new Promise(function(resolve, reject) {
@@ -23253,8 +23263,8 @@ if (typeof app !== 'undefined') { // photoV2ConstFix
     var maxSide = 1080;
     if (t.kind === 'portrait') maxSide = 1440;
     if (t.kind === 'expr') maxSide = 768;
-    if (t.kind === 'avatar') maxSide = 256;
-    app._imgCompress(file, maxSide, 0.8).then(function(blob) {
+    if (t.kind === 'avatar') maxSide = 512;
+    app._imgCompress(file, maxSide, 0.92).then(function(blob) {
       if (t.kind === 'avatar') {
         return app._imgToDataUrl(blob).then(function(du) {
           app._galWrite(function(ch) { ch.profile.avatar = du; });
@@ -23263,7 +23273,7 @@ if (typeof app !== 'undefined') { // photoV2ConstFix
         });
       }
       var id = 'gal_' + Date.now() + '_' + Math.floor(Math.random() * 9999);
-      return app._imgCompress(blob, 200, 0.75).then(function(thumb) {
+      return app._imgCompress(file, 360, 0.88).then(function(thumb) {
         return app.imageDB.save(id, blob).then(function() {
           return app.imageDB.save(id + '_t', thumb);
         }).then(function() {

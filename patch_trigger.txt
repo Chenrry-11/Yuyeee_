@@ -1,1 +1,1 @@
-run 11 image text bind
+run 12 avatar quote fix

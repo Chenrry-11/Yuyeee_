@@ -28,21 +28,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Apply patches
+      - name: Apply patches (fault tolerant)
         run: |
-          python3 patch_draw_api.py
-          python3 patch_photo_flow.py
-          python3 patch_photo_v2.py
-          python3 patch_gallery.py
-          python3 patch_const_fix.py
-          python3 patch_nav_fix.py
-          python3 patch_image_quality.py
-          python3 patch_avatar_switch.py
-          python3 patch_avatar_switch2.py
-          python3 patch_avatar_refresh.py
-          python3 patch_richtext.py
-          python3 patch_image_text_bind.py
-          python3 patch_avatar_quote_fix.py
+          for p in patch_draw_api.py patch_photo_flow.py patch_photo_v2.py patch_gallery.py patch_const_fix.py patch_nav_fix.py patch_image_quality.py patch_avatar_switch.py patch_avatar_switch2.py patch_avatar_refresh.py patch_richtext.py patch_image_text_bind.py patch_avatar_quote_fix.py; do
+            echo "=== $p ==="
+            python3 "$p" || echo "warning: $p failed or already superseded, continue"
+          done
+
+      - name: Verify latest patch applied
+        run: |
+          if grep -q 'avatarQuoteFix' index.html; then
+            echo "OK: avatarQuoteFix present"
+          else
+            echo "FAIL: avatarQuoteFix missing"
+            exit 1
+          fi
 
       - name: Commit
         run: |

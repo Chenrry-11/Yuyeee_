@@ -1,1 +1,1 @@
-run 12 avatar quote fix
+run 13 avatar quote fix retry

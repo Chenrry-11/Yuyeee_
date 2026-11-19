@@ -11725,9 +11725,13 @@ sendChatImage: function(imageId, dataUrl) {
         var avatarId = 'img_avatar_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
         return app.imageDB.save(avatarId, data).then(function() {
           app._ceWriteCharacter(roleId, function(c) { c.profile.avatar = avatarId; c.profile.avatarDesc = avatarDesc; });
+          if (role) role.avatar = avatarId;
           app.caRenderProfile && app.caRenderProfile();
           app.renderPocketChatList && app.renderPocketChatList();
-          return cleanedText;
+          app.updateChatHeaderAvatar && app.updateChatHeaderAvatar(role);
+          app.renderChatMessages && app.renderChatMessages();
+          if (app._flash) app._flash('头像已更新');
+          return cleanedText; // avatarRefreshFix
         });
       }).catch(function() { return cleanedText; });
     };

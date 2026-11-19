@@ -11726,9 +11726,12 @@ previewChatImage: function(imageId) {
 sendChatImage: function(imageId, dataUrl, userText) {
     var _applyAvatarSwitch = function(replyText) {
       if (!imageMsg.content.desc) return Promise.resolve(replyText);
+      var userWantSwitch = /(换.{0,4}头像|做.{0,4}头像|当.{0,4}头像|设为.{0,4}头像|用.{0,6}头像|换成这个|换这个|换了吧|换上)/.test(userText || '');
       var hasMarker = /(^|\n)\s*\[换头像\]\s*($|\n)/m.test(replyText);
-      var explicitAgree = /(现在就换|就换这个|好[，,。\s]{0,10}换|同意[，,。\s]{0,10}换)/.test(replyText) && !/(不换|别换|不想换|不愿意|再想想)/.test(replyText);
-      if (!hasMarker && !explicitAgree) return Promise.resolve(replyText);
+      var refuse = /(不换|别换|不想换|不愿意|再想想|不喜欢|不好看|不合适)/.test(replyText);
+      var agreeWords = /(现在就换|就换这个|好[，,。\s]{0,10}换|同意[，,。\s]{0,10}换|听你的|听宝宝的|好嘞|好啊|换成这个|这就换|这就换上|换上了|换好了)/.test(replyText);
+      var explicitAgree = agreeWords && !refuse;
+      if (!hasMarker && !(userWantSwitch && explicitAgree)) return Promise.resolve(replyText); // avatarQuoteFix
       var cleanedText = replyText.replace(/(^|\n)\s*\[换头像\]\s*($|\n)/g, '\n').trim();
       var avatarDesc = imageMsg.content.desc.length > 300 ? imageMsg.content.desc.substring(0, 300) : imageMsg.content.desc;
       return app.imageDB.get(imageId).then(function(data) {
@@ -11767,7 +11770,7 @@ sendChatImage: function(imageId, dataUrl, userText) {
                 if (!desc) return null;
                 imageMsg.content.desc = desc.length > 300 ? desc.substring(0, 300) : desc;
                 app.saveAll();
-                var prompt = '用户刚发来一张照片' + (userText ? '，并附上一句话：「' + userText + '」' : '') + '。图片内容（由视觉识别得到）：' + desc + '。请结合你的性格、审美、你们的关系和当前聊天，像真的看到照片一样自然回应用户的话和这张照片，可以问照片里的内容；想回表情包就单独一行写 [表情包]档名（如 [表情包]开心）。关于换头像：只有当用户这句话里明确表达了想让你把这张照片设为头像的意愿时，你才按自己的性格和审美决定是否同意；同意就在回复末尾单独一行写 [换头像]（不能只口头答应），不同意就自然拒绝或商量；如果用户只是分享照片、没有提换头像，就不要主动换。'; // imageTextBindPrompt
+                var prompt = '用户刚发来一张照片' + (userText ? '，并附上一句话：「' + userText + '」' : '') + '。图片内容（由视觉识别得到）：' + desc + '。请结合你的性格、审美、你们的关系和当前聊天，像真的看到照片一样自然回应用户的话和这张照片，可以问照片里的内容；想回表情包就单独一行写 [表情包]档名（如 [表情包]开心）。关于换头像：只有当用户这句话里明确表达了想让你把这张照片设为头像的意愿时，你才按自己的性格和审美决定是否同意。如果你同意，必须在回复的最后一行单独写 [换头像] 这个标记——系统只认这个标记来真正更换头像，你只说“好/听你的/听宝宝的”是不会执行的，等于没换；如果不同意就自然拒绝或商量，不要写标记。如果用户只是分享照片、没有提换头像，就不要主动换，也不要写标记。'; // imageTextBindPrompt
                 return app.fetchAI(prompt, role);
             })
             .catch(function(e) { console.warn('[照片] 识图失败，回退为普通消息:', e); app._flash('识图失败：' + ((e && e.message) || '未知错误')); return null; });
@@ -11776,6 +11779,7 @@ sendChatImage: function(imageId, dataUrl, userText) {
         app.removeThinkingBubble();
         return _applyAvatarSwitch(String(reply || '').trim());
       }).then(function(cleaned) {
+        if (app._extractAIQuote) cleaned = app._extractAIQuote(cleaned, role);
         if (!cleaned || /请在设置中配置|请配置 API Key|网络波动中/.test(cleaned)) cleaned = '照片收到啦。刚刚我这边没能看清图片内容，你可以再跟我说说照片里是什么。';
         // 先解析 [表情包] 等卡片标记，有非文本段就按分段发送
         var parsed = app.parseAIResponse(cleaned, role);

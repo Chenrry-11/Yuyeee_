@@ -1,1 +1,1 @@
-run 8 avatar consent
+run 9 avatar refresh

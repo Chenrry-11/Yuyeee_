@@ -10990,7 +10990,7 @@ renderTextMessage: function(m, isUserGroup, role) {
     var bubbleContent = m.content ? (m.content.text || '') : (m.text || '');
     var sender = m.sender || (m.type === 'user' ? 'user' : 'ai');
     var bubbleStyle = 'padding:7px 12px;background:' + (isUserGroup ? 'var(--bubble-me)' : 'var(--bubble-char)') + ';border-radius:12px;' + (isUserGroup ? 'border-bottom-right-radius:4px;' : 'border-top-left-radius:4px;') + 'font-size:13.5px;line-height:1.45;color:var(--text-main);word-wrap:break-word;max-width:85%;border:1px solid var(--border-light);';
-    return '<div class="msg-bubble" data-ts="' + m.ts + '" style="' + bubbleStyle + '">' + esc(bubbleContent) + app._extraHtml(m, false) + '</div>' + app._quoteBubbleHtml(m, isUserGroup);
+    return '<div class="msg-bubble" data-ts="' + m.ts + '" style="' + bubbleStyle + '">' + app.richText(bubbleContent) + app._extraHtml(m, false) + '</div>' + app._quoteBubbleHtml(m, isUserGroup);
 },
 // === 统一消息渲染：贴纸 ===
 renderStickerMessage: function(m) {
@@ -11963,7 +11963,7 @@ sendMessage: function() {
     var explicitPhoneRequest = app._isExplicitPhoneCallRequest(text);
     if (!app.chats[role.id]) app.chats[role.id] = [];
     // 用独占一行的 --- 分隔符拆分多条消息气泡
-    var segments = text.split(/\n\s*---\s*\n/).map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; });
+    var segments = text.split(/\n\s*(?:---|—+|–+|===|\/\/\/)\s*\n/).map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; });
     if (segments.length === 0) segments = [text];
     var _qd = (app._quoteDraft && String(app._quoteDraft.roleId) === String(role.id)) ? app._quoteDraft.quote : null;
     for (var segi = 0; segi < segments.length; segi++) {
@@ -18734,7 +18734,7 @@ commitCardFlyAway: function() {
         this.temporaryPayload = null;
     }.bind(this), 600);
 },
-    tracesParseInline(text) { if (!text) return ''; return esc(text).replace(/([（\(][^）\)]*[）\)])/g, '<span class="chat-bracket-styled">$1</span>'); },
+    tracesParseInline(text) { return app.richText(text); },
    tracesAppendChatBubble: function(stage, nodeData, index) {
     var div = document.createElement('div');
     div.className = nodeData.type === 'user' ? 'msg-wrapper me' : 'msg-wrapper ai';
@@ -23373,5 +23373,20 @@ if (typeof app !== 'undefined') { // photoV2ConstFix
   }, false);
 }
 </script>
+
+<script>
+if (typeof app !== 'undefined') { // richTextFix
+  app.richText = function(text) {
+    if (!text) return '';
+    var s = esc(text);
+    s = s.replace(/([（\(][^）\)]*[）\)])/g, '<span class="chat-bracket-styled">$1</span>');
+    s = s.replace(/\*\*([^*\n]+)\*\*/g, '<strong style="font-weight:700;font-size:1.15em;">$1</strong>');
+    s = s.replace(/\*([^*\n]+)\*/g, '<em style="font-style:italic;">$1</em>');
+    s = s.replace(/~~([^~\n]+)~~/g, '<del style="text-decoration:line-through;opacity:.6;">$1</del>');
+    return s;
+  };
+}
+</script>
+
 </body>
 </html>

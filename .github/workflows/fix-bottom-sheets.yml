@@ -1,0 +1,49 @@
+name: Apply bottom sheet updates
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify baseline index.html
+        run: |
+          baseline="$(sha256sum index.html | awk '{print $1}')"
+          echo "baseline=$baseline"
+          test "$baseline" = "b32c672544bdf0dc0a5b884bde1e6d335b111a4ef4f2ec3125c4132e68be8af7"
+
+      - name: Download and verify updated index.html
+        run: |
+          curl -fsSL "https://aka.doubaocdn.com/s/zHxJfysV6U" -o /tmp/index.html
+          updated="$(sha256sum /tmp/index.html | awk '{print $1}')"
+          echo "updated=$updated"
+          test "$updated" = "1a97b3471f6a90522f8515716802e25ec74a98f1217b1611f6590ed9a195c0c4"
+          cp /tmp/index.html index.html
+
+      - name: Commit bottom sheet update
+        run: |
+          git config user.name "patch-bot"
+          git config user.email "patch-bot@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "index.html already up to date"
+            exit 0
+          fi
+          git commit -m "feat: unify bottom sheet animations and desktop layout"
+          git push
+
+      - name: Remove one-time workflow
+        run: |
+          git config user.name "patch-bot"
+          git config user.email "patch-bot@users.noreply.github.com"
+          git rm .github/workflows/fix-bottom-sheets.yml
+          git commit -m "chore: remove one-time bottom sheet workflow"
+          git push

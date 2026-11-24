@@ -1,0 +1,49 @@
+name: Polish switch styling
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify current baseline
+        run: |
+          current="$(sha256sum index.html | awk '{print $1}')"
+          echo "current=$current"
+          test "$current" = "b32c672544bdf0dc0a5b884bde1e6d335b111a4ef4f2ec3125c4132e68be8af7"
+
+      - name: Download and verify switch styling update
+        run: |
+          curl -fsSL "https://aka.doubaocdn.com/s/t0yQNBbEZ0" -o /tmp/index.html
+          updated="$(sha256sum /tmp/index.html | awk '{print $1}')"
+          echo "updated=$updated"
+          test "$updated" = "78a4c63809ca11f0c4816b3deaac211d88b50b231c03fc9f5dbdab3fb28462ae"
+          cp /tmp/index.html index.html
+
+      - name: Commit switch styling update
+        run: |
+          git config user.name "patch-bot"
+          git config user.email "patch-bot@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "index.html already matches update"
+            exit 0
+          fi
+          git commit -m "style: refine toggle switch appearance"
+          git push
+
+      - name: Remove one-time workflow
+        run: |
+          git config user.name "patch-bot"
+          git config user.email "patch-bot@users.noreply.github.com"
+          git rm .github/workflows/polish-switch.yml
+          git commit -m "chore: remove one-time switch workflow"
+          git push

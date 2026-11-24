@@ -2436,6 +2436,23 @@
     @media (prefers-reduced-motion:reduce) {
         .ui-switch-track,.ui-switch-thumb { transition:none; }
     }
+
+    button:not(.ui-switch):not(.input-dock-btn):not(.pure-arrow-btn):not(.fw-btn):not(.mt-publish),
+    .nav-back-btn,.nav-action-btn,.theme-toggle-btn,.pocket-me-qr-btn {
+        scale:1;
+        transform-origin:center;
+        transition:scale .12s ease,filter .12s ease;
+    }
+    button:not(.ui-switch):not(.input-dock-btn):not(.pure-arrow-btn):not(.fw-btn):not(.mt-publish):active,
+    .nav-back-btn:active,.nav-action-btn:active,.theme-toggle-btn:active,.pocket-me-qr-btn:active {
+        scale:.96;
+        filter:brightness(.97);
+    }
+    .settings-list-row { transition:background .2s,scale .12s ease,filter .12s ease; }
+    .settings-list-row:active { scale:.96; filter:brightness(.98); }
+    @media (prefers-reduced-motion:reduce) {
+        button,.nav-back-btn,.nav-action-btn,.theme-toggle-btn,.pocket-me-qr-btn,.settings-list-row { transition-duration:0s; }
+    }
     #character-archive-view .ca-behavior-frequency { width:100%; margin:10px 0 0; accent-color:var(--accent); cursor:pointer; touch-action:pan-y; }
     #character-archive-view .ca-behavior-frequency::-webkit-slider-thumb { transition:transform .15s ease; }
     #character-archive-view .ca-behavior-frequency:active::-webkit-slider-thumb { transform:scale(1.12); }

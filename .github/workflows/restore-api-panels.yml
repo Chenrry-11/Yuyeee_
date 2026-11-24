@@ -1,0 +1,49 @@
+name: Restore API panels
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify current baseline
+        run: |
+          current="$(sha256sum index.html | awk '{print $1}')"
+          echo "current=$current"
+          test "$current" = "78a4c63809ca11f0c4816b3deaac211d88b50b231c03fc9f5dbdab3fb28462ae"
+
+      - name: Download and verify restored API panels
+        run: |
+          curl -fsSL "https://aka.doubaocdn.com/s/cV67wkb84V" -o /tmp/index.html
+          updated="$(sha256sum /tmp/index.html | awk '{print $1}')"
+          echo "updated=$updated"
+          test "$updated" = "76cd72c93b2ac9d0b032ca80f6775f2f201211e2a439966fcb83eecf4b9aac55"
+          cp /tmp/index.html index.html
+
+      - name: Commit API panel restore
+        run: |
+          git config user.name "patch-bot"
+          git config user.email "patch-bot@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "index.html already matches restored version"
+            exit 0
+          fi
+          git commit -m "fix: restore draw and voice config panels"
+          git push
+
+      - name: Remove one-time workflow
+        run: |
+          git config user.name "patch-bot"
+          git config user.email "patch-bot@users.noreply.github.com"
+          git rm .github/workflows/restore-api-panels.yml
+          git commit -m "chore: remove one-time API panel workflow"
+          git push

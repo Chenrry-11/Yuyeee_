@@ -2419,13 +2419,23 @@
     #character-archive-view .ca-detail-title { font-family: "SimSun","STSong","宋体",serif; font-size: 26px; letter-spacing: 2px; margin-top: 4px; color: var(--text-main); }
     #character-archive-view .ca-detail-content { padding: 0 24px; display: flex; flex-direction: column; gap: 20px; }
     
-    #character-archive-view .ca-behavior-switch { position:relative; display:inline-flex; width:48px; height:28px; flex:0 0 48px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
-    #character-archive-view .ca-behavior-switch input { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
-    #character-archive-view .ca-behavior-track { position:absolute; inset:0; border:1px solid var(--border-box); border-radius:999px; background:var(--bg-box); box-shadow:inset 0 1px 2px var(--shadow-s); transition:background .24s ease,border-color .24s ease,box-shadow .24s ease; }
-    #character-archive-view .ca-behavior-thumb { position:absolute; width:22px; height:22px; left:2px; top:2px; border-radius:50%; background:var(--bg-container); box-shadow:0 2px 5px rgba(0,0,0,.08); transition:transform .28s cubic-bezier(.2,.8,.2,1),background .24s ease; }
-    #character-archive-view .ca-behavior-switch input:checked + .ca-behavior-track { background:var(--accent-soft); border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent-soft); }
-    #character-archive-view .ca-behavior-switch input:checked + .ca-behavior-track .ca-behavior-thumb { transform:translateX(20px); background:#fff; }
-    #character-archive-view .ca-behavior-switch input:focus-visible + .ca-behavior-track { outline:2px solid var(--accent); outline-offset:3px; }
+    .ui-switch { position:relative; display:inline-flex; width:48px; height:28px; flex:0 0 48px; box-sizing:border-box; padding:0; border:0; border-radius:999px; background:transparent; color:inherit; cursor:pointer; vertical-align:middle; appearance:none; -webkit-appearance:none; -webkit-tap-highlight-color:transparent; }
+    .ui-switch::before { content:''; position:absolute; inset:-8px -6px; border-radius:999px; }
+    .ui-switch input { position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
+    .ui-switch-track { position:absolute; inset:0; box-sizing:border-box; border:1px solid transparent; border-radius:999px; background:var(--border-light); pointer-events:none; transition:background-color .2s ease,border-color .2s ease; }
+    .ui-switch-thumb { position:absolute; width:24px; height:24px; left:1px; top:1px; border-radius:50%; background:var(--bg-container); box-shadow:0 1px 3px var(--shadow-s); pointer-events:none; transform:translateX(0); transition:transform .2s cubic-bezier(.2,.8,.2,1),background-color .2s ease; }
+    .ui-switch.is-on .ui-switch-track,
+    .ui-switch input:checked + .ui-switch-track { background:var(--accent); }
+    .ui-switch.is-on .ui-switch-thumb,
+    .ui-switch input:checked + .ui-switch-track .ui-switch-thumb { transform:translateX(20px); background:#fff; }
+    .ui-switch:active .ui-switch-thumb { transform:scale(.94); }
+    .ui-switch.is-on:active .ui-switch-thumb,
+    .ui-switch input:checked:active + .ui-switch-track .ui-switch-thumb { transform:translateX(20px) scale(.94); }
+    .ui-switch:focus-visible .ui-switch-track,
+    .ui-switch input:focus-visible + .ui-switch-track { outline:2px solid var(--accent); outline-offset:3px; }
+    @media (prefers-reduced-motion:reduce) {
+        .ui-switch-track,.ui-switch-thumb { transition:none; }
+    }
     #character-archive-view .ca-behavior-frequency { width:100%; margin:10px 0 0; accent-color:var(--accent); cursor:pointer; touch-action:pan-y; }
     #character-archive-view .ca-behavior-frequency::-webkit-slider-thumb { transition:transform .15s ease; }
     #character-archive-view .ca-behavior-frequency:active::-webkit-slider-thumb { transform:scale(1.12); }
@@ -3515,10 +3525,10 @@
     <div style="font-size:11px;color:var(--text-sub);padding:12px 16px 6px;letter-spacing:0.5px;">聊天设置</div>
     <div class="friend-settings-row" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;">
         <span style="font-size:14px;color:var(--text-main);">置顶聊天</span>
-        <label style="position:relative;width:46px;height:26px;flex-shrink:0;cursor:pointer;" onclick="app.toggleFriendSwitch('pinnedChat')">
-            <span style="position:absolute;inset:0;background:var(--border-light);border-radius:26px;transition:0.3s;" id="friend-switch-pinnedChat"></span>
-            <span style="position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg-container);top:2px;left:2px;transition:0.3s;box-shadow:0 1px 3px var(--shadow-s);" id="friend-switch-thumb-pinnedChat"></span>
-        </label>
+        <button type="button" class="ui-switch" role="switch" aria-checked="false" aria-label="置顶聊天" onclick="app.toggleFriendSwitch('pinnedChat')">
+            <span class="ui-switch-track" id="friend-switch-pinnedChat"></span>
+            <span class="ui-switch-thumb" id="friend-switch-thumb-pinnedChat"></span>
+        </button>
     </div>
 </div>
 <div class="friend-settings-group" style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:16px;overflow:hidden;margin-bottom:12px;">
@@ -3542,10 +3552,10 @@
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
                 <span style="font-size:14px;color:var(--text-main);">语音消息</span>
-                <label style="position:relative;width:46px;height:26px;flex-shrink:0;cursor:pointer;" onclick="app.toggleVoiceEnabledFriend()">
-                    <span style="position:absolute;inset:0;background:var(--border-light);border-radius:26px;transition:0.3s;" id="friend-voice-switch-track"></span>
-                    <span style="position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg-container);top:2px;left:2px;transition:0.3s;box-shadow:0 1px 3px var(--shadow-s);" id="friend-voice-switch-thumb"></span>
-                </label>
+                <button type="button" class="ui-switch" role="switch" aria-checked="false" aria-label="语音消息" onclick="app.toggleVoiceEnabledFriend()">
+                    <span class="ui-switch-track" id="friend-voice-switch-track"></span>
+                    <span class="ui-switch-thumb" id="friend-voice-switch-thumb"></span>
+                </button>
             </div>
             <div style="margin-top:12px;">
                 <div style="font-size:12px;color:var(--text-sub);margin-bottom:6px;">Voice ID</div>
@@ -14158,8 +14168,7 @@ loadVoiceConfigToFriend: function() {
     var frequency = voice.frequency !== undefined ? voice.frequency : 50;
     var track = document.getElementById('friend-voice-switch-track');
     var thumb = document.getElementById('friend-voice-switch-thumb');
-    if (track) track.style.background = enabled ? 'var(--accent)' : 'var(--border-light)';
-    if (thumb) thumb.style.left = enabled ? '22px' : '2px';
+    app._setSwitchState(track ? track.closest('.ui-switch') : null, enabled);
     var idInput = document.getElementById('friend-voice-id-input');
     if (idInput) idInput.value = voiceId;
     var slider = document.getElementById('friend-voice-freq-slider');
@@ -14177,8 +14186,7 @@ toggleVoiceEnabledFriend: function() {
     app._ceWriteVoice(role.id, { enabled: !current });
     var track = document.getElementById('friend-voice-switch-track');
     var thumb = document.getElementById('friend-voice-switch-thumb');
-    if (track) track.style.background = !current ? 'var(--accent)' : 'var(--border-light)';
-    if (thumb) thumb.style.left = !current ? '22px' : '2px';
+    app._setSwitchState(track ? track.closest('.ui-switch') : null, !current);
     app.updateFriendVoiceStatus();
 },
 
@@ -14272,8 +14280,7 @@ loadFriendSwitches: function() {
     [['pinnedChat', pinnedChat]].forEach(function(item) {
         var track = document.getElementById('friend-switch-' + item[0]);
         var thumb = document.getElementById('friend-switch-thumb-' + item[0]);
-        if (track) track.style.background = item[1] ? 'var(--accent)' : 'var(--border-light)';
-        if (thumb) thumb.style.left = item[1] ? '22px' : '2px';
+        app._setSwitchState(track ? track.closest('.ui-switch') : null, item[1]);
     });
     app.updateFriendVoiceStatus();
 },
@@ -14492,13 +14499,35 @@ confirmCreateRole: async function() {
             var descPreview = (p.desc || '').replace(/\n/g, ' ').substring(0, 50); if (p.desc && p.desc.length > 50) descPreview += '...';
             return '<div class="chat-item" style="border-bottom:1px solid var(--border-light);cursor:pointer;' + (isActive ? 'background:var(--bg-box);' : '') + '" onclick="app.openPersonaEdit(\'' + escJs(p.id) + '\')">' +
                 '<div style="flex:1;min-width:0;"><div style="font-size:15px;color:var(--text-main);font-weight:500;">' + esc(p.name) + '</div><div style="font-size:13px;color:var(--text-sub);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + esc(descPreview) + '</div></div>' +
-                '<label style="position:relative;width:46px;height:26px;flex-shrink:0;margin-left:8px;" onclick="event.stopPropagation();app.togglePersonaActive(\'' + escJs(p.id) + '\')"><span style="position:absolute;inset:0;background:' + (isActive ? 'var(--accent)' : 'var(--border-light)') + ';border-radius:26px;cursor:pointer;"></span><span style="position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg-container);top:2px;left:' + (isActive ? '22px' : '2px') + ';transition:0.3s;box-shadow:0 1px 3px var(--shadow-s);"></span></label></div>';
+                '<button type="button" class="ui-switch' + (isActive ? ' is-on' : '') + '" role="switch" aria-checked="' + isActive + '" aria-label="启用此人设" style="margin-left:8px;" onclick="event.stopPropagation();app.togglePersonaActive(\'' + escJs(p.id) + '\',this)"><span class="ui-switch-track"></span><span class="ui-switch-thumb"></span></button></div>';
         }).join('');
     },
 
-    togglePersonaActive(id) {
+    _setSwitchState(control, enabled) {
+        if (!control) return;
+        control.classList.toggle('is-on', !!enabled);
+        control.setAttribute('aria-checked', enabled ? 'true' : 'false');
+    },
+    _syncExclusiveSwitches(control, selected) {
+        if (!control) return;
+        var scope = control.closest('.view-panel');
+        if (!scope) return;
+        scope.querySelectorAll('.ui-switch').forEach(function(sw) {
+            var on = sw === selected;
+            app._setSwitchState(sw, on);
+            var row = sw.closest('.chat-item');
+            if (row) row.style.background = on ? 'var(--bg-box)' : 'transparent';
+        });
+    },
+    togglePersonaActive(id, control) {
         app.activePersonaId = (app.activePersonaId === id) ? 'preset_default_persona' : id;
-        localStorage.setItem('pk_activePersonaId', app.activePersonaId); app.renderPersonaList();
+        localStorage.setItem('pk_activePersonaId', app.activePersonaId);
+        if (control) {
+            app._syncExclusiveSwitches(control, app.activePersonaId === id ? control : null);
+            var active = app.personas.find(function(p) { return p.id === app.activePersonaId; });
+            var activeEl = document.getElementById('active-persona-name');
+            if (activeEl) activeEl.innerText = active ? '● ' + active.name : '未启用';
+        } else app.renderPersonaList();
     },
 
     
@@ -14543,15 +14572,20 @@ confirmCreateRole: async function() {
             if (x.desc && x.desc.length > 50) descPreview += '...';
             return '<div class="chat-item" style="border-bottom:1px solid var(--border-light);cursor:pointer;' + (isActive ? 'background:var(--bg-box);' : '') + '" onclick="app.openXpModeEdit(\'' + escJs(x.id) + '\')">' +
                 '<div style="flex:1;min-width:0;"><div style="font-size:15px;color:var(--text-main);font-weight:500;">' + esc(x.name) + '</div><div style="font-size:13px;color:var(--text-sub);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + esc(descPreview) + '</div></div>' +
-                '<label style="position:relative;width:46px;height:26px;flex-shrink:0;margin-left:8px;" onclick="event.stopPropagation();app.setActiveXpMode(\'' + escJs(x.id) + '\')"><span style="position:absolute;inset:0;background:' + (isActive ? '#e88fa8' : 'var(--border-light)') + ';border-radius:26px;cursor:pointer;"></span><span style="position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg-container);top:2px;left:' + (isActive ? '22px' : '2px') + ';transition:0.3s;box-shadow:0 1px 3px var(--shadow-s);"></span></label>' +
+                '<button type="button" class="ui-switch' + (isActive ? ' is-on' : '') + '" role="switch" aria-checked="' + isActive + '" aria-label="启用此模式" style="margin-left:8px;" onclick="event.stopPropagation();app.setActiveXpMode(\'' + escJs(x.id) + '\',this)"><span class="ui-switch-track"></span><span class="ui-switch-thumb"></span></button>' +
                 (x.isPreset ? '' : '<span role="button" aria-label="删除" style="color:var(--text-sub);cursor:pointer;padding:4px;margin-left:4px;display:flex;" onclick="event.stopPropagation();app.deleteXpMode(\'' + escJs(x.id) + '\')"><svg class="ui-icon" aria-hidden="true"><use href="#ui-close"></use></svg></span>') +
                 '</div>';
         }).join('');
     },
-    setActiveXpMode(id) {
+    setActiveXpMode(id, control) {
         app.activeXpModeId = id;
         localStorage.setItem('pk_activeXpModeId', id);
-        app.renderXpModePage();
+        if (control) {
+            app._syncExclusiveSwitches(control, control);
+            var active = app.xpModeTemplates.find(function(x) { return x.id === id; });
+            var activeEl = document.getElementById('active-xp-mode-name');
+            if (activeEl) activeEl.innerText = active ? '● ' + active.name : '未启用';
+        } else app.renderXpModePage();
     },
     deleteXpMode(id) {
         var x = app.xpModeTemplates.find(function(t) { return t.id === id; });
@@ -14655,14 +14689,23 @@ confirmCreateRole: async function() {
         var presetList = document.getElementById('preset-style-list'); var customList = document.getElementById('custom-style-list'); if (!presetList || !customList) return;
         presetList.innerHTML = allStyles.filter(function(s) { return s.isPreset; }).map(function(s) {
             var isActive = s.id === app.activeStyleId;
-            return '<div class="chat-item" style="border-bottom:1px solid var(--border-light);' + (isActive ? 'background:var(--bg-box);' : '') + '"><span style="flex:1;font-size:15px;color:var(--text-main);font-weight:500;">' + esc(s.name) + '</span><label style="position:relative;width:46px;height:26px;flex-shrink:0;" onclick="event.stopPropagation();"><input type="checkbox" ' + (isActive ? 'checked' : '') + ' onchange="app.setActiveStyle(\'' + escJs(s.id) + '\')" style="display:none;"><span style="position:absolute;inset:0;background:' + (isActive ? 'var(--accent)' : 'var(--border-light)') + ';border-radius:26px;cursor:pointer;"></span><span style="position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg-container);top:2px;left:' + (isActive ? '22px' : '2px') + ';transition:0.3s;box-shadow:0 1px 3px var(--shadow-s);"></span></label></div>';
+            return '<div class="chat-item" style="border-bottom:1px solid var(--border-light);' + (isActive ? 'background:var(--bg-box);' : '') + '"><span style="flex:1;font-size:15px;color:var(--text-main);font-weight:500;">' + esc(s.name) + '</span><button type="button" class="ui-switch' + (isActive ? ' is-on' : '') + '" role="switch" aria-checked="' + isActive + '" aria-label="启用此文风" onclick="event.stopPropagation();app.setActiveStyle(\'' + escJs(s.id) + '\',this)"><span class="ui-switch-track"></span><span class="ui-switch-thumb"></span></button></div>';
         }).join('');
         var cst = allStyles.filter(function(s) { return !s.isPreset; });
         if (cst.length === 0) { customList.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-sub);font-size:13px;">暂无自定义文风</div>'; }
-        else { customList.innerHTML = cst.map(function(s) { var isActive = s.id === app.activeStyleId; return '<div class="chat-item" style="border-bottom:1px solid var(--border-light);' + (isActive ? 'background:var(--bg-box);' : '') + '"><span style="flex:1;font-size:15px;color:var(--text-main);font-weight:500;">' + esc(s.name) + '</span><label style="position:relative;width:46px;height:26px;flex-shrink:0;margin-right:8px;" onclick="event.stopPropagation();"><input type="checkbox" ' + (isActive ? 'checked' : '') + ' onchange="app.setActiveStyle(\'' + escJs(s.id) + '\')" style="display:none;"><span style="position:absolute;inset:0;background:' + (isActive ? 'var(--accent)' : 'var(--border-light)') + ';border-radius:26px;cursor:pointer;"></span><span style="position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg-container);top:2px;left:' + (isActive ? '22px' : '2px') + ';transition:0.3s;box-shadow:0 1px 3px var(--shadow-s);"></span></label><span role="button" aria-label="删除" style="color:var(--text-sub);cursor:pointer;padding:4px;display:flex;" onclick="event.stopPropagation();app.deleteStyle(\'' + escJs(s.id) + '\')"><svg class="ui-icon" aria-hidden="true"><use href="#ui-close"></use></svg></span></div>'; }).join(''); }
+        else { customList.innerHTML = cst.map(function(s) { var isActive = s.id === app.activeStyleId; return '<div class="chat-item" style="border-bottom:1px solid var(--border-light);' + (isActive ? 'background:var(--bg-box);' : '') + '"><span style="flex:1;font-size:15px;color:var(--text-main);font-weight:500;">' + esc(s.name) + '</span><button type="button" class="ui-switch' + (isActive ? ' is-on' : '') + '" role="switch" aria-checked="' + isActive + '" aria-label="启用此文风" style="margin-right:8px;" onclick="event.stopPropagation();app.setActiveStyle(\'' + escJs(s.id) + '\',this)"><span class="ui-switch-track"></span><span class="ui-switch-thumb"></span></button><span role="button" aria-label="删除" style="color:var(--text-sub);cursor:pointer;padding:4px;display:flex;" onclick="event.stopPropagation();app.deleteStyle(\'' + escJs(s.id) + '\')"><svg class="ui-icon" aria-hidden="true"><use href="#ui-close"></use></svg></span></div>'; }).join(''); }
     },
 
-    setActiveStyle(id) { app.activeStyleId = id; localStorage.setItem('pk_activeStyle', id); app.renderStylePage(); },
+    setActiveStyle(id, control) {
+        app.activeStyleId = id;
+        localStorage.setItem('pk_activeStyle', id);
+        if (control) {
+            app._syncExclusiveSwitches(control, control);
+            var active = app.customStyles.find(function(s) { return s.id === id; });
+            var activeEl = document.getElementById('active-style-name');
+            if (activeEl) activeEl.innerText = active ? '● ' + active.name : '未启用';
+        } else app.renderStylePage();
+    },
 
     deleteStyle(id) {
         var style = app.customStyles.find(function(s) { return s.id === id; }); if (!style || style.isPreset) return;
@@ -16163,7 +16206,7 @@ confirmCreateRole: async function() {
                 html += '<div class="ca-detail-card" style="margin-top:10px;">' +
                     '<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;">' +
                     '<div style="min-width:0;flex:1;"><div style="font-size:15px;color:var(--text-main);font-weight:500;letter-spacing:.01em;">' + row.title + '</div><div style="font-size:12px;color:var(--text-sub);margin-top:5px;line-height:1.55;">' + row.desc + '</div></div>' +
-                    '<label class="ca-behavior-switch" aria-label="' + row.title + '开关"><input type="checkbox" ' + (enabled ? 'checked' : '') + ' onchange="app.setRoleBehaviorEnabled(&quot;' + row.key + '&quot;,this.checked)"><span class="ca-behavior-track"><span class="ca-behavior-thumb"></span></span></label>' +
+                    '<label class="ui-switch ca-behavior-switch"><input type="checkbox" role="switch" aria-label="' + row.title + '" ' + (enabled ? 'checked' : '') + ' onchange="app.setRoleBehaviorEnabled(&quot;' + row.key + '&quot;,this.checked)"><span class="ui-switch-track ca-behavior-track"><span class="ui-switch-thumb ca-behavior-thumb"></span></span></label>' +
                     '</div>' +
                     '<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border-light);' + (!enabled ? 'opacity:.56;' : '') + '">' +
                     '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><div style="font-size:12px;color:var(--text-sub);">' + row.frequencyLabel + '</div><div id="ca-frequency-value-' + row.frequency + '" style="font-size:14px;font-weight:600;color:var(--text-main);font-variant-numeric:tabular-nums;">' + days + ' 天</div></div>' +
@@ -19087,14 +19130,18 @@ tracesOpenReview: function(cardId) {
     var switchLabel = document.createElement('span');
     switchLabel.style.cssText = 'font-size:13px; color:var(--text-main);';
     switchLabel.innerText = '写入Pocket共同经历';
-    var switchContainer = document.createElement('label');
-    switchContainer.style.cssText = 'position:relative; width:46px; height:26px; flex-shrink:0; cursor:pointer;';
+    var switchContainer = document.createElement('button');
+    switchContainer.type = 'button';
+    switchContainer.className = 'ui-switch' + (card.syncPocket ? ' is-on' : '');
+    switchContainer.setAttribute('role', 'switch');
+    switchContainer.setAttribute('aria-checked', card.syncPocket ? 'true' : 'false');
+    switchContainer.setAttribute('aria-label', '写入Pocket共同经历');
     var switchTrack = document.createElement('span');
     switchTrack.id = 'review-sync-track';
-    switchTrack.style.cssText = 'position:absolute; inset:0; background:' + (card.syncPocket ? 'var(--accent)' : 'var(--border-light)') + '; border-radius:26px; transition:0.3s;';
+    switchTrack.className = 'ui-switch-track';
     var switchThumb = document.createElement('span');
     switchThumb.id = 'review-sync-thumb';
-    switchThumb.style.cssText = 'position:absolute; width:22px; height:22px; border-radius:50%; background:var(--bg-container); top:2px; left:' + (card.syncPocket ? '22px' : '2px') + '; transition:0.3s; box-shadow:0 1px 3px var(--shadow-s);';
+    switchThumb.className = 'ui-switch-thumb';
     switchContainer.appendChild(switchTrack);
     switchContainer.appendChild(switchThumb);
     switchContainer.onclick = function(e) {
@@ -19108,10 +19155,7 @@ tracesOpenReview: function(cardId) {
         }
         app.saveAll();
         // 更新UI
-        var track = document.getElementById('review-sync-track');
-        var thumb = document.getElementById('review-sync-thumb');
-        if (track) track.style.background = newVal ? 'var(--accent)' : 'var(--border-light)';
-        if (thumb) thumb.style.left = newVal ? '22px' : '2px';
+        app._setSwitchState(switchContainer, newVal);
         // 刷新专辑
         app.tracesRenderAlbum();
         // 提示
@@ -19214,17 +19258,18 @@ renderWorldbookListWithToggle() {
                 '<div style="font-size:12px;color:var(--text-sub);margin-top:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;">' + esc(wb.desc || '无描述') + '</div>' +
             '</div>' +
             trashBtn +
-            '<label style="position:relative;width:46px;height:26px;flex-shrink:0;margin-left:8px;" onclick="event.stopPropagation();app.setDefaultWorldbook(\'' + escJs(wb.id) + '\')">' +
-                '<span style="position:absolute;inset:0;background:' + (isActive ? 'var(--accent)' : 'var(--border-light)') + ';border-radius:26px;cursor:pointer;"></span>' +
-                '<span style="position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg-container);top:2px;left:' + (isActive ? '22px' : '2px') + ';transition:0.3s;box-shadow:0 1px 3px var(--shadow-s);"></span>' +
-            '</label>' +
+            '<button type="button" class="ui-switch' + (isActive ? ' is-on' : '') + '" role="switch" aria-checked="' + isActive + '" aria-label="设为默认世界书" style="margin-left:8px;" onclick="event.stopPropagation();app.setDefaultWorldbook(\'' + escJs(wb.id) + '\',this)">' +
+                '<span class="ui-switch-track"></span>' +
+                '<span class="ui-switch-thumb"></span>' +
+            '</button>' +
         '</div>';
     }).join('');
 },
 
-setDefaultWorldbook(id) {
+setDefaultWorldbook(id, control) {
     localStorage.setItem('pk_defaultWorldbookId', id);
-    app.renderWorldbookListWithToggle();
+    if (control) app._syncExclusiveSwitches(control, control);
+    else app.renderWorldbookListWithToggle();
 },
 
 openWorldbookEditor(id) {

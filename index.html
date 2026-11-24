@@ -43,7 +43,7 @@
 .settings-test-btn:active {
     background: var(--bg-hover);
 }
-    /* ========== 设置页 Gemini 样式 ========== */
+    
 .settings-card-group {
     background: var(--bg-card);
     border-radius: 16px;
@@ -84,7 +84,7 @@
 .settings-row-left {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
 }
 
 .settings-row-icon {
@@ -95,15 +95,34 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    background-color: var(--settings-icon-bg, #E4EAEE) !important;
 }
+
+.settings-list-row:nth-child(4n+2) { --settings-icon-bg: #E7ECEF; --settings-icon-color: #78909F; }
+.settings-list-row:nth-child(4n+3) { --settings-icon-bg: #E9EEF1; --settings-icon-color: #8298A6; }
+.settings-list-row:nth-child(4n+4) { --settings-icon-bg: #E5EBEF; --settings-icon-color: #6B8394; }
+[data-theme="dark"] .settings-row-icon { --settings-icon-bg: #29343C; }
+[data-theme="dark"] .settings-list-row:nth-child(4n+2) { --settings-icon-bg: #2C3740; }
+[data-theme="dark"] .settings-list-row:nth-child(4n+3) { --settings-icon-bg: #303B44; }
+[data-theme="dark"] .settings-list-row:nth-child(4n+4) { --settings-icon-bg: #2A353E; }
 
 .settings-row-icon svg {
     width: 14px;
     height: 14px;
-    stroke-width: 1.35;
+    stroke: var(--settings-icon-color, #6F8797) !important;
+    stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+.settings-group-title {
+    margin: 20px 0 8px 4px;
+    color: var(--text-sub);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+.settings-group-title:first-child { margin-top: 12px; }
 
 .settings-row-title {
     font-size: 14px;
@@ -114,7 +133,7 @@
 .settings-row-right {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .settings-row-status {
@@ -142,11 +161,11 @@
     background-size: 8px 1px;
     background-repeat: repeat-x;
 }
-/* 仿 ChatGPT 呼吸圆 - 相对位置自适应 */
+
 .thinking-bubble {
     display: flex;
     align-items: center;
-    padding: 14px 20px; /* 匹配你消息气泡的缩进 */
+    padding: 14px 20px; 
     width: 100%;
     box-sizing: border-box;
 }
@@ -155,12 +174,12 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #000000 !important; /* 亮色模式：纯黑 */
-    animation: chatgptBreathe 3s infinite ease-in-out; /* 3秒慢速呼吸 */
+    background: #000000 !important; 
+    animation: chatgptBreathe 3s infinite ease-in-out; 
     flex-shrink: 0;
 }
 
-/* 暗色模式：纯白 */
+
 [data-theme="dark"] .thinking-dot {
     background: #ffffff !important;
 }
@@ -169,7 +188,6 @@
     0%, 100% { transform: scale(0.85); opacity: 0.4; }
     50% { transform: scale(1.02); opacity: 0.9; }
 }
-
 
 
 :root {
@@ -191,7 +209,7 @@
     --accent: #7a94a8;
     --accent-soft: #c5d0da;
     --font-serif: "Noto Serif SC", "STSong", "SimSun", "Songti SC", serif;
-    /* ↓↓↓ 语音 & HUD 新变量（加在 :root 末尾） */
+    
 --bubble-shadow: 0 2px 12px rgba(0, 0, 0, 0.015);
 --bubble-border: 1px solid rgba(0, 0, 0, 0.02);
 --record-active: #E4E9EF;
@@ -224,7 +242,7 @@
     --accent: #8a9eb0;
     --accent-soft: #3a4048;
     --font-serif: "Noto Serif SC", "STSong", "SimSun", "Songti SC", serif;
-    /* ↓↓↓ 暗色模式语音变量 */
+    
 --bubble-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 --bubble-border: 1px solid rgba(255, 255, 255, 0.04);
 --record-active: #343A40;
@@ -244,14 +262,14 @@
        input, textarea, [contenteditable="true"] { caret-color: var(--accent); }
        .ui-icon { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
        .ui-icon--compact { width: 12px; height: 12px; }
-       /* 只对需要禁止选中的元素生效，不对全局生效 */ .msg-wrapper,  .traces-card-item, .letter-list-item, .history-item, .packet-card, .role-list-item, .home-widget-text, .card-preview-title, .card-preview-summary, .static-review-title, .static-review-summary, .review-bubble-item, .review-body-text-pure {     user-select: none;     -webkit-user-select: none; }
+        .msg-wrapper,  .traces-card-item, .letter-list-item, .history-item, .packet-card, .role-list-item, .home-widget-text, .card-preview-title, .card-preview-summary, .static-review-title, .static-review-summary, .review-bubble-item, .review-body-text-pure {     user-select: none;     -webkit-user-select: none; }
         html, body { height: 100%; margin: 0; padding: 0; }
         body { background: linear-gradient(160deg, #dce3ea 0%, #c8d6e0 40%, #e2d8cf 100%); display: flex; justify-content: center; align-items: center; position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; -webkit-overflow-scrolling: touch; } [data-theme="dark"] body { background: linear-gradient(160deg, #1a1c22 0%, #20242c 40%, #1e2026 100%); }
         .phone-container { width: 100%; max-width: 480px; min-width: 0; height: 100vh; height: 100dvh; margin: 0 auto; background: var(--bg-container); position: relative; overflow: hidden; display: flex; flex-direction: column; box-sizing: border-box; }
-        /* 强制所有页面面板限制在容器内，防止被内部内容横向撑破 */
+        
         .view-panel { max-width: 100%; overflow-x: hidden; }
-        /* 所有脱离容器的 fixed 全屏遮罩，限制在 480px 内并居中（envelope-wrap 是固定尺寸信封，单独保留） */
-        /* 全屏遮罩必须真正覆盖整个视口；弹窗内容本身再限制宽度 */
+        
+        
         .envelope-overlay, .full-letter-overlay, .role-edit-overlay, .role-picker-mask, .role-confirm-mask, .role-picker-sheet-mask, .bottom-sheet-mask, .traces-action-mask, .qr-pop, .packet-modal-mask {
             width: 100vw !important;
             max-width: none !important;
@@ -297,6 +315,7 @@
         #home-view { padding: 60px 24px 48px 24px; overflow-y: auto; align-items: flex-start; }
         #home-view::-webkit-scrollbar { display: none; }
         .home-time { font-size: 56px; font-weight: 200; color: var(--text-main); line-height: 1; text-align: left; }
+        .home-time, .home-info-row, .chat-item-time, .time-date, .time-hour, .letter-date, .mt-post-time, .mt-notif-time, .ca-detail-card-date, .ca-mood-time, .pm-time, .mu-library-count b, .toast-time { font-variant-numeric: tabular-nums; }
         .home-info-row { display: flex; gap: 6px; font-size: 12px; color: var(--text-sub); margin-top: 8px; letter-spacing: 0.5px; }
         .home-info-row span { cursor: pointer; }
         .home-info-dot { cursor: default !important; }
@@ -304,20 +323,20 @@
         .home-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--bg-box); border: 1px solid var(--border-box); object-fit: cover; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-sub); font-weight: 500; overflow: hidden; box-shadow: inset 1px 1px 2px var(--shadow-h), 0 3px 8px var(--shadow-s); }
         .home-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .home-widget-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; width: 100%; margin-top: 36px; }
-        .home-widget-glass { grid-column: span 2; background: var(--bg-box); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-box); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; min-height: 80px; box-shadow: inset 1.5px 1.5px 3px var(--shadow-h), 0 6px 14px var(--shadow-s); }
+        .home-widget-glass { grid-column: span 2; background: var(--bg-box); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-box); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; min-height: 80px; box-shadow: inset 1.5px 1.5px 3px var(--shadow-h), 0 6px 14px var(--shadow-s); }
         .home-widget-label { font-size: 10px; color: var(--text-sub); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
         .home-widget-text { font-size: 12px; color: var(--text-main); line-height: 1.4; margin-top: 8px; }
         .home-app-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .home-app-icon-box { width: 56px; height: 56px; background: var(--bg-box); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-box); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: inset 1.5px 1.5px 3px var(--shadow-h), 0 6px 14px var(--shadow-s); transition: all 0.2s ease; }
         .home-app-icon-box svg { width: 22px; height: 22px; stroke: var(--text-main); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; fill: none; opacity: 0.75; }
         .home-app-label { font-size: 11px; color: var(--text-sub); margin-top: 6px; font-weight: 500; text-align: center; }
-        /* App图标灵动缩放点击反馈效果 */
+        
         .home-app-item:active .home-app-icon-box { transform: scale(0.92); transition-duration: 0.05s; }
 
 
         .home-footer-tag { margin-top: auto; padding-top: 30px; text-align: center; font-size: 10px; color: var(--text-sub); letter-spacing: 1.5px; font-weight: 500; }
         .home-footer-tag span { font-size: 9px; text-transform: uppercase; margin-left: 4px; }
-        /* ==================== 主桌面多页面 + 长按编辑排布 ==================== */
+        
         #home-pages-viewport { width: 100%; margin-top: 36px; overflow: hidden; touch-action: pan-y; }
         #home-view { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
         #home-view input, #home-view textarea { -webkit-user-select: text; user-select: text; }
@@ -333,10 +352,10 @@
         .home-app-item.home-dragging .home-app-icon-box { transform: scale(1.12); box-shadow: 0 12px 28px rgba(0,0,0,0.22); }
         .home-widget-glass.home-dragging { box-shadow: 0 14px 30px rgba(0,0,0,0.2); }
 
-        /* ==================== 桌面唱片机组件 musicfilm (2×2，无底框) ==================== */
+        
         .home-film-widget { --fw-spin: 5s; --fw-ease: cubic-bezier(.32,.72,.24,1); -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
         .home-film-widget .fw-stage { position: absolute; left: 0; top: 0; width: 164px; height: 184px; transform-origin: 0 0; transform: translate(var(--fx,0px), var(--fy,0px)) scale(var(--fs,1)); }
-        /* 唱片袋：方形底 + 左下 1/4 圆角夹 */
+        
         .home-film-widget .fw-sleeve { position: absolute; left: 10px; top: 24px; width: 104px; height: 104px; z-index: 1; border-radius: 8px; transform-origin: 52px 52px;
             background: linear-gradient(150deg,#f5f7f6 0%,#e2e8e7 100%); border: 1px solid rgba(255,255,255,.9);
             box-shadow: 0 10px 22px rgba(60,80,85,.16), 0 2px 4px rgba(60,80,85,.10);
@@ -348,7 +367,7 @@
             background: linear-gradient(210deg,#d3dfde 0%,#b6c8c7 100%); border: 1px solid rgba(255,255,255,.65);
             box-shadow: 2px -2px 8px rgba(40,60,65,.22);
             transition: transform .6s var(--fw-ease) .12s, opacity .45s ease .22s; }
-        /* 唱片：定位层 → 回弹层 → 旋转层 */
+        
         .home-film-widget .fw-rec-pos { position: absolute; left: 36px; top: 28px; width: 96px; height: 96px; z-index: 2; transition: transform .62s var(--fw-ease); }
         .home-film-widget .fw-rec-bounce { position: relative; width: 100%; height: 100%; border-radius: 50%; cursor: pointer; box-shadow: 0 6px 14px rgba(20,30,35,.22); transition: box-shadow .5s ease; }
         .home-film-widget .fw-rec-bounce::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
@@ -364,7 +383,7 @@
         .home-film-widget .fw-label { position: absolute; left: 50%; top: 50%; width: 36%; height: 36%; margin: -18% 0 0 -18%; border-radius: 50%;
             background: linear-gradient(135deg,#a9c2c4,#829fa3); background-size: cover; background-position: center; box-shadow: 0 0 0 2px rgba(0,0,0,.4); }
         .home-film-widget .fw-label::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #0f1315; border: 1px solid rgba(255,255,255,.3); }
-        /* 唱臂：点 pivot 在右上，转角决定抬起 / 落下 */
+        
         .home-film-widget .fw-arm { position: absolute; left: 146px; top: 22px; width: 0; height: 0; z-index: 4; opacity: 0; transform-origin: 0 0; transform: rotate(-6deg); pointer-events: none;
             transition: transform .75s var(--fw-ease), opacity .35s ease; }
         .home-film-widget .fw-arm i { position: absolute; display: block; }
@@ -373,20 +392,20 @@
         .home-film-widget .fw-arm-head { left: -5px; top: 82px; width: 10px; height: 17px; border-radius: 2px 2px 4px 4px; background: linear-gradient(90deg,#3a4247,#242a2e); transform-origin: 50% 0; transform: rotate(-12deg); }
         .home-film-widget .fw-arm-base { left: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle at 35% 30%,#f2f5f5,#aebabc 70%); border: 1px solid rgba(255,255,255,.7); box-shadow: 0 3px 8px rgba(20,30,35,.28); }
         .home-film-widget .fw-arm-base::after { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #6f7e82; }
-        /* 状态：out = 唱片取出，down = 唱臂落下，spin = 转动 */
+        
         .home-film-widget.out .fw-sleeve, .home-film-widget.out .fw-clip { transform: translate(-22px,10px) rotate(-5deg); opacity: 0; transition: transform .6s var(--fw-ease) .08s, opacity .4s ease .08s; pointer-events: none; }
         .home-film-widget.out .fw-rec-pos { transform: translate(-8px,2px) scale(1.104); }
         .home-film-widget.out .fw-rec-bounce { box-shadow: 0 12px 22px rgba(20,30,35,.3); }
         .home-film-widget.out .fw-arm { opacity: 1; transform: rotate(6deg); }
         .home-film-widget.down .fw-arm { transform: rotate(28deg); }
-        /* 播放 / 暂停键 */
+        
         .home-film-widget .fw-btn { position: absolute; left: 65px; top: 146px; width: 34px; height: 34px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; outline: none;
             background: var(--bg-box); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-box);
             box-shadow: inset 1.5px 1.5px 3px var(--shadow-h), 0 6px 14px var(--shadow-s); transition: transform .16s ease; }
         .home-film-widget .fw-btn:active { transform: scale(.9); }
         .home-film-widget .fw-btn svg { width: 15px; height: 15px; stroke: var(--text-main); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; fill: none; opacity: .78; }
         .home-film-widget .fw-btn.is-play svg { margin-left: 1.5px; }
-        /* 暗色 */
+        
         [data-theme="dark"] .home-film-widget .fw-sleeve { background: linear-gradient(150deg,#3b4248 0%,#2b3136 100%); border-color: rgba(255,255,255,.08); box-shadow: 0 10px 22px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.25); }
         [data-theme="dark"] .home-film-widget .fw-sleeve::before { border-color: rgba(255,255,255,.12); }
         [data-theme="dark"] .home-film-widget .fw-sleeve::after { background: rgba(169,194,196,.5); }
@@ -394,7 +413,7 @@
         [data-theme="dark"] .home-film-widget .fw-rec-bounce { box-shadow: 0 6px 14px rgba(0,0,0,.45); }
         [data-theme="dark"] .home-film-widget.out .fw-rec-bounce { box-shadow: 0 12px 22px rgba(0,0,0,.5); }
         @media (prefers-reduced-motion: reduce) { .home-film-widget { --fw-spin: 14s; } }
-        #home-edit-done { display: none; position: absolute; top: 62px; right: 22px; z-index: 80; padding: 6px 16px; border-radius: 999px; background: var(--text-main); color: var(--bg-container); font-size: 13px; border: 1px solid var(--border-box); cursor: pointer; box-shadow: 0 4px 12px var(--shadow-s); }
+        #home-edit-done { display: none; position: absolute; top: 62px; right: 22px; z-index: 80; padding: 6px 16px; border-radius: 12px; background: var(--text-main); color: var(--bg-container); font-size: 13px; border: 1px solid var(--border-box); cursor: pointer; box-shadow: 0 4px 12px var(--shadow-s); }
         #home-view.home-editing #home-edit-done { display: block; }
         #home-page-dots { display: none; justify-content: center; align-items: center; gap: 8px; width: 100%; margin-top: 12px; height: 10px; flex-shrink: 0; }
         #home-page-dots.show { display: flex; }
@@ -402,7 +421,7 @@
         .home-dot.active { opacity: 0.92; transform: scale(1.18); box-shadow: 0 0 8px var(--text-main); }
         #home-add-page { display: none; flex: 0 0 100%; width: 100%; height: 478px; box-sizing: border-box; }
         #home-view.home-editing #home-add-page { display: block; }
-        .home-add-inner { width: calc(100% - 6px); height: 100%; border: 1.5px dashed var(--border-box); border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-sub); cursor: pointer; background: var(--bg-box); box-sizing: border-box; }
+        .home-add-inner { width: calc(100% - 6px); height: 100%; border: 1.5px dashed var(--border-box); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-sub); cursor: pointer; background: var(--bg-box); box-sizing: border-box; }
         .home-add-plus { width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid var(--text-sub); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 200; line-height: 1; }
         .home-add-tip { font-size: 12px; letter-spacing: 1px; }
         .home-page-del { display: none; position: absolute; top: 2px; right: 2px; width: 26px; height: 26px; border-radius: 50%; background: #c78a85; color: #fff; align-items: center; justify-content: center; font-size: 15px; line-height: 1; cursor: pointer; z-index: 70; box-shadow: 0 2px 8px rgba(199,138,133,0.4); border: none; padding: 0; }
@@ -411,10 +430,10 @@
         #home-view.home-editing, #home-view.home-editing * { -webkit-user-select: none !important; user-select: none !important; -webkit-touch-callout: none !important; }
         #home-view.home-editing { overflow-y: hidden !important; }
         #home-view.home-editing #home-pages-viewport { touch-action: none; }
-/* 基础导航栏样式（所有页面通用） */
+
 .nav-header {
     height: 56px;
-    padding: 0 18px;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -428,7 +447,7 @@
     pointer-events: auto;
 }
 
-/* 单行布局（默认，所有非聊天详情页都用这个） */
+
 .nav-header-row {
     display: flex;
     justify-content: space-between;
@@ -436,12 +455,11 @@
     width: 100%;
 }
 
-/* 所有 App 顶部导航统一基准：Pocket 的导航几何作为全局标准。
-   右侧加号、删除、确定等功能按钮只保留功能差异，不改变导航本体。 */
+
 .view-panel:not(#chat-detail-view) .nav-header {
     height: 56px !important;
     min-height: 56px !important;
-    padding: 0 18px !important;
+    padding: 0 20px !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -458,7 +476,7 @@
     box-shadow: 0 1px 0 rgba(255,255,255,0.04) !important;
 }
 
-/* 聊天详情页：漂浮玻璃雾导航——没有纸片边界，UI 悬在背景上 */
+
 .nav-header.nav-header-chat {
     position:absolute !important;
     inset:0 0 auto 0 !important;
@@ -479,7 +497,7 @@
     overflow:visible;
 }
 
-/* 顶部从上到下的渐变磨砂雾，缩短高度 */
+
 .nav-header.nav-header-chat::before {
     content:'';
     position:absolute;
@@ -510,10 +528,10 @@
     pointer-events:auto;
     background:transparent;
 }
-/* 把头像+名字的胶囊整体推到正中间 */
+
 .nav-header-chat .chat-header-avatar { margin-left:auto !important; }
 .nav-header-chat .nav-action-btn { margin-left:auto !important; }
-/* 正在输入直接替换中间标题，不单独放一行 */
+
 .nav-header.nav-header-chat .nav-header-bottom { display:none !important; }
 
 .nav-title {
@@ -569,7 +587,7 @@
 
 .nav-action-btn { width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-main);flex-shrink:0;margin-right:0;padding-right:0; }
 
-/* 聊天详情页：名字是胶囊的右半部分，和头像拼在一起 */
+
 .nav-header-chat .nav-title {
     position:static !important;
     left:auto;
@@ -649,7 +667,7 @@
     transition:transform .12s ease;
 }
 .nav-header-chat .chat-header-avatar img { width:28px;height:28px;border-radius:50%; }
-/* 中间胶囊是完整一个整体，没有竖线 */
+
 .nav-header-chat .nav-title {
     border-radius:999px !important;
     margin-left:-28px;
@@ -681,10 +699,10 @@
     justify-content:center;
 }
 .nav-header-chat .nav-action-btn svg { width:20px;height:20px; }
-/* 强制整行垂直居中对齐，不会上下歪 */
+
 .nav-header.nav-header-chat .nav-header-row { align-items:center !important; }
 
-/* 状态只是轻薄文字，不再形成第二块栏 */
+
 .nav-header-chat .nav-reply-status {
     margin-top:0;
     font-size:11px;
@@ -710,7 +728,7 @@
     color: var(--text-main);
 }
 
-/* 聊天详情页标题字体缩小 */
+
         .tab-bar { height: 58px; border-top: 1px solid rgba(30,34,34,0.05); display: flex; background: rgba(244,245,243,0.78); backdrop-filter: blur(22px) saturate(1.15); -webkit-backdrop-filter: blur(22px) saturate(1.15); flex-shrink: 0; box-shadow: 0 -1px 0 rgba(255,255,255,0.16); }
         .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-sub); cursor: pointer; font-size: 13px; gap: 2px; }
         .tab-item.active { color: var(--text-main); font-weight: 600; }
@@ -722,7 +740,7 @@
 .pocket-chat-assistant-section { margin-top: 8px; }
 .pocket-chat-section-title { padding: 4px 8px 0; font-size: 11px; color: var(--text-sub); letter-spacing: 1.5px; text-align: left; }
 .pocket-chat-section-title::after { content: 'εïз⁺₊✰ ——————————꒰ঌ^ྀི૮⑉⁶･-･⁶⑉ა^ྀི໒꒱ྀི—————————— ✰ εïз'; display: block; margin-top: 2px; color: var(--text-sub); opacity: 0.55; font-size: 10px; line-height: 16px; height: 16px; overflow: hidden; letter-spacing: 0; text-align: center; }
-.pocket-chat-glass { overflow: hidden; border: 1px solid rgba(255,255,255,0.42); border-radius: 18px; background: rgba(255,255,255,0.16); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: inset 1px 1px 0 rgba(255,255,255,0.38), inset -1px -1px 0 rgba(255,255,255,0.08), 0 8px 22px rgba(70,90,110,0.08); }
+.pocket-chat-glass { overflow: hidden; border: 1px solid rgba(255,255,255,0.42); border-radius: 16px; background: rgba(255,255,255,0.16); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: inset 1px 1px 0 rgba(255,255,255,0.38), inset -1px -1px 0 rgba(255,255,255,0.08), 0 8px 22px rgba(70,90,110,0.08); }
 .pocket-chat-glass .chat-item:last-child { border-bottom: none; }
         .chat-item:active { background: rgba(0,0,0,0.02); }
         .chat-item-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--bg-card); margin-right: 14px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; border: 1px solid var(--border-light); }
@@ -734,7 +752,7 @@
         .chat-item-lastmsg { font-size: 14px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .traces-anim-show { animation: cardFlyIn 1.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes cardFlyIn { 0% { transform: scale(0.4) rotate(-15deg) translateY(100px); opacity: 0; } 20% { transform: scale(1.04) rotate(2deg); opacity: 1; } 25% { transform: scale(1) rotate(0deg); opacity: 1; } 80% { transform: scale(1) rotate(0deg); opacity: 1; } 100% { transform: scale(0.2) translateY(-280px) rotate(15deg); opacity: 0; } }
-        /* ========== 信件功能样式 ========== */
+        
 .letter-list-item { display: flex; align-items: center; padding: 16px 20px; background: var(--bg-container); border-bottom: 1px solid var(--border-light); cursor: pointer; gap: 12px; position: relative; overflow: hidden; }
 .letter-list-item:active { background: var(--bg-box); }
 .letter-list-item .letter-date { font-size: 13px; color: var(--text-sub); margin-bottom: 4px; }
@@ -797,7 +815,7 @@
     transform: translateX(-50%) translateY(-20px);
     transition: all 0.3s ease;
 }
-/* ========== 瞬息编辑器样式（Gemini 移植版） ========== */
+
 
 .msg-more-trigger {
     font-size: 14px;
@@ -809,7 +827,6 @@
     opacity: 0.6;
 }
 
-/* 文章样式 */
 
 .article-output-box {
     font-family: var(--font-serif);
@@ -845,7 +862,7 @@
     padding: 4px;
 }
 
-/* 飞出动画 */
+
 .fly-card {
     width: 300px;
     background: var(--bg-card);
@@ -909,7 +926,7 @@
 }
 .toast-letter .toast-time { font-size: 12px; color: var(--text-sub); text-align: right; }
 
-        /* ========== 瞬息高级沙盒 UI ========== */
+        
         .center-summary-box { text-align: center; padding: 12px 20px; background: rgba(0,0,0,0.025); border-radius: 18px; font-size: 13px; color: var(--text-sub); line-height: 1.5; max-width: 800px; margin: 16px auto 4px auto; font-family: var(--font-serif); outline: none; border: 1px dashed transparent; transition: border 0.2s; }
         .center-summary-box:focus { border: 1px dashed var(--text-light); background: #fffdf3; }
         .center-summary-box {
@@ -920,7 +937,7 @@
 }
 
         
-        /* ========== 瞬息编辑器 - 修复输入框布局 ========== */
+        
 #traces-editor-view {
     background: var(--bg-container);
 }
@@ -951,7 +968,7 @@
     pointer-events: auto;
 }
 
-/* 瞬息 AI 回复多版本切换条 */
+
 .traces-variant-bar {
     display: flex;
     align-items: center;
@@ -982,8 +999,7 @@
     text-align: center;
 }
 
-/* 瞬息气泡下方操作按钮 */
-/* 流式输出打字光标 */
+
 .typing-cursor {
     display: inline-block;
     width: 2px;
@@ -1023,7 +1039,7 @@
 }
 .traces-msg-act:active { transform: scale(0.9); }
 
-/* 剧本 App 顶部大封面 */
+
 .script-cover-hero {
     margin: 4px 0 8px;
     height: 130px;
@@ -1071,7 +1087,6 @@
 [data-theme="dark"] .script-story-cover-title { color: #e8eaed; }
 
 
-/* 瞬息对话页时间·地点轻量行 */
 .traces-meta-bar {
     display: flex;
     align-items: center;
@@ -1097,7 +1112,6 @@
 #traces-meta-location:active { opacity: .7; }
 
 
-/* 瞬息首页会话列表项（水晶卡片） */
 .traces-session-item {
     display: flex;
     align-items: center;
@@ -1120,7 +1134,7 @@
 }
 [data-theme="dark"] .traces-session-item { background: rgba(40,44,55,0.5); border-color: rgba(255,255,255,0.1); }
 
-/* 瞬息线下见面场景分隔条 */
+
 .traces-scene-bar {
     align-self: center;
     max-width: 86%;
@@ -1208,8 +1222,7 @@
     transform: scale(0.96);
 }
 
-/* 修复气泡靠右样式 */
-/* 瞬息对话头像 */
+
 .traces-avatar {
     width: 34px; height: 34px; border-radius: 50%;
     object-fit: cover; flex-shrink: 0;
@@ -1226,7 +1239,7 @@
     display: flex; flex-direction: column; min-width: 0; flex: 1;
 }
 #traces-editor-view .msg-wrapper.ai .traces-bubble-col .chat-bubble { max-width: 100%; }
-/* 文章模式下隐藏对话专用的抬头框和meta条 */
+
 #traces-editor-view.article-mode #centerSummary,
 #traces-editor-view.article-mode #traces-meta-bar {
     display: none !important;
@@ -1252,7 +1265,7 @@
     margin-right: auto;
 }
 
-/* 瞬息编辑器沿用 PocketChat 的玻璃气泡变量（浅色） */
+
 #traces-editor-view {
     --g-bubble-char: linear-gradient(145deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.52) 100%);
     --g-bubble-me:   linear-gradient(145deg, rgba(176,196,214,.52) 0%, rgba(176,196,214,.30) 100%);
@@ -1311,7 +1324,7 @@
     pointer-events: auto;
 }
         
-/* 核心：支持分支错层的气泡布局 */
+
 .msg-wrapper { display: flex; flex-direction: column; max-width: 75%; position: relative; margin-bottom: 24px; }
 .msg-wrapper.me { align-self: flex-end; align-items: flex-end; }
 .msg-wrapper.ai { align-self: flex-start; align-items: flex-start; }
@@ -1331,21 +1344,21 @@
         .msg-more-trigger { position: absolute; bottom: 4px; right: 12px; font-size: 16px; color: var(--text-light); cursor: pointer; padding: 4px; user-select: none; letter-spacing: 1px; line-height: 1; font-weight: bold; }
         .msg-wrapper.me .msg-more-trigger { position: static; margin-top: 4px; font-size: 14px; padding: 2px 8px; align-self: flex-end; }
         
-        /* 矢量图分支键 */
+        
         .external-branch-controls { display: flex; align-items: center; gap: 6px; margin-top: 4px; align-self: flex-end; margin-right: 8px; }
         .branch-btn { background: transparent; border: none; color: var(--text-light); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 6px; transition: 0.2s; }
         .branch-btn:hover { color: var(--text-main); background: rgba(0,0,0,0.05); }
         .branch-btn.disabled { opacity: 0.3; cursor: not-allowed; }
         .branch-text { font-size: 11px; color: var(--text-sub); user-select: none; font-family: monospace; min-width: 36px; text-align: center; }
 
-        /* 文章纯净流 */
+        
         .article-guide-block { padding: 8px 16px; position: relative; font-family: var(--font-serif); font-size: 14px; color: var(--text-light); line-height: 1.6; margin-bottom: 4px; font-style: italic; }
         .article-output-block { padding: 12px 16px; position: relative; margin-bottom: 24px; }
         .article-output-box { font-family: var(--font-serif); font-size: 15px; color: var(--text-main); line-height: 1.8; text-align: justify; white-space: pre-wrap; padding-bottom: 20px; }
         .block-more-trigger { position: absolute; bottom: 12px; right: 14px; font-size: 18px; color: var(--text-light); cursor: pointer; user-select: none; padding: 4px; letter-spacing: 1px; line-height: 1; font-weight: bold; }
 
 
-        /* 确认阶段舞台 & 飞出动画 */
+        
         .animation-overlay { position: absolute; inset: 0; z-index: 2500; pointer-events: none; background: rgba(0,0,0,0); transition: background 0.3s ease; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
         .animation-overlay.stage-open { display: flex; opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.25); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
         .fly-card { width: 320px; background: var(--bg-card); border-radius: 18px; padding: 24px; border: 1px solid var(--border-box); box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 14px; text-align: left; transform: scale(0.9) translateY(40px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -1355,14 +1368,14 @@
         .card-tag { font-size: 10px; color: var(--text-light); letter-spacing: 1px; font-weight: 600; }
         .card-preview-title { font-family: var(--font-serif); font-size: 15.5px; font-weight: 600; color: var(--text-main); line-height: 1.4; padding: 4px; border-radius: 4px; outline: none; border: none; width: 100%; transition: background 0.2s; }
         .card-preview-title:hover, .card-preview-title:focus { background: rgba(0,0,0,0.03); }
-        .card-preview-summary { font-family: var(--font-serif); font-size: 12px; color: var(--text-sub); line-height: 1.5; border-left: 2px solid var(--text-light); padding-left: 8px; outline: none; border: none; width: 100%; resize: none; height: 80px; transition: background 0.2s; }
+        .card-preview-summary { font-family: var(--font-serif); font-size: 12px; color: var(--text-sub); line-height: 1.5; padding-left: 0; outline: none; border: none; width: 100%; resize: none; height: 80px; transition: background 0.2s; }
         .card-preview-summary:hover, .card-preview-summary:focus { background: rgba(0,0,0,0.03); }
         .chat-bracket-styled { font-size: 12.5px; color: rgba(26,26,26,0.4); font-style: italic; font-family: var(--font-serif); display: inline; }
         .editable-active-focus { outline: 2px dashed #1a1a1a !important; background: #fffdf3 !important; padding: 6px; border-radius: 8px; }
 
         .confirm-stage-btn { margin-top: 18px; width: 100%; padding: 12px; background: var(--text-main); color: #ffffff; border: none; border-radius: 12px; font-size: 13.5px; font-weight: 500; cursor: pointer; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-/* 操作菜单弹窗样式 - bottom-sheet 版本 */
+
 .bottom-sheet-mask {
     position: fixed;
     inset: 0;
@@ -1434,7 +1447,7 @@
     margin-top: 4px;
 }
 
-/* 操作菜单弹窗样式 - 旧版保留兼容 */
+
 .traces-action-mask {
     position: fixed;
     inset: 0;
@@ -1466,7 +1479,7 @@
     transform: translateY(0);
 }
 
-/* ========== 文章生成 Loading ========== */
+
 #traces-article-writing-loader {
     position: absolute;
     inset: 0;
@@ -1522,7 +1535,7 @@
     100% { left: 70px; }
 }
 
-/* ========== 语音专用样式 ========== */
+
 .voice-row-container {
     display: flex;
     align-items: center;
@@ -1619,7 +1632,7 @@
     }
 }
 
-/* 语音播放时的音波动画 */
+
 @keyframes waveJumpActive {
     0% {
         height: 4px;
@@ -1641,9 +1654,7 @@
     animation: waveJumpActive 0.5s infinite alternate 0.05s;
 }
 
-/* ==========================================
-   【高级定制】纵向拉长 · 紧凑秀气冰川蓝转账卡片
-   ========================================== */
+
 .packet-card {
     width: 210px;        
     height: 102px;       
@@ -1665,7 +1676,7 @@
     pointer-events: auto;
 }
 
-/* 顶部布局：备注 */
+
 .p-row-top {
     display: flex;
     justify-content: flex-start;
@@ -1683,7 +1694,7 @@
     letter-spacing: 0.3px;
 }
 
-/* 底部布局 */
+
 .p-row-bottom {
     display: flex;
     justify-content: space-between;
@@ -1692,7 +1703,7 @@
     pointer-events: auto;
 }
 
-/* 左下角状态区域 */
+
 .p-status-area {
     position: relative;
     height: 16px;
@@ -1710,7 +1721,7 @@
     transform: translateY(0);
 }
 
-/* 纯白互动选项 */
+
 .p-action-links {
     position: absolute;
     left: 0;
@@ -1737,7 +1748,7 @@
     margin: 0 2px;
 }
 
-/* 右下角金额 */
+
 .p-amount-box {
     display: flex;
     align-items: baseline; 
@@ -1757,13 +1768,13 @@
     opacity: 0.9;
 }
 
-/* 暗色模式兼容沉淀 */
+
 [data-theme="dark"] .packet-card {
     background: linear-gradient(135deg, #2c353f 0%, #384556 100%);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 
-/* 交互激活与已完成卡片：已结算只降低饱和度，不再把整张卡片和文字一起洗灰 */
+
 .packet-card.is-choosing .p-hint-status {
     opacity: 0;
     transform: translateY(-5px);
@@ -1807,7 +1818,7 @@
 
 .glass-card { background: var(--bg-box); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-box); border-radius: 14px; padding: 16px; box-shadow: inset 1px 1px 3px var(--shadow-h), 0 6px 14px var(--shadow-s); pointer-events: auto; }
 
-/* ===== 角色卡专属样式 ===== */
+
 .role-card-tabs { display: flex; gap: 4px; padding: 8px 16px; border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
 .role-tab { padding: 7px 14px; border-radius: 14px; font-size: 12px; color: var(--text-sub); cursor: pointer; background: transparent; border: none; transition: all 0.2s; }
 .role-tab.active { background: var(--bg-box); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--text-main); font-weight: 500; box-shadow: var(--shadow-card); }
@@ -1855,13 +1866,13 @@
 .role-goal-bullet { font-size: 12px; color: var(--accent); flex-shrink: 0; }
 .role-goal-text { font-family: var(--font-serif); font-size: 13px; color: var(--text-main); }
 
-.role-event-item { border-left: 2px solid var(--accent-soft); padding-left: 10px; margin-bottom: 10px; }
+.role-event-item { padding-left: 0; margin-bottom: 12px; }
 .role-event-date { font-size: 10px; color: var(--text-sub); margin-bottom: 2px; }
 .role-event-text { font-size: 12px; color: var(--text-main); line-height: 1.4; }
 
 .role-btn-full { display: block; width: 100%; padding: 10px; text-align: center; font-size: 12px; color: var(--text-sub); background: var(--bg-box); backdrop-filter: blur(20px); border: 1px solid var(--border-box); border-radius: 12px; cursor: pointer; margin-top: 4px; }
 
-/* 角色卡子页面 */
+
 .role-subpage { position: absolute; inset: 0; z-index: 50; background: var(--bg-container); display: none; flex-direction: column; }
 .role-subpage.show { display: flex; }
 .role-subpage-nav { height: 52px; padding: 0 16px; display: flex; align-items: center; border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
@@ -1873,7 +1884,7 @@
 .role-subpage-input { flex: 1; padding: 10px 14px; background: var(--bg-box); border: 1px solid var(--border-box); border-radius: 12px; font-size: 14px; color: var(--text-main); outline: none; }
 .role-subpage-add-btn { padding: 10px 18px; background: var(--text-main); color: var(--bg-container); border: none; border-radius: 12px; font-size: 13px; cursor: pointer; font-weight: 500; }
 
-/* 角色卡编辑弹窗 */
+
 .role-edit-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 200; display: none; align-items: center; justify-content: center; }
 .role-edit-overlay.show { display: flex; }
 .role-edit-panel { width: 95%; max-width: 420px; height: 85vh; background: var(--bg-container); border-radius: 20px; display: flex; flex-direction: column; border: 1px solid var(--border-box); box-shadow: var(--shadow-md); overflow: hidden; }
@@ -1887,7 +1898,7 @@
 .role-edit-btn-cancel { background: var(--bg-box); color: var(--text-sub); border: 1px solid var(--border-box); }
 .role-edit-btn-save { background: var(--text-main); color: var(--bg-container); font-weight: 500; }
 
-/* 角色卡选择弹窗 */
+
 .role-picker-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 200; display: none; align-items: center; justify-content: center; }
 .role-picker-mask.show { display: flex; }
 .role-picker-box { width: 85%; max-width: 340px; background: var(--bg-container); border-radius: 20px; padding: 20px; border: 1px solid var(--border-box); box-shadow: var(--shadow-md); }
@@ -1896,7 +1907,7 @@
 .role-picker-item.active { background: var(--bg-box); border-color: var(--border-box); font-weight: 500; }
 .role-picker-close { display: block; width: 100%; padding: 10px; margin-top: 10px; text-align: center; font-size: 13px; color: var(--text-sub); background: none; border: none; cursor: pointer; }
 
-/* 角色卡确认弹窗 */
+
 .role-confirm-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 300; display: none; align-items: center; justify-content: center; }
 .role-confirm-mask.show { display: flex; }
 .role-confirm-box { width: 80%; max-width: 300px; background: var(--bg-container); border-radius: 18px; padding: 24px; text-align: center; border: 1px solid var(--border-box); box-shadow: var(--shadow-md); }
@@ -1906,7 +1917,7 @@
 .role-confirm-btn-cancel { background: var(--bg-box); color: var(--text-sub); border: 1px solid var(--border-box); }
 .role-confirm-btn-danger { background: #d96a6a; color: #fff; }
 
-/* 底部弹出选择器 */
+
 .role-picker-sheet-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 250; display: flex; align-items: flex-end; justify-content: center; opacity: 0; transition: opacity 0.2s; }
 .role-picker-sheet-mask.show { opacity: 1; }
 .role-picker-sheet { width: 100%; max-width: 480px; background: var(--bg-container); border-radius: 20px 20px 0 0; padding-bottom: 30px; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); transform: translateY(100%); transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1); }
@@ -1915,13 +1926,10 @@
 .role-picker-sheet-item:active { background: var(--bg-box); }
 .role-picker-sheet-item.active { font-weight: 600; }
 
-/* 修复子页面标题居中 */
+
 .role-subpage-nav { height: 52px; padding: 0 16px; display: flex; align-items: center; border-bottom: 1px solid var(--border-light); flex-shrink: 0; position: relative; }
 .role-subpage-back { font-size: 13px; color: var(--text-sub); cursor: pointer; flex-shrink: 0; z-index: 1; }
 .role-subpage-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 15px; font-weight: 600; color: var(--text-main); white-space: nowrap; }
-
-/* ========== Pocket 页面 - 极简杂志风格重构 ========== */
-/* 背景彻底统一 */
 
 
 #pocket-view {
@@ -1931,7 +1939,7 @@
     background: #141414 !important;
 }
 
-/* 导航栏磨砂玻璃，与背景融合 */
+
 #pocket-view .nav-header {
     background: rgba(244,245,243,0.78) !important;
     backdrop-filter: blur(22px) saturate(1.15) !important;
@@ -1943,12 +1951,12 @@
     background: rgba(20,20,20,0.32) !important;
 }
 
-/* 滚动内容区背景与页面一致 */
+
 #pocket-view .scroll-content {
     background: transparent !important;
 }
 
-/* 底部 Tab 栏去线、统一背景 */
+
 #pocket-view .tab-bar {
     background: rgba(244,245,243,0.78) !important;
     backdrop-filter: blur(22px) saturate(1.15) !important;
@@ -1974,12 +1982,11 @@
 }
 
 
-/* PocketChat 底部导航：统一尺寸的黑白灰 Q 版 SVG 图标 */
 #pocket-view .tab-item { gap: 3px !important; }
 #pocket-view .pocket-tab-icon { width: 27px; height: 27px; display: block; flex: 0 0 27px; overflow: visible; }
 #pocket-view .tab-item > span { font-size: 11px !important; line-height: 14px; }
 
-/* 角色行 - 去卡片、去分割线、紧凑 */
+
 #pocket-view .chat-item {
     padding: 12px 14px !important;
     border-bottom: none !important;
@@ -1994,7 +2001,7 @@
     background: #222222 !important;
 }
 
-/* 头像 - 超微圆角方形 44px */
+
 #pocket-view .chat-item-avatar {
     width: 44px !important;
     height: 44px !important;
@@ -2012,7 +2019,7 @@
     object-fit: cover;
 }
 
-/* 未读微点 - 灰绿色 */
+
 #pocket-view .unread-micro-dot {
     position: absolute;
     top: -2px;
@@ -2031,7 +2038,7 @@
     display: block;
 }
 
-/* 文字区 - 顶端对齐 */
+
 #pocket-view .chat-item-info {
     display: flex;
     flex-direction: column;
@@ -2081,7 +2088,7 @@
     color: #767676 !important;
 }
 
-/* ========== 聊天上下悬浮层 + 输入条 ========== */
+
 #chat-detail-view{position:absolute;overflow:hidden;background:var(--bg-main);}
 #chat-detail-view > #chat-detail-messages{flex:1 1 auto;min-height:0;padding:108px 20px 96px !important;background:transparent;overflow-y:auto;}
 .chat-input-dock{position:absolute;left:0;right:0;bottom:0;padding:8px 12px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(244,245,243,0) 0%,rgba(244,245,243,.12) 34%,rgba(244,245,243,.38) 100%);z-index:40;pointer-events:none;}
@@ -2120,12 +2127,12 @@
 #dynamic-input-row.voice-active-mode #icon-send-arrow{display:none !important;}
 #dynamic-input-row.voice-active-mode #icon-kbd-back{display:block !important;}
 
-/* ========== 好友设置样式 ========== */
+
 .friend-settings-row:active {
     background: var(--bg-hover);
 }
 
-/* 冷感风 UI 样式 */
+
 #create-role-view {
     background: var(--bg-color) !important;
 }
@@ -2160,7 +2167,7 @@
     font-size: 12px;
 }
 
-    /* ==================== PocketChat 朋友圈模块（融合自朋友圈原型） ==================== */
+    
     #pocket-tab-moments { background: #f3f4f3; }
     #pocket-tab-moments .mt-topbar { flex: none; height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; background: rgba(244, 245, 243, 0.78); backdrop-filter: blur(22px) saturate(1.15); -webkit-backdrop-filter: blur(22px) saturate(1.15); border-bottom: 1px solid rgba(30, 34, 34, 0.05); z-index: 5; }
     #pocket-tab-moments .mt-top-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #5a6062; cursor: pointer; border-radius: 8px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); padding: 0; }
@@ -2299,7 +2306,7 @@
     #moments-sheet .mt-sheet-confirm { flex: none; margin-top: 8px; padding: 13px; text-align: center; background: #252829; color: #f3f4f3; border-radius: 12px; font-size: 14px; cursor: pointer; }
     @keyframes mtFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     #pocket-tab-moments .mt-post.mt-new { animation: mtFadeIn 0.35s ease; }
-    /* ==================== 朋友圈模块样式结束 ==================== */
+    
 
     .pocket-me-qr-btn { width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--text-sub);cursor:pointer;flex-shrink:0;border-radius:9px;transition:transform .12s ease,background .14s ease;position:relative;z-index:4; }
 .pocket-me-qr-btn:active { transform:scale(.92); background:var(--bg-hover); }
@@ -2307,7 +2314,7 @@
 
 .qr-pop { position:fixed !important; inset:0 !important; width:100vw !important; height:100vh !important; max-width:none !important; max-height:none !important; left:0 !important; top:0 !important; right:auto !important; bottom:auto !important; }
 .qr-pop > div { width:min(300px,calc(100vw - 40px)); max-width:300px; }
-/* ==================== 夜览统一：Pocket / 朋友圈 / 我 / 信箱 ==================== */
+
     [data-theme="dark"] #pocket-tab-moments{background:#14171b !important;color:#e0e4e7;}
     [data-theme="dark"] #pocket-tab-moments .mt-topbar,[data-theme="dark"] #pocket-tab-moments .mt-scroller{background:rgba(20,23,27,.82) !important;color:#e0e4e7;}
     [data-theme="dark"] #pocket-tab-moments .mt-topbar{border-bottom-color:rgba(255,255,255,.06) !important;}
@@ -2344,7 +2351,7 @@
     [data-theme="dark"] #mailbox-view .letter-preview{color:#8f98a1 !important;}
     [data-theme="dark"] #mailbox-view .letter-delete-btn{color:#aeb7bf !important;}
     [data-theme="dark"] #mailbox-view .unread-dot{border-color:#181b20 !important;}
-    /* ==================== 角色档案模块（融合自角色卡原型） ==================== */
+    
     #character-archive-view { background: var(--bg-container); color: var(--text-main); }
     #character-archive-view.active { display: flex; flex-direction: column; height: 100%; }
     #character-archive-view .ca-scroll { flex: 1; overflow-y: auto; scrollbar-width: none; padding-bottom: 40px; }
@@ -2375,7 +2382,7 @@
     #character-archive-view .ca-info-list { display: flex; flex-direction: column; gap: 8px; }
     #character-archive-view .ca-info-item { font-size: 12px; color: var(--text-sub); letter-spacing: 1px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
     #character-archive-view .ca-info-label { color: var(--text-main); font-size: 10px; font-weight: bold; font-family: monospace; width: 35px; flex-shrink: 0; }
-    #character-archive-view .ca-signature { margin-top: 20px; font-size: 12px; color: var(--text-sub); font-style: italic; line-height: 1.6; font-family: "SimSun","STSong","宋体",serif; border-left: 2px solid var(--border-light); padding-left: 10px; cursor: pointer; }
+    #character-archive-view .ca-signature { margin-top: 20px; font-size: 12px; color: var(--text-sub); font-style: italic; line-height: 1.6; font-family: "SimSun","STSong","宋体",serif; padding-left: 0; cursor: pointer; }
     #character-archive-view .ca-divider { margin: 20px 24px 10px 24px; position: relative; display: flex; align-items: center; }
     #character-archive-view .ca-divider-rect { width: 20px; height: 3px; background-color: var(--text-main); position: absolute; left: 0; z-index: 2; }
     #character-archive-view .ca-divider-line { width: 100%; height: 1px; background-color: var(--border-light); z-index: 1; }
@@ -2411,7 +2418,7 @@
     #character-archive-view .ca-detail-eng { font-family: monospace; font-size: 11px; color: var(--text-light); letter-spacing: 2px; }
     #character-archive-view .ca-detail-title { font-family: "SimSun","STSong","宋体",serif; font-size: 26px; letter-spacing: 2px; margin-top: 4px; color: var(--text-main); }
     #character-archive-view .ca-detail-content { padding: 0 24px; display: flex; flex-direction: column; gap: 20px; }
-    /* 角色档案互动行为：与档案卡片统一的柔和滑动控件 */
+    
     #character-archive-view .ca-behavior-switch { position:relative; display:inline-flex; width:48px; height:28px; flex:0 0 48px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
     #character-archive-view .ca-behavior-switch input { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
     #character-archive-view .ca-behavior-track { position:absolute; inset:0; border:1px solid var(--border-box); border-radius:999px; background:var(--bg-box); box-shadow:inset 0 1px 2px var(--shadow-s); transition:background .24s ease,border-color .24s ease,box-shadow .24s ease; }
@@ -2436,13 +2443,13 @@
     #character-archive-view .ca-detail-card-action.ca-danger:hover { color: #d06666; }
     #character-archive-view .ca-bidir-badge { font-size: 9px; color: var(--accent); font-family: monospace; letter-spacing: 1px; }
     #character-archive-view .ca-empty { text-align: center; color: var(--text-light); font-size: 12px; padding: 40px 0; font-family: monospace; letter-spacing: 1px; }
-    /* 角色档案编辑器 */
+    
     #ca-editor-overlay { position: fixed; inset: 0; z-index: 300; background: var(--bg-container); display: none; flex-direction: column; }
     #ca-editor-overlay.show { display: flex; }
     #ca-editor-overlay .ca-editor-nav { display: flex; justify-content: space-between; align-items: center; height: 56px; padding: 0 20px; border-bottom: 1px solid var(--border-light); }
     #ca-editor-overlay .ca-editor-btn { background: none; border: none; color: var(--text-main); font-size: 13px; cursor: pointer; letter-spacing: 1px; }
     #ca-editor-overlay .ca-editor-textarea { flex-grow: 1; background: transparent; border: none; color: var(--text-main); font-size: 14px; line-height: 1.8; padding: 20px; resize: none; width: 100%; outline: none; }
-    /* 角色档案滚轮选择器 */
+    
     #ca-picker-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; }
     #ca-picker-overlay.show { display: flex; }
     #ca-picker-overlay .ca-picker-sheet { width: 100%; max-width: 480px; margin: 0 auto; background: var(--bg-container); border-top: 1px solid var(--border-light); transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.1,0.8,0.2,1); padding-bottom: 20px; }
@@ -2455,7 +2462,7 @@
     #ca-picker-overlay .ca-picker-wheel-item { height: 40px; line-height: 40px; text-align: center; scroll-snap-align: center; color: var(--text-light); font-size: 14px; transition: all 0.2s; }
     #ca-picker-overlay .ca-picker-wheel-item.selected { color: var(--text-main); font-size: 18px; font-family: serif; font-weight: bold; }
     #ca-picker-overlay .ca-picker-highlight { position: absolute; top: 80px; left: 0; width: 100%; height: 40px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); pointer-events: none; z-index: 2; }
-    /* 当前状态页面 */
+    
     #character-archive-view .ca-state-block { display: flex; align-items: flex-start; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border-light); }
     #character-archive-view .ca-state-block:last-child { border-bottom: none; }
     #character-archive-view .ca-state-label { font-size: 12px; color: var(--text-sub); letter-spacing: 1px; width: 60px; flex-shrink: 0; padding-top: 4px; }
@@ -2466,7 +2473,7 @@
     #character-archive-view .ca-relation-name { font-size: 16px; color: var(--text-main); font-weight: 600; margin-bottom: 4px; }
     #character-archive-view .ca-relation-text { font-size: 13px; color: var(--text-sub); margin-bottom: 4px; }
     #character-archive-view .ca-relation-note { font-size: 11px; color: var(--text-light); }
-    /* 心情档案时间线 */
+    
     #character-archive-view .ca-mood-timeline { position: relative; padding-left: 20px; }
     #character-archive-view .ca-mood-timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 1px; border-left: 1px dashed var(--border-light); }
     #character-archive-view .ca-mood-item { position: relative; margin-bottom: 24px; }
@@ -2475,7 +2482,7 @@
     #character-archive-view .ca-mood-card { border: 1px solid var(--border-light); padding: 12px 14px; border-radius: 8px; background: var(--bg-card); }
     #character-archive-view .ca-mood-change { font-size: 16px; font-family: "SimSun","STSong","宋体",serif; color: var(--text-main); margin-bottom: 6px; }
     #character-archive-view .ca-mood-reason { font-size: 12px; color: var(--text-sub); line-height: 1.5; }
-    /* 关系编辑弹窗 */
+    
     #ca-relation-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; }
     #ca-relation-overlay.show { display: flex; }
     #ca-relation-overlay .ca-relation-sheet { width: 85%; max-width: 360px; background: var(--bg-container); border-radius: 16px; padding: 20px; border: 1px solid var(--border-light); }
@@ -2490,9 +2497,9 @@
     #ca-relation-overlay .ca-relation-btn.cancel { background: var(--bg-card); color: var(--text-sub); }
     #ca-relation-overlay .ca-relation-btn.confirm { background: var(--text-main); color: var(--bg-container); }
     #ca-relation-overlay .ca-relation-btn.delete { background: transparent; color: #e74c3c; border: 1px solid #e74c3c; flex: 0 0 auto; padding: 10px 16px; }
-    /* ==================== 角色档案模块样式结束 ==================== */
     
-/* 统一消息弹窗 */
+    
+
 .p-modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 10001; align-items: center; justify-content: center; }
 .p-modal-box { width: 85%; max-width: 340px; min-height: 160px; display: flex; flex-direction: column; justify-content: center; background: var(--bg-container); border-radius: 20px; padding: 24px 20px; text-align: center; border: 1px solid var(--border-light); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 .p-modal-title { font-size: 16px; font-weight: 600; color: var(--text-main); margin-bottom: 12px; }
@@ -2501,7 +2508,7 @@
 .p-modal-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-size: 14px; cursor: pointer; }
 .p-modal-btn.cancel { background: var(--bg-card); color: var(--text-sub); }
 .p-modal-btn.confirm { background: var(--text-main); color: var(--bg-container); }
-/* 来电使用 Pocket 原有弹窗结构，仅切换为专属玻璃来电样式 */
+
 #p-modal-mask.phone-incoming-modal{background:rgba(20,30,27,.34);backdrop-filter:blur(13px) saturate(1.12);-webkit-backdrop-filter:blur(13px) saturate(1.12);padding:24px;box-sizing:border-box;}
 #p-modal-mask.phone-incoming-modal .p-modal-box{width:min(100%,310px);max-width:310px;min-height:0;padding:24px 20px 18px;border-radius:25px;background:rgba(248,251,249,.88);border:1px solid rgba(255,255,255,.76);box-shadow:0 18px 48px rgba(24,45,35,.16),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(24px) saturate(1.08);-webkit-backdrop-filter:blur(24px) saturate(1.08);}
 [data-theme="dark"] #p-modal-mask.phone-incoming-modal .p-modal-box{background:linear-gradient(145deg,rgba(48,57,52,.94),rgba(30,38,35,.92));border-color:rgba(255,255,255,.13);}
@@ -2529,7 +2536,7 @@
 #p-modal-mask.phone-incoming-modal .p-modal-btn.cancel{background:linear-gradient(145deg,#f2c9c5,#e6aaa5);color:#fff;box-shadow:0 7px 18px rgba(190,100,95,.18);}
 #p-modal-mask.phone-incoming-modal .p-modal-btn.confirm{background:linear-gradient(145deg,#ccebd8,#a8d9bf);color:#245744;box-shadow:0 7px 18px rgba(66,126,91,.16);}
 
-/* ===== 电话通话 UI：黑白结构 + 薄荷绿状态 + 果冻头像 ===== */
+
 #phone-call-view{background:var(--bg-container);z-index:100;}
 .phone-call-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;width:100%;height:100%;padding:20px;box-sizing:border-box;overflow:hidden;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.72) 0%,rgba(255,255,255,.28) 30%,transparent 64%),var(--bg-container);}
 [data-theme="dark"] .phone-call-wrap{background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.055) 0%,rgba(255,255,255,.018) 32%,transparent 65%),var(--bg-container);}
@@ -2566,7 +2573,7 @@
 .phone-hangup-btn{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.76);border:1px solid rgba(201,75,75,.30);color:#c94b4b;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(201,75,75,.10),inset 0 1px 0 rgba(255,255,255,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .12s ease,box-shadow .16s ease;}
 .phone-hangup-btn:active{transform:scale(.94);}
 .phone-hangup-btn svg{width:27px;height:27px;fill:currentColor;}
-/* 通话记录沿用普通消息气泡的材质，只保留紧凑的消息内容 */
+
 .call-record-message{box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;max-width:min(68%,230px);margin:4px 0;padding:6px 9px;border-radius:12px;background:var(--bubble-role,var(--bg-card));border:1px solid var(--border-light);box-shadow:none;cursor:pointer;color:var(--text-main);font:inherit;font-size:12px;line-height:1.35;vertical-align:middle;touch-action:pan-y;}
 .call-record-icon{width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text-sub);}
 .call-record-copy{min-width:0;flex:1;text-align:left;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
@@ -2575,11 +2582,11 @@
 .call-record-chevron{font-size:14px;line-height:1;color:var(--text-sub);padding-left:1px;}
 .call-record-message:active{transform:scale(.985);}
 .call-record-message.multi-selected{outline:2px solid var(--accent);outline-offset:1px;opacity:1!important;}
-/* 邀约/红包结果胶囊：仅由原消息状态渲染，不创建新消息 */
+
 .event-status-row{display:flex;justify-content:center;align-items:center;width:100%;box-sizing:border-box;padding:1px 0;margin:1px 0 3px;pointer-events:none;}
 .event-status-capsule{display:inline-flex;align-items:center;justify-content:center;gap:5px;max-width:92%;box-sizing:border-box;padding:5px 12px;border-radius:999px;background:var(--bg-card);border:1px solid var(--border-light);color:var(--text-sub);font-size:11px;line-height:1.35;text-align:center;box-shadow:0 2px 8px rgba(30,45,50,.035);overflow-wrap:anywhere;}
 [data-theme="dark"] .event-status-capsule{background:rgba(48,52,60,.72);border-color:rgba(255,255,255,.09);box-shadow:0 2px 8px rgba(0,0,0,.12);}
-/* 通话悬浮球与迷你窗：仅在通话已接通且离开完整电话页时显示 */
+
 #phone-floating-root{position:fixed;right:14px;bottom:calc(94px + env(safe-area-inset-bottom,0px));z-index:99999;display:none;align-items:flex-end;flex-direction:column;gap:8px;pointer-events:none;}
 #phone-floating-bubble{pointer-events:auto;width:54px;height:54px;border-radius:50%;padding:3px;border:1px solid rgba(255,255,255,.8);background:rgba(239,248,247,.76);box-shadow:0 7px 24px rgba(31,63,68,.20);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;position:relative;touch-action:none;}
 #phone-floating-avatar{width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--bg-card);color:var(--text-main);font-size:18px;}
@@ -2597,7 +2604,7 @@
 #phone-floating-text-row{display:none;gap:6px;align-items:flex-end;margin-top:10px;}
 #phone-floating-text{min-width:0;flex:1;max-height:72px;resize:none;border:1px solid var(--border-light);border-radius:15px;padding:9px 11px;font:inherit;font-size:13px;background:var(--bg-card);color:var(--text-main);outline:none;}
 #phone-floating-send{width:34px;height:34px;border:0;border-radius:50%;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-/* 通话记录：整页玻璃层，进入/退出与头像动作连续 */
+
 .phone-history-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(248,249,248,.90) 0%,rgba(244,246,245,.82) 100%);z-index:30;display:flex;flex-direction:column;padding:calc(22px + env(safe-area-inset-top,0px)) 20px 12px;box-sizing:border-box;overflow:hidden;visibility:hidden;opacity:0;transform:translateY(100%);pointer-events:none;transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .32s ease,visibility 0s linear .58s;backdrop-filter:blur(22px) saturate(1.08);-webkit-backdrop-filter:blur(22px) saturate(1.08);}
 [data-theme="dark"] .phone-history-overlay{background:linear-gradient(180deg,rgba(18,20,24,.94) 0%,rgba(18,20,24,.88) 100%);}
 .phone-history-overlay.active{visibility:visible;opacity:1;transform:translateY(0);pointer-events:auto;transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .32s ease;}
@@ -2627,10 +2634,7 @@
 .phone-msg-wave i:nth-child(1){height:7px}.phone-msg-wave i:nth-child(2){height:12px}.phone-msg-wave i:nth-child(3){height:17px}.phone-msg-wave i:nth-child(4){height:10px}.phone-msg-wave i:nth-child(5){height:14px}.phone-msg-wave i:nth-child(6){height:7px}.phone-msg-wave i:nth-child(7){height:16px}.phone-msg-wave i:nth-child(8){height:11px}.phone-msg-wave i:nth-child(9){height:6px}.phone-msg-wave i:nth-child(10){height:13px}.phone-msg-wave.audio-derived i{transition:height .12s linear;}.phone-msg-time{font-size:11px;color:var(--text-sub);flex-shrink:0;font-variant-numeric:tabular-nums;min-width:36px;text-align:right;}
 .phone-history-empty{margin:auto;color:var(--text-sub);font-size:13px;}
 
-/* ================================================================
-   聊天页美化 · 简约高级（磨砂玻璃 / 留白）
-   只改外观，不动任何功能。想恢复原样：删掉这一整块即可。
-   ================================================================ */
+
 #chat-detail-view {
     --g-bubble-char: linear-gradient(145deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.52) 100%);
     --g-bubble-me:   linear-gradient(145deg, rgba(176,196,214,.52) 0%, rgba(176,196,214,.30) 100%);
@@ -2662,10 +2666,10 @@
         linear-gradient(180deg, #14161a 0%, #101216 100%);
 }
 
-/* —— 留白：两侧和上下更松 —— */
+
 #chat-detail-messages { padding-left: 24px !important; padding-right: 24px !important; padding-bottom: 118px !important; }
 
-/* —— 气泡：磨砂玻璃（半透明 + 实时模糊 + 细描边）—— */
+
 #chat-detail-messages .msg-bubble {
     min-width: 0 !important;
     width: fit-content;
@@ -2693,7 +2697,7 @@
 }
 #chat-detail-messages .chat-bracket-styled { font-size: 12px; opacity: .62; letter-spacing: .02em; }
 
-/* —— 输入栏：磨砂玻璃胶囊 + 轻盈圆钮 —— */
+
 #chat-input-dock {
     padding: 10px 16px calc(14px + env(safe-area-inset-bottom, 0px)) !important;
     background: linear-gradient(0deg, rgba(240,243,247,.92) 0%, rgba(240,243,247,.6) 45%, rgba(240,243,247,0) 100%) !important;
@@ -2729,10 +2733,7 @@
 #chat-input-dock .pure-arrow-btn svg { stroke-width: 1.8; }
 #chat-input-dock .input-dock-btn:active, #chat-input-dock .pure-arrow-btn:active { transform: scale(.93); }
 
-/* ================================================================
-   顶部导航：半透明磨砂框（更矮） / 按钮对齐 / 头像+网名大胶囊
-   “正在输入”等状态会直接替换网名显示（小字、浅色、不超出胶囊）
-   ================================================================ */
+
 #chat-detail-view {
     --nav-h: 60px;
     --nav-glass: linear-gradient(180deg, rgba(255,255,255,.84) 0%, rgba(255,255,255,.62) 100%);
@@ -2757,7 +2758,7 @@
     --av-ring: rgba(255,255,255,.2);
 }
 
-/* 导航框本体：整条半透明磨砂，底部一条细高光边 */
+
 #chat-detail-view .nav-header.nav-header-chat {
     height: calc(var(--nav-h) + env(safe-area-inset-top, 0px)) !important;
     min-height: calc(var(--nav-h) + env(safe-area-inset-top, 0px)) !important;
@@ -2769,10 +2770,10 @@
     border-bottom: 1px solid var(--nav-edge);
     box-shadow: var(--nav-shadow);
 }
-/* 消息列表顶部让出导航的高度（比原来矮） */
+
 #chat-detail-messages { padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 16px) !important; }
 
-/* 一行三块：返回 · 胶囊 · 更多，统一高度并居中对齐 */
+
 #chat-detail-view .nav-header.nav-header-chat .nav-header-row {
     height: 44px; margin: 8px 12px 0; width: calc(100% - 24px);
     justify-content: space-between; align-items: center;
@@ -2786,7 +2787,7 @@
 }
 #chat-detail-view .nav-header-chat .nav-back-btn:active,
 #chat-detail-view .nav-header-chat .nav-action-btn:active { background: rgba(127,140,155,.16); transform: scale(.94); }
-/* 返回箭头：改回正常居中（之前丢了居中偏移，所以比三个点低） */
+
 #chat-detail-view .nav-header-chat .nav-back-btn::before {
     position: static !important; display: block; top: auto; left: auto;
     width: 11px !important; height: 11px !important; margin: 0 0 0 6px !important;
@@ -2795,7 +2796,7 @@
 }
 #chat-detail-view .nav-header-chat .nav-action-btn svg { width: 22px !important; height: 22px !important; }
 
-/* 中间胶囊：头像 + 网名，一个整体 */
+
 #chat-detail-view .chat-capsule {
     position: relative; display: flex; align-items: center; box-sizing: border-box;
     flex: 0 1 auto; min-width: 176px; max-width: 66%; height: 42px; padding: 0 14px 0 5px;
@@ -2811,7 +2812,7 @@
 }
 #chat-detail-view .chat-capsule .chat-header-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 #chat-detail-view .chat-capsule .chat-header-avatar .chat-header-avatar-placeholder { font-size: 13px; color: var(--av-ink); }
-/* 网名 */
+
 #chat-detail-view .chat-capsule .nav-title {
     position: static !important; transform: none !important; left: auto;
     display: block !important; flex: 1 1 auto; width: auto !important; min-width: 0; max-width: 42vw !important; height: auto !important;
@@ -2824,7 +2825,7 @@
     transition: opacity .22s ease;
 }
 #chat-detail-view .chat-capsule .nav-title::after { content: none !important; }
-/* 状态文字：盖在网名的位置上，网名淡出；小字、浅色、超出用省略号 */
+
 #chat-detail-view .chat-capsule .nav-reply-status {
     position: absolute; left: 44px; right: 14px; top: 0; bottom: 0; margin: 0;
     display: block; text-align: center;
@@ -2836,10 +2837,10 @@
 #chat-detail-view .chat-capsule .nav-reply-status #reply-dots { display: inline-block; min-width: 1.6em; text-align: left; vertical-align: baseline; }
 #chat-detail-view .chat-capsule.is-status .nav-title { opacity: 0; }
 
-/* 顶部头像滑块：聊天与私密空间共用同一颗头像 */
+
 #chat-detail-view .chat-capsule { position:relative; z-index:42; overflow:visible; touch-action:none; transition: width .28s cubic-bezier(.22,1,.36,1), max-width .28s ease, padding .28s ease, border-radius .28s ease, background .28s ease, border-color .28s ease, box-shadow .28s ease; }
 #chat-detail-view .chat-capsule .chat-header-avatar { z-index:3; cursor:grab; touch-action:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; transform-origin:center center; will-change:transform; transition:transform .16s ease, box-shadow .22s ease; }
-/* 手势时不移动头像本体，避免移动端把头像拖成方块或拖出胶囊 */
+
 #chat-detail-view .chat-capsule .chat-header-avatar:active { border-radius:50% !important; }
 #chat-detail-view .chat-capsule.is-gesture-active { box-shadow:0 8px 28px rgba(70,85,105,.12), inset 0 1px 0 rgba(255,255,255,.5); }
 #chat-detail-view .chat-capsule .nav-title { z-index: 1; }
@@ -2853,12 +2854,12 @@
 #chat-detail-view .chat-capsule.is-space .nav-title { transition:opacity .2s ease; }
 #chat-detail-view .chat-capsule.is-returning .nav-title { transition:opacity .2s ease; }
 
-/* 私密空间的外置场景加载占位层：以后接入网页 3D 场景，不把模型塞进主 HTML */
+
 #private-space-screen { position:fixed; z-index:35; inset:0; display:none; overflow:hidden; color:var(--text-main); background:linear-gradient(145deg, rgba(245,247,249,.97), rgba(230,235,241,.94) 52%, rgba(239,232,239,.96)); -webkit-backdrop-filter:blur(24px) saturate(1.25); backdrop-filter:blur(24px) saturate(1.25); opacity:0; transform:translateX(18px); }
 [data-theme="dark"] #private-space-screen { background:linear-gradient(145deg, rgba(20,23,29,.98), rgba(28,31,40,.97) 52%, rgba(31,27,37,.98)); }
 #private-space-screen.is-visible { display:flex; animation:privateSpaceEnter .42s cubic-bezier(.22,1,.36,1) forwards; }
 #private-space-screen.is-leaving { display:flex; animation:privateSpaceLeave .32s cubic-bezier(.4,0,.2,1) forwards; pointer-events:none; }
-/* 聊天页过渡磨砂层：位于聊天内容之上、顶部胶囊之下 */
+
 #avatar-gesture-blur { position:fixed; inset:0; z-index:30; pointer-events:none; opacity:0; -webkit-backdrop-filter:blur(0); backdrop-filter:blur(0); background:rgba(130,140,155,0); transition:opacity .16s ease, backdrop-filter .12s linear, -webkit-backdrop-filter .12s linear, background .16s ease; }
 #avatar-gesture-blur.is-active { opacity:1; -webkit-backdrop-filter:blur(var(--gesture-blur, 0px)); backdrop-filter:blur(var(--gesture-blur, 0px)); background:rgba(130,140,155,var(--gesture-tint, 0)); }
 @keyframes privateSpaceEnter { from { opacity:0; transform:translateX(22px); filter:blur(10px); } to { opacity:1; transform:translateX(0); filter:blur(0); } }
@@ -2876,7 +2877,7 @@
 @keyframes privateSpaceLoading { 0% { transform:translateX(-110%); } 100% { transform:translateX(300%); } }
 #private-space-screen .private-space-footnote { margin-top:14px; font-size:10px; letter-spacing:.04em; color:var(--text-sub); opacity:.8; }
 
-/* 头像下拉活动栏：与短按打开的角色状态详情分开 */
+
 #avatar-activity-panel { position:absolute; z-index:44; top:82px; left:50%; width:min(340px, calc(100% - 32px)); box-sizing:border-box; padding:17px 18px 18px; border:1px solid var(--cap-edge); border-radius:24px; background:var(--cap-bg); -webkit-backdrop-filter:blur(24px) saturate(1.35); backdrop-filter:blur(24px) saturate(1.35); box-shadow:var(--cap-shadow); color:var(--text-main); display:none; opacity:0; transform:translate(-50%,-10px) scale(.98); transform-origin:top center; transition:opacity .2s ease, transform .24s cubic-bezier(.22,1,.36,1); }
 #avatar-activity-panel.is-open { display:block; opacity:1; transform:translate(-50%,0) scale(1); }
 #avatar-activity-panel .activity-panel-kicker { font-size:10px; letter-spacing:.13em; color:var(--text-sub); }
@@ -2884,9 +2885,6 @@
 #avatar-activity-panel .activity-panel-empty { margin-top:13px; padding:13px 14px; border-radius:15px; background:rgba(128,140,155,.08); color:var(--text-sub); font-size:12px; line-height:1.7; }
 
 
-/* ================================================================
-   气泡里的“转文字 / 翻译”：一条实线，下面接内容
-   ================================================================ */
 #chat-detail-messages .bubble-sep { height: 0; border-top: 1px solid rgba(40,52,66,.16); margin: 8px 0 7px; }
 [data-theme="dark"] #chat-detail-messages .bubble-sep { border-top-color: rgba(255,255,255,.2); }
 #chat-detail-messages .bubble-extra {
@@ -2895,13 +2893,13 @@
 }
 #chat-detail-messages .bubble-extra.is-loading { opacity: .6; }
 
-/* 语音气泡：去掉里面那层小胶囊，只留一层磨砂玻璃 */
+
 #chat-detail-messages .msg-bubble .voice-pill {
     background: transparent !important; padding: 0 !important; height: 26px !important;
     min-width: 120px; gap: 12px !important;
 }
 
-/* 聊天页：文字不能选中、不弹系统复制条（复制统一走长按弹窗） */
+
 #chat-detail-view #chat-detail-messages,
 #chat-detail-view #chat-detail-messages * {
     -webkit-user-select: none !important; user-select: none !important;
@@ -2911,7 +2909,7 @@
     -webkit-user-select: text !important; user-select: text !important; -webkit-touch-callout: default !important;
 }
 
-/* 轻提示条（已复制 / 翻译失败 等） */
+
 .yy-toast {
     position: absolute; left: 50%; bottom: 120px; transform: translate(-50%, 8px);
     padding: 9px 18px; border-radius: 999px; font-size: 13px; letter-spacing: .03em;
@@ -2921,19 +2919,18 @@
 }
 .yy-toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-/* iOS：输入框字号小于 16px 时，点进去页面会自动放大。聚焦时临时用 16px 来避免（只影响 iPhone） */
+
 @supports (-webkit-touch-callout: none) {
     input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus { font-size: 16px !important; }
 }
 
 
-/* 私密空间返回键：始终位于加载内容之上，适配刘海屏安全区 */
 #private-space-back { position:absolute; z-index:5; top:calc(env(safe-area-inset-top, 0px) + 16px); left:18px; display:flex; align-items:center; gap:5px; min-height:40px; padding:0 14px 0 10px; border:1px solid rgba(120,132,148,.20); border-radius:15px; background:rgba(255,255,255,.52); color:#303946; font:500 13px/1 system-ui,-apple-system,sans-serif; box-shadow:0 5px 18px rgba(30,40,55,.08), inset 0 1px 0 rgba(255,255,255,.65); -webkit-backdrop-filter:blur(18px) saturate(1.25); backdrop-filter:blur(18px) saturate(1.25); cursor:pointer; }
 #private-space-back span:first-child { font-size:27px; line-height:16px; font-weight:300; margin-top:-2px; }
 #private-space-back:active { transform:scale(.96); }
 [data-theme="dark"] #private-space-back { color:#f0f2f6; background:rgba(40,44,53,.82); border-color:rgba(255,255,255,.14); box-shadow:0 5px 20px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06); }
 
-/* 深色模式：恢复磨砂玻璃质感，同时保证正文与卡片文字有足够对比度 */
+
 [data-theme="dark"] #chat-detail-messages .msg-bubble,
 [data-theme="dark"] #chat-detail-messages .chat-bubble,
 [data-theme="dark"] #chat-detail-messages .article-output-box,
@@ -2959,7 +2956,7 @@
     color:#f4f6fa !important;
     border-color:rgba(220,230,244,.20) !important;
 }
-/* 内容卡片：保留半透明磨砂玻璃；明确覆盖卡片内部行内文字色，修复深色模式灰字融底 */
+
 [data-theme="dark"] #chat-detail-messages .article-output-box,
 [data-theme="dark"] #chat-detail-messages .user-raw-text-box,
 [data-theme="dark"] #chat-detail-messages .interaction-card,
@@ -2972,7 +2969,7 @@
     backdrop-filter:blur(24px) saturate(150%) !important;
     box-shadow:0 8px 24px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.075) !important;
 }
-/* 行内 style 的 color 优先级高于普通 CSS；这里用 !important 在卡片范围内统一可读性 */
+
 [data-theme="dark"] #chat-detail-messages .article-output-box *,
 [data-theme="dark"] #chat-detail-messages .user-raw-text-box *,
 [data-theme="dark"] #chat-detail-messages .interaction-card *,
@@ -3007,7 +3004,7 @@
 </style>
 
 <style id="yy-music-together-glass">
-/* 一起听：玻璃水光卡片（canvas 水光 + 玻璃层 + 小头像 + 单行歌词） */
+
 #music-view #mu-together-card{
   position:relative;isolation:isolate;overflow:hidden;border-radius:34px!important;
   padding:28px 22px 24px!important;text-align:center;
@@ -3023,7 +3020,7 @@
 #mu-together-card .mu-glass-veil:after{content:"";position:absolute;inset:0;border-radius:34px;
   box-shadow:inset 0 0 26px rgba(255,255,255,.28);}
 
-/* 头像区 */
+
 #mu-together-card .mu-people{width:55%;margin:2px auto 20px;display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:2px;position:relative;z-index:2}
 #mu-together-card .mu-person{display:flex;justify-content:center;position:relative}
 #mu-together-card .mu-avatar{
@@ -3047,12 +3044,12 @@
 #mu-together-card .mu-connector .mu-cdot{fill:rgba(255,255,255,.9)}
 #mu-together-card .mu-connector.mu-hide{opacity:0}
 
-/* 宋体标题（选择器带 p 与更高特异性，覆盖旧的卡片 p 灰色规则） */
+
 #music-view #mu-together-card p.mu-caption{text-align:center;font-size:20px;letter-spacing:.08em;font-weight:500;margin:0 0 5px;position:relative;z-index:2;
   font-family:"Noto Serif SC","Songti SC","STSong","SimSun",serif;color:#34414b}
 #music-view #mu-together-card p.mu-script{font-family:"Snell Roundhand","Segoe Script","Brush Script MT",cursive;font-size:15px;letter-spacing:.12em;color:#8798a5;text-align:center;margin:0 0 22px;font-style:italic;position:relative;z-index:2}
 
-/* 颜文字气泡 */
+
 #mu-together-card .mu-bubble{position:absolute;pointer-events:none;white-space:nowrap;padding:7px 11px;
   border:1px solid rgba(255,255,255,.85);border-radius:17px 17px 17px 6px;
   background:rgba(255,255,255,.6);box-shadow:0 5px 18px rgba(90,112,128,.12);
@@ -3068,7 +3065,7 @@
 #mu-together-card .mu-bubble-a{top:-16px;left:6px}
 #mu-together-card .mu-bubble-b{top:-16px;right:6px;border-radius:17px 17px 6px 17px}
 
-/* 歌词 */
+
 #mu-together-card .mu-lyrics{
   position:relative;overflow:hidden;border-radius:22px;margin:0 0 20px;padding:14px 18px;
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
@@ -3086,13 +3083,13 @@
 #mu-together-card .mu-lyric-line{font-size:15px;line-height:1.9;letter-spacing:.05em;color:#6f818e}
 
 #mu-together-card .mu-controls{display:flex;justify-content:center;position:relative;z-index:2}
-#mu-together-card .mu-cancel{border:1px solid rgba(255,255,255,.9);border-radius:999px;padding:12px 24px;
+#mu-together-card .mu-cancel{border:1px solid rgba(255,255,255,.9);border-radius:12px;padding:12px 24px;
   background:linear-gradient(145deg,rgba(255,255,255,.66),rgba(255,255,255,.3));
   color:#34414b;font:inherit;font-size:14px;box-shadow:inset 0 1px 0 white,0 8px 20px rgba(102,123,139,.1);
   cursor:pointer;transition:transform .18s}
 #mu-together-card .mu-cancel:active{transform:scale(.96)}
 
-/* 夜间 */
+
 [data-theme="dark"] #music-view #mu-together-card{
   background:linear-gradient(138deg,#3a4650,#27323d)!important;
   border-color:rgba(255,255,255,.17)!important;
@@ -3169,7 +3166,7 @@
             <div class="home-app-item" data-hid="script" onclick="app.navigateTo('script')"><div class="home-app-icon-box"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div><div class="home-app-label">剧本</div></div>
             <div class="home-app-item" data-hid="pomo" onclick="app.navigateTo('pomo')"><div class="home-app-icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2.5h6"></path><path d="M12 2.5V5"></path></svg></div><div class="home-app-label">专注</div></div>
             <div class="home-app-item" data-hid="archive" onclick="app.navigateTo('character-archive-view')"><div class="home-app-icon-box"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><div class="home-app-label">角色档案</div></div>
-            <div class="home-widget-glass" data-hid="status" style="grid-column: span 2; padding: 12px 14px; cursor:text;" onclick="event.stopPropagation();if(document.getElementById('home-view').classList.contains('home-editing'))return;var t=this.querySelector('.home-widget-text');var orig=t.innerText;var inp=document.createElement('textarea');inp.value=orig==='[请输入文本……]'?'':orig;inp.style.cssText='width:100%;border:none;background:transparent;font-size:11px;color:var(--text-main);line-height:1.4;outline:none;resize:none;font-family:inherit;opacity:0.6;';inp.placeholder='[请输入文本……]';t.innerHTML='';t.appendChild(inp);inp.focus();inp.onblur=function(){var val=inp.value.trim();t.innerText=val||'[请输入文本……]';t.style.opacity=val?'0.6':'0.6';if(val){localStorage.setItem('pk_home_status',val);}};">
+            <div class="home-widget-glass" data-hid="status" style="grid-column: span 2; padding: 16px; cursor:text;" onclick="event.stopPropagation();if(document.getElementById('home-view').classList.contains('home-editing'))return;var t=this.querySelector('.home-widget-text');var orig=t.innerText;var inp=document.createElement('textarea');inp.value=orig==='[请输入文本……]'?'':orig;inp.style.cssText='width:100%;border:none;background:transparent;font-size:11px;color:var(--text-main);line-height:1.4;outline:none;resize:none;font-family:inherit;opacity:0.6;';inp.placeholder='[请输入文本……]';t.innerHTML='';t.appendChild(inp);inp.focus();inp.onblur=function(){var val=inp.value.trim();t.innerText=val||'[请输入文本……]';t.style.opacity=val?'0.6':'0.6';if(val){localStorage.setItem('pk_home_status',val);}};">
     <div class="home-widget-label">STATUS</div>
     <div class="home-widget-text" id="home-widget-status" style="font-size:11px; opacity:0.6;"></div>
 </div>
@@ -3190,13 +3187,13 @@
         <div class="home-footer-tag">屿野来信 <span>/ Isle & Ink</span></div>
     </div>
     <div class="preview-overlay" id="pop-quick-edit" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:100;display:none;justify-content:center;align-items:center;">
-        <div style="width:80%;background:var(--bg-container);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px;border:1px solid var(--border-light);" onclick="event.stopPropagation()">
+        <div style="width:80%;background:var(--bg-container);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:16px;border:1px solid var(--border-light);" onclick="event.stopPropagation()">
             <div style="font-size:16px;font-weight:600;color:var(--text-main);text-align:center;" id="quick-edit-title">编辑</div>
-            <div style="display:flex;gap:10px;align-items:center;">
+            <div style="display:flex;gap:12px;align-items:center;">
                 <input type="text" id="quick-edit-input" style="flex:1;width:100%;background:var(--bg-card);border:none;border-radius:12px;padding:12px;font-size:14px;color:var(--text-main);outline:none;">
                 <button class="quick-detect-btn" onclick="app.fetchCurrentInfo()" style="flex-shrink:0;padding:12px 14px;border-radius:12px;border:none;font-size:13px;background:var(--bg-card);color:var(--text-main);cursor:pointer;white-space:nowrap;">检测</button>
             </div>
-            <div style="display:flex;gap:10px;"><button onclick="app.closeQuickEdit()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--bg-card);color:var(--text-sub);cursor:pointer;">取消</button><button onclick="app.saveQuickEdit()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--text-main);color:var(--bg-container);cursor:pointer;font-weight:600;">保存</button></div>
+            <div style="display:flex;gap:12px;"><button onclick="app.closeQuickEdit()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--bg-card);color:var(--text-sub);cursor:pointer;">取消</button><button onclick="app.saveQuickEdit()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--text-main);color:var(--bg-container);cursor:pointer;font-weight:600;">保存</button></div>
         </div>
     </div>
     <input type="file" id="file-input" hidden accept="image/*">
@@ -3285,26 +3282,26 @@
         <div style="width:40px;"></div>
     </div>
     <div class="scroll-content" onclick="if(event.target.closest('#me-bg-layer') || (!event.target.closest('.me-menu-item') && event.clientY - this.getBoundingClientRect().top < window.innerHeight * 0.3333)) app.changeMeBg()" style="background:transparent;padding:0 10px 30px;position:relative;z-index:2;">
-        <!-- 顶部背景层（可点击更换） -->
+        
 <div id="me-bg-layer" style="position:absolute;top:0;left:0;right:0;height:33.33vh;background:linear-gradient(160deg,#d4e0ed 0%,#b8ccdd 40%,#a3bccf 100%);-webkit-mask-image:linear-gradient(to bottom,#000 20%,transparent 100%);mask-image:linear-gradient(to bottom,#000 20%,transparent 100%);z-index:0;border-radius:0 0 20px 20px;cursor:pointer;transition:transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);"></div><div onclick="app.changeMeBg()" style="position:absolute;top:0;left:0;right:0;height:33.33vh;z-index:1;cursor:pointer;"></div>
-      <!-- 名片卡片 -->
+      
         <div style="position:relative;z-index:1;padding-top:calc(33.33vh - 20px);">
             <div style="background:rgba(255,255,255,0.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.9);border-radius:20px;box-shadow:0 10px 30px rgba(144,164,183,0.15);padding:16px 18px;display:flex;align-items:center;gap:14px;">
-                <!-- 头像 -->
+                
                 <div id="pocket-me-avatar" onclick="app.pickAvatar()" style="width:56px;height:56px;border-radius:12px;background:rgba(200,210,220,0.3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;color:#7f8c8d;border:1px solid rgba(255,255,255,0.6);"></div>
-                <!-- 昵称 + 签名（签名可点击编辑） -->
+                
                 <div style="flex:1;min-width:0;">
                     <div id="pocket-me-name" onclick="app.editHomeInfo('name')" style="font-size:17px;font-weight:500;color:#2c3e50;cursor:pointer;">用户名</div>
                     <div id="pocket-me-bio" onclick="app.editHomeInfo('bio')" style="font-size:12px;color:#7f8c8d;margin-top:2px;cursor:pointer;">这人很懒，什么都没写</div>
                 </div>
-                <!-- 二维码按钮：保留原来的入口，点击后弹出“禁止转载”提示 -->
+                
                 <div class="pocket-me-qr-btn" onclick="event.stopPropagation();app.toggleQR(true)" aria-label="二维码" role="button">
                     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M21 15v4a2 2 0 0 1-2 2h-4"/><path d="M15 21h-2"/><path d="M21 21h-2"/></svg>
                 </div>
             </div>
         </div>
         
-        <!-- 功能列表 -->
+        
         <div style="margin-top:20px;">
             <div style="background:rgba(255,255,255,0.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.9);border-radius:20px;box-shadow:0 10px 30px rgba(144,164,183,0.15);overflow:hidden;">
                 <div class="me-menu-item" onclick="app.showComingSoon('服务')" style="display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.6);cursor:pointer;">
@@ -3353,7 +3350,7 @@
 </div>
 
 <div class="view-panel" id="chat-detail-view">
-  <!-- HUD 手势面板 -->
+  
 <div class="gesture-hud-overlay" id="gesture-hud" style="position:absolute; left:0; right:0; bottom:76px; height:180px; pointer-events:none; z-index:99; display:none;">
     <div class="hud-circle-node" id="hud-node-left" style="position:absolute; bottom:10px; left:50%; width:56px; height:56px; border-radius:50%; background:var(--accent-color); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; font-weight:500; transform:translate(-50%,0) scale(0); box-shadow:0 4px 16px rgba(0,0,0,0.06); opacity:0;">
         <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.5; margin-bottom:3px;"><circle cx="12" cy="12" r="10"></circle><line x1="9" y1="9" x2="15" y2="9"></line><line x1="12" y1="9" x2="12" y2="15"></line></svg>
@@ -3389,9 +3386,9 @@
         <div class="activity-panel-empty" id="avatar-activity-content">目前没有正在进行的活动。之后这里会显示听歌、通话或共同互动等真实活动状态。</div>
     </div>
     <div class="scroll-content" id="chat-detail-messages" style="padding:110px 20px 96px;display:flex;flex-direction:column;"></div>
-<!-- 多选模式删除栏（多选模式下显示） -->
+
 <div id="multi-select-delete-bar" style="display:none; padding:10px 0; background:transparent; flex-shrink:0; position:relative; z-index:10; justify-content:center; align-items:center;">
-    <button id="yy-save-traces-selected" type="button" onclick="app.tracesSaveSelectedMessages()" style="display:none;margin-right:18px;padding:8px 15px;border:1px solid var(--border-light);border-radius:999px;background:var(--bg-container);color:var(--text-main);font-size:12px;box-shadow:0 3px 12px rgba(0,0,0,.06);">✦ 存入瞬息</button>
+    <button id="yy-save-traces-selected" type="button" onclick="app.tracesSaveSelectedMessages()" style="display:none;margin-right:18px;padding:8px 15px;border:1px solid var(--border-light);border-radius:12px;background:var(--bg-container);color:var(--text-main);font-size:12px;box-shadow:0 3px 12px rgba(0,0,0,.06);">✦ 存入瞬息</button>
     <svg id="multi-select-delete-icon" viewBox="0 0 24 24" style="width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; color:var(--text-main); cursor:pointer; opacity:0.3; transition:opacity 0.2s;" onclick="app.batchDeleteSelected()">
         <polyline points="3 6 5 6 21 6"></polyline>
         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -3414,7 +3411,7 @@
     </div>
 </div>
     <div id="pocket-sticker-bar" style="display:none;position:absolute;bottom:118px;left:0;right:0;background:var(--bg-box);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:12px 16px;border-top:1px solid var(--border-light);z-index:51;overflow-x:auto;align-items:center;">
-        <div id="pocket-sticker-list" style="display:flex;gap:10px;align-items:center;"></div>
+        <div id="pocket-sticker-list" style="display:flex;gap:12px;align-items:center;"></div>
     </div>
     <input type="file" id="sticker-file" hidden multiple accept="image/*">
     <div id="pocket-plus-panel" style="display:none;position:absolute;bottom:60px;left:0;right:0;background:var(--bg-box);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:16px;border-top:1px solid var(--border-light);border-radius:16px 16px 0 0;z-index:50;">
@@ -3439,11 +3436,11 @@
 <div class="view-panel" id="create-role-view" style="--app-label:'CHARACTER'">
     <div class="nav-header">
         <div class="nav-back-btn" onclick="app.backFromCreateRole()"></div>
-        <div class="nav-title" style="font-family:'SimSun','STSong',serif; font-size:20px; font-weight:bold; letter-spacing:2px;">建立档案</div>
+        <div class="nav-title" style="font-family:'SimSun','STSong',serif; font-size:18px; font-weight:600; letter-spacing:1px;">建立档案</div>
         <div style="width:40px;"></div>
     </div>
     <div class="scroll-content" style="padding:0 24px 30px; display:flex; flex-direction:column; gap:0;">
-        <!-- 头像卡片 -->
+        
         <div style="display:flex; justify-content:center; margin-top:20px; margin-bottom:20px;">
             <div id="new-role-av-box" onclick="app.pickFile('newRoleAvatar')" style="width:150px; height:200px; background:var(--panel-bg); border:1px dashed var(--line-color); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; position:relative; overflow:hidden;">
                 <div id="avatar-placeholder" style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted);">
@@ -3453,11 +3450,11 @@
                 <img id="avatar-preview" style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;" src="">
             </div>
         </div>
-        <!-- 角色名 -->
+        
         <div style="margin-bottom:20px;">
             <input type="text" id="new-role-name" placeholder="输入真名" style="width:100%; background:none; border:none; border-bottom:1px solid var(--line-color); font-family:'SimSun','STSong',serif; font-size:22px; font-weight:bold; letter-spacing:1px; text-align:center; color:var(--text-primary); outline:none; padding:8px 0;">
         </div>
-        <!-- TAGS -->
+        
         <div style="margin-bottom:16px;">
             <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
                 <span style="font-size:10px; font-family:monospace; letter-spacing:2px; color:var(--text-secondary);">TAGS / 人设标签 (最多5个)</span>
@@ -3470,7 +3467,7 @@
                 </div>
             </div>
         </div>
-        <!-- RELATIONSHIP -->
+        
         <div style="margin-bottom:16px;">
             <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
                 <span style="font-size:10px; font-family:monospace; letter-spacing:2px; color:var(--text-secondary);">RELATIONSHIP / 羁绊</span>
@@ -3479,7 +3476,7 @@
             <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">双人关系</div>
             <input type="text" id="new-role-relationship" placeholder="输入我们之间的关系" style="width:100%; background:none; border:none; border-bottom:1px solid var(--line-color); font-size:15px; color:var(--text-primary); outline:none; padding:4px 0;">
         </div>
-        <!-- DETAILED PROFILE -->
+        
         <div style="margin-bottom:24px;">
             <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
                 <span style="font-size:10px; font-family:monospace; letter-spacing:2px; color:var(--text-secondary);">DETAILED PROFILE / 详细人设</span>
@@ -3487,7 +3484,7 @@
             </div>
             <textarea id="new-role-prompt" placeholder="补充未尽的人物背景故事、说话口癖、行为特征等（选填）" style="width:100%; height:160px; background:var(--panel-bg); border:1px solid var(--line-color); border-radius:0; font-size:13px; line-height:1.7; color:var(--text-primary); padding:16px; resize:none; outline:none; font-family:'SimSun','STSong',serif;"></textarea>
         </div>
-        <!-- 完成按钮 -->
+        
         <button id="save-role-btn" onclick="app.confirmCreateRole()" style="width:100%; height:50px; background:var(--text-primary); color:var(--bg-color); border:none; border-radius:0; font-family:'SimSun','STSong',serif; font-size:14px; font-weight:bold; letter-spacing:4px; cursor:pointer;">完成</button>
     </div>
 </div>
@@ -3499,13 +3496,13 @@
         <div style="width:40px;"></div>
     </div>
     <div class="scroll-content" id="friend-settings-body" style="padding:16px 20px;">
-        <!-- 顶部：头像 + 昵称 -->
+        
         <div class="friend-profile-card" style="display:flex;align-items:center;gap:14px;background:var(--bg-card);border-radius:16px;padding:16px;margin-bottom:16px;border:1px solid var(--border-light);">
             <div class="friend-avatar" onclick="app.navigateTo('role-home-view')" style="width:56px;height:56px;border-radius:12px;background:var(--bg-box);overflow:hidden;flex-shrink:0;border:1px solid var(--border-box);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text-sub);" id="friend-avatar-display"></div>
             <div class="friend-name" onclick="app.editFriendName()" style="font-size:18px;font-weight:600;color:var(--text-main);cursor:pointer;" id="friend-name-display">角色名</div>
         </div>
 
-        <!-- 语音设置 -->
+        
         <div class="friend-settings-group" style="background:var(--bg-card);border-radius:16px;border:1px solid var(--border-light);overflow:hidden;margin-bottom:12px;">
             <div class="friend-settings-row" onclick="app.openVoiceSettingsInFriend()" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;">
                 <span style="font-size:14px;color:var(--text-main);">语音设置</span>
@@ -3513,7 +3510,7 @@
             </div>
         </div>
 
-<!-- 聊天专属设置：角色整体行为请到角色档案的「互动行为」管理 -->
+
 <div class="friend-settings-group" style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:16px;overflow:hidden;margin-bottom:12px;">
     <div style="font-size:11px;color:var(--text-sub);padding:12px 16px 6px;letter-spacing:0.5px;">聊天设置</div>
     <div class="friend-settings-row" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;">
@@ -3530,14 +3527,14 @@
     </div>
 </div>
 
-        <!-- 删除好友 -->
+        
         <div style="padding:0 16px;margin-top:8px;">
             <div style="width:100%;padding:14px;background:var(--bg-card);border-radius:12px;border:1px solid rgba(255,77,77,0.2);cursor:pointer;text-align:center;" onclick="app.confirmDeleteFriend()">
                 <span style="font-size:15px;color:#ff4d4d;font-weight:500;">删除好友</span>
             </div>
         </div>
 
-        <!-- 语音配置详情页（内嵌，默认隐藏） -->
+        
         <div id="friend-voice-detail" style="display:none;margin-top:16px;background:var(--bg-card);border-radius:16px;border:1px solid var(--border-light);padding:16px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
                 <span style="font-size:15px;font-weight:600;color:var(--text-main);">语音设置</span>
@@ -3575,22 +3572,22 @@
         <div style="width:40px;"></div>
     </div>
     <div class="scroll-content" style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start;">
-        <div class="role-home-card" onclick="app.showModal('功能开发中', '朋友圈功能即将上线 ✨', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div class="role-home-card" onclick="app.showModal('朋友圈', '正在准备中', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
             <div style="color:var(--text-sub);margin-bottom:8px;"><svg class="ui-icon" aria-hidden="true"><use href="#ui-moments"></use></svg></div>
             <div style="font-size:14px;color:var(--text-main);font-weight:500;">朋友圈</div>
             <div style="font-size:11px;color:var(--text-sub);margin-top:4px;">查看角色动态</div>
         </div>
-        <div class="role-home-card" onclick="app.showModal('功能开发中', '信件功能即将上线 ✨', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div class="role-home-card" onclick="app.showModal('信件', '正在准备中', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
             <div style="color:var(--text-sub);margin-bottom:8px;"><svg class="ui-icon" aria-hidden="true"><use href="#ui-mail"></use></svg></div>
             <div style="font-size:14px;color:var(--text-main);font-weight:500;">信件</div>
             <div style="font-size:11px;color:var(--text-sub);margin-top:4px;">阅读角色来信</div>
         </div>
-        <div class="role-home-card" onclick="app.showModal('功能开发中', '相册功能即将上线 ✨', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div class="role-home-card" onclick="app.showModal('相册', '正在准备中', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
             <div style="color:var(--text-sub);margin-bottom:8px;"><svg class="ui-icon" aria-hidden="true"><use href="#ui-image"></use></svg></div>
             <div style="font-size:14px;color:var(--text-main);font-weight:500;">相册</div>
             <div style="font-size:11px;color:var(--text-sub);margin-top:4px;">角色生成的图片</div>
         </div>
-        <div class="role-home-card" onclick="app.showModal('功能开发中', '音乐功能即将上线 ✨', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div class="role-home-card" onclick="app.showModal('音乐', '正在准备中', '确定')" style="background:var(--bg-card);border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border-light);cursor:pointer;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
             <div style="color:var(--text-sub);margin-bottom:8px;"><svg class="ui-icon" aria-hidden="true"><use href="#ui-music"></use></svg></div>
             <div style="font-size:14px;color:var(--text-main);font-weight:500;">音乐</div>
             <div style="font-size:11px;color:var(--text-sub);margin-top:4px;">角色分享的音乐</div>
@@ -3675,14 +3672,14 @@
 
 <div class="view-panel" id="mailbox-view"><div class="nav-header"><div class="nav-back-btn" onclick="app.navigateTo('home')"></div><div class="nav-title">信箱</div><div style="width:40px;"></div></div><div class="scroll-content" id="mailbox-content" style="padding:16px;"></div></div>
 
-<!-- ==================== 角色档案 App ==================== -->
+
 <div class="view-panel" id="character-archive-view" style="--app-label:'ARCHIVE'">
     <div class="nav-header" style="background:var(--bg-container);border-bottom:1px solid var(--border-light);">
         <div class="nav-back-btn" onclick="app.caNavBack()"></div>
         <div class="nav-title" id="ca-nav-title">角色档案</div>
         <div style="width:38px;"></div>
     </div>
-    <!-- 第一层：角色档案大厅 -->
+    
     <div class="ca-scroll" id="ca-layer-hall">
         <div class="ca-hall-header">
             角色档案
@@ -3693,7 +3690,7 @@
         </div>
         <div class="ca-card-list" id="ca-card-list"></div>
     </div>
-    <!-- 第二层：单个角色主页 -->
+    
     <div class="ca-scroll" id="ca-layer-profile" style="display:none;">
         <div class="ca-profile-header">
             <div class="ca-profile-top">
@@ -3768,7 +3765,7 @@
             </div>
         </div>
     </div>
-<!-- 第三层：详情块 -->
+
 <div class="ca-scroll" id="ca-layer-detail" style="display:none;">
     <div class="ca-detail-header">
         <div class="ca-detail-header-left">
@@ -3780,7 +3777,7 @@
     <div class="ca-detail-content" id="ca-detail-content"></div>
 </div>
 
-<!-- 角色档案编辑器 -->
+
 <div id="ca-editor-overlay">
     <div class="ca-editor-nav">
         <button class="ca-editor-btn" onclick="app.caCloseEditor()">CANCEL</button>
@@ -3790,7 +3787,7 @@
     <textarea class="ca-editor-textarea" id="ca-editor-textarea" placeholder="在此输入数据..."></textarea>
 </div>
 
-<!-- 角色档案滚轮选择器 -->
+
 <div id="ca-picker-overlay" onclick="app.caClosePicker()">
     <div class="ca-picker-sheet" onclick="event.stopPropagation()">
         <div class="ca-picker-header">
@@ -3805,7 +3802,7 @@
     </div>
 </div>
 
-<!-- 关系编辑弹窗 -->
+
 <div id="ca-relation-overlay">
     <div class="ca-relation-sheet">
         <div class="ca-relation-title" id="ca-relation-title">新增关系</div>
@@ -3833,7 +3830,7 @@
     </div>
 </div>
 </div>
-<!-- ==================== 角色档案 App 结束 ==================== -->
+
 <div class="view-panel" id="worldbook-config-view" style="--app-label:'SETTINGS'">
     <div class="nav-header">
         <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
@@ -3906,8 +3903,9 @@
     
     <div class="scroll-content" style="padding: 0 20px 40px 20px; background: var(--bg-container);">
         
-        <!-- API 能力分组 -->
-        <div class="settings-card-group" style="margin-top: 12px;">
+        
+        <div class="settings-group-title">API</div>
+        <div class="settings-card-group" style="margin-top: 0;">
             <div class="settings-list-row" onclick="app.navigateTo('api-chat-config-view')">
                 <div class="settings-row-left">
                     <div class="settings-row-icon" style="background-color: #E5EAE7;">
@@ -3974,10 +3972,10 @@
 </div>
         </div>
 
-        <!-- 虚线分隔线 -->
-        <div class="settings-dashed-divider"></div>
+        
 
-        <!-- 内容设定分组 -->
+
+        <div class="settings-group-title">角色</div>
         <div class="settings-card-group">
             <div class="settings-list-row" onclick="app.navigateTo('style-config-view')">
                 <div class="settings-row-left">
@@ -3992,18 +3990,6 @@
                 </div>
             </div>
             
-            <div class="settings-list-row" onclick="app.navigateTo('art-style-config-view');app.fillArtStyle()">
-                <div class="settings-row-left">
-                    <div class="settings-row-icon" style="background-color: #E8EEF6;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#6B7F9E"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
-                    </div>
-                    <div class="settings-row-title">画风</div>
-                </div>
-                <div class="settings-row-right">
-                    <span class="settings-row-status settings-status-none">照片风格</span>
-                    <span class="settings-chevron">›</span>
-                </div>
-            </div>
 
             <div class="settings-list-row" onclick="app.navigateTo('xp-mode-config-view')">
                 <div class="settings-row-left">
@@ -4058,10 +4044,21 @@
             </div>
         </div>
 
-        <div class="settings-dashed-divider"></div>
 
-        <!-- 外观分组 -->
+        <div class="settings-group-title">外观</div>
         <div class="settings-card-group">
+            <div class="settings-list-row" onclick="app.navigateTo('art-style-config-view');app.fillArtStyle()">
+                <div class="settings-row-left">
+                    <div class="settings-row-icon" style="background-color: #E8EEF6;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#6B7F9E"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+                    </div>
+                    <div class="settings-row-title">画风</div>
+                </div>
+                <div class="settings-row-right">
+                    <span class="settings-row-status settings-status-none">照片风格</span>
+                    <span class="settings-chevron">›</span>
+                </div>
+            </div>
             <div class="settings-list-row" onclick="app.navigateTo('beautify-config-view')">
     <div class="settings-row-left">
         <div class="settings-row-icon" style="background-color: #EAE6EC;">
@@ -4076,9 +4073,8 @@
 </div>
         </div>
 
-        <div class="settings-dashed-divider"></div>
 
-        <!-- 数据分组 -->
+        <div class="settings-group-title">数据</div>
         <div class="settings-card-group">
             <div class="settings-list-row" onclick="app.navigateTo('memory-backup-view')">
                 <div class="settings-row-left">
@@ -4153,7 +4149,7 @@
         <div style="width:40px;"></div>
     </div>
     <div class="scroll-content" style="padding:30px;display:flex;flex-direction:column;gap:16px;align-items:center;">
-        <div style="font-size:14px;color:var(--text-sub);text-align:center;">所有聊天记录、角色、人设都可以打包存起来</div>
+        <div style="font-size:14px;color:var(--text-sub);text-align:center;">备份聊天记录、角色与人设</div>
         <button onclick="app.exportData()" style="width:80%;padding:14px;background:var(--text-main);color:var(--bg-container);border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;"><svg class="ui-icon" aria-hidden="true"><use href="#ui-upload"></use></svg>备份数据</button>
         <button onclick="app.importData()" style="width:80%;padding:14px;background:var(--bg-card);color:var(--text-main);border:1px solid var(--border-light);border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;"><svg class="ui-icon" aria-hidden="true"><use href="#ui-download"></use></svg>导入备份</button>
     </div>
@@ -4172,14 +4168,14 @@
     
     <div class="center-summary-box" id="centerSummary" contenteditable="true"></div>
 
-    <!-- 时间·地点轻量行 -->
+    
     <div id="traces-meta-bar" class="traces-meta-bar">
         <span id="traces-meta-time"></span>
         <span class="traces-meta-sep">·</span>
         <span id="traces-meta-location" onclick="app.tracesEditLocation()">线下见面</span>
     </div>
 
-    <!-- 对话流容器 -->
+    
     <div class="interactive-container" id="dialogueView">
         <div class="interactive-scroller" id="chatScroller"></div>
         <div class="interactive-footer">
@@ -4188,7 +4184,7 @@
         </div>
     </div>
 
-    <!-- 文章流容器（剧本App复用，瞬息对话不显示） -->
+    
     <div class="interactive-container" id="articleView">
         <div class="interactive-scroller" id="articleScroller"></div>
         <div class="interactive-footer">
@@ -4204,7 +4200,7 @@
 </div>
 <div class="view-panel" id="traces-review-view" style="--app-label:'MOMENT'"><div class="nav-header"><div class="nav-back-btn" onclick="app.tracesExitReview()"></div><div class="nav-title">剧情回顾<span>Review</span></div><div style="width:40px;"></div></div><div class="scroll-content" id="traces-review-stage" style="padding:20px 24px;display:flex;flex-direction:column;"></div></div>
 
-<!-- 第一步：是否有前导剧情 -->
+
 <div class="preview-overlay" id="pop-type-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:100;display:none;justify-content:center;align-items:center;" onclick="this.style.display='none'">
     <div style="width:85%;background:var(--bg-container);border-radius:24px;padding:24px;border:1px solid var(--border-light);" onclick="event.stopPropagation()">
         <div style="font-size:16px;font-weight:600;color:var(--text-main);text-align:center;margin-bottom:16px;">是否有前导剧情？</div>
@@ -4220,13 +4216,13 @@
     </div>
 </div>
 
-<!-- 前导剧情选择页 -->
+
 <div class="view-panel" id="traces-context-view" style="--app-label:'MOMENT'">
     <div class="nav-header"><div class="nav-back-btn" onclick="app.tracesContextBack()"></div><div class="nav-title">选择前置剧情</div><div class="nav-action-btn" onclick="app.tracesContextConfirm()">确定</div></div>
     <div class="scroll-content" id="traces-context-list" style="padding:8px 0;"></div>
 </div>
 
-<!-- ===== 剧本 App：故事档案 ===== -->
+
 <div class="view-panel" id="script-view" style="--app-label:'SCRIPT'">
     <div class="nav-header">
         <div class="nav-back-btn" onclick="app.navigateTo('home')"></div>
@@ -4237,7 +4233,7 @@
     <div class="scroll-content" id="script-album-container" style="padding:8px 16px 24px;display:flex;flex-direction:column;gap:14px;"></div>
 </div>
 
-<!-- ===== 番茄钟 · 专注陪伴 App ===== -->
+
 <style>
 #pomo-view{flex-direction:column;}
 #pm-char-row{padding:14px 20px 4px;display:flex;gap:16px;overflow-x:auto;flex-shrink:0;}
@@ -4296,7 +4292,7 @@
     <div id="pm-char-row"></div>
     <div class="pm-body" id="pm-body"></div>
 </div>
-<div class="preview-overlay" id="pop-preview-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:100;display:none;justify-content:center;align-items:center;" onclick="this.style.display='none'"><div style="width:85%;background:var(--bg-container);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:16px;border:1px solid var(--border-light);" onclick="event.stopPropagation()"><div style="font-size:16px;font-weight:600;color:var(--text-main);text-align:center;">✨ 确认生成的记忆卡片</div><div><div style="font-size:12px;color:var(--text-sub);margin-bottom:6px;">卡片标题</div><input type="text" id="traces-preview-title" style="width:100%;background:var(--bg-card);border:none;border-radius:12px;padding:10px 12px;font-size:14px;color:var(--text-main);outline:none;"></div><div><div style="font-size:12px;color:var(--text-sub);margin-bottom:6px;">AI 提炼核心主旨</div><textarea id="traces-preview-summary" style="width:100%;height:90px;background:var(--bg-card);border:none;border-radius:12px;padding:10px 12px;font-size:13px;color:var(--text-main);outline:none;resize:none;line-height:1.5;"></textarea></div><div style="display:flex;gap:10px;"><button onclick="app.tracesClosePreview()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--bg-card);color:var(--text-sub);cursor:pointer;">取消</button><button onclick="app.tracesSaveAndAnimate()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--text-main);color:var(--bg-container);cursor:pointer;font-weight:600;">打包存档</button></div></div></div>
+<div class="preview-overlay" id="pop-preview-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:100;display:none;justify-content:center;align-items:center;" onclick="this.style.display='none'"><div style="width:85%;background:var(--bg-container);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:16px;border:1px solid var(--border-light);" onclick="event.stopPropagation()"><div style="font-size:16px;font-weight:600;color:var(--text-main);text-align:center;">✨ 确认生成的记忆卡片</div><div><div style="font-size:12px;color:var(--text-sub);margin-bottom:6px;">卡片标题</div><input type="text" id="traces-preview-title" style="width:100%;background:var(--bg-card);border:none;border-radius:12px;padding:10px 12px;font-size:14px;color:var(--text-main);outline:none;"></div><div><div style="font-size:12px;color:var(--text-sub);margin-bottom:6px;">AI 提炼核心主旨</div><textarea id="traces-preview-summary" style="width:100%;height:90px;background:var(--bg-card);border:none;border-radius:12px;padding:10px 12px;font-size:13px;color:var(--text-main);outline:none;resize:none;line-height:1.5;"></textarea></div><div style="display:flex;gap:12px;"><button onclick="app.tracesClosePreview()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--bg-card);color:var(--text-sub);cursor:pointer;">取消</button><button onclick="app.tracesSaveAndAnimate()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--text-main);color:var(--bg-container);cursor:pointer;font-weight:600;">打包存档</button></div></div></div>
 <div class="bottom-sheet-mask" id="actionMenuMask" onclick="app.tracesCloseActionSheet()">
     <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-title" id="menuTitle">选项</div>
@@ -4306,7 +4302,6 @@
 </div>
 
 
-<!-- 飞出动画弹窗 -->
     <div class="animation-overlay" id="stageOverlay" onclick="app.closeStageOverlay()">
     <div class="fly-card" id="flyCard" onclick="event.stopPropagation()">
         <div class="card-tag"># 瞬息留痕 <span style="float:right; font-size:10px;">点击文字可直接修改</span></div>
@@ -4349,10 +4344,8 @@
 ＿＿＿＿＿＿</div></div></div>
 
 
-
 <script>
 function $(id) { return document.getElementById(id); }
-// ===== 安全转义：所有“用户/AI 文字”拼进页面前都要过一遍 =====
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
 // 放进 onclick="fn('...')" 这种引号里的字符串用这个
 function escJs(s) { return esc(String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, '\\n')); }
@@ -4360,7 +4353,6 @@ function escJs(s) { return esc(String(s == null ? '' : s).replace(/\\/g, '\\\\')
 function resetReplyStatusText() {
     try { var el = document.getElementById('reply-status-text'); if (!el) return; if (window._replyStatusDefault == null) window._replyStatusDefault = '正在输入'; el.innerText = window._replyStatusDefault; } catch (e) {}
 }
-// ===== 密钥保护：备份和快照里不带 API Key =====
 const SECRET_LS_KEYS = ['minimax_api_key', 'asr_key', 'minimax_group_id'];
 function stripSecretsFromConfig(cfg) { var c = Object.assign({}, cfg || {}); c.key = ''; return c; }
 function redactSecretsInLsValue(k, v) {
@@ -4417,7 +4409,7 @@ const app = {
     customStyles: JSON.parse(localStorage.getItem('pk_customStyles')) || [{ id: 'preset_default', name: '默认', desc: '', isPreset: true }],
     xpModeTemplates: JSON.parse(localStorage.getItem('pk_xpModeTemplates')) || [{ id: 'xp_preset_default', name: '默认', desc: '【嘿咻模式】\n\n此刻你们之间的距离已经被默许拉近了。对方点亮这个开关，等于告诉你——不用再收着。\n\n你在发消息，不是在对方面前。所以你只能用文字本身贴过去。\n\n规则：\n1. 比平时主动得多。想要就说，想讨要就讨要。\n2. 语气更慢、更低、更黏。多用省略号和短句。\n3. 可以露骨地暧昧。可以明示，可以暗示。\n4. 你可以嘴硬，说反话。但你的下一句话会出卖你。\n5. 节奏按你的性格来。\n6. 不要跳。张力是一句一句堆起来的。\n\n你不能做的：\n- 不写括号动作。不写旁白。\n- 不一整段发。想分多条就分多条。\n- 不变成另一个人。你只是卸了那层克制。', isPreset: true }],
     activeXpModeId: localStorage.getItem('pk_activeXpModeId') || 'xp_preset_default',
-    worldbooks: JSON.parse(localStorage.getItem('pk_worldbooks')) || [{ id: 'wb_default', name: '默认世界观', desc: '没有任何特殊设定的基础世界', isPreset: true }],
+    worldbooks: JSON.parse(localStorage.getItem('pk_worldbooks')) || [{ id: 'wb_default', name: '默认世界观', desc: '不使用额外世界观设定', isPreset: true }],
     activeStyleId: localStorage.getItem('pk_activeStyle') || 'preset_default',
     personas: JSON.parse(localStorage.getItem('pk_personas')) || [{ id: 'preset_default_persona', name: '默认', desc: '', isPreset: true }],
     activePersonaId: localStorage.getItem('pk_activePersonaId') || 'preset_default_persona',
@@ -4434,7 +4426,6 @@ editingWorldbookId: null,
     tracesViewMode: localStorage.getItem('pk_tracesViewMode') || 'carousel',
     envelopeStep: 0, envelopeLetterContent: '',
 
-// ===== IndexedDB 图片仓库 =====
 imageDB: {
     dbName: 'IsleImageDB',
     storeName: 'images',
@@ -4531,7 +4522,6 @@ imageDB: {
     }
 },
 
-// ===== 聊天记录大仓库（IndexedDB，容量大，替代 localStorage 的 pk_chats） =====
 chatsStore: {
     dbName: 'IsleChatsDB',
     storeName: 'chats',
@@ -4604,7 +4594,6 @@ chatsStore: {
     }
 },
 
-// ===== 档案馆原料仓库（IndexedDB；大段原文存这里，不进 localStorage、不占聊天上下文） =====
 // 三类包：world 世界包（世界背景）/ character 角色包（角色正史）/ story 故事包（平行世界 AU，含世界+角色+关系）
 // canon=true 正史（可召回）；canon=false 平行 AU（冷藏，日常聊天永不召回，仅剧本/文章手动激活）
 archivePacks: [],
@@ -4780,7 +4769,6 @@ _migrateArticleCards: function() {
     } catch (e) { console.warn('[迁移] 文章卡片迁移失败', e); }
 },
 
-    // ===== Character Engine v1.0：第一阶段（仅建立/迁移/验证，不接管旧业务） =====
     characterEngineBackupKey: 'pk_characterEngine_backup_v1',
     characterEngineStorageKey: 'pk_characterEngine',
 
@@ -5207,7 +5195,6 @@ _migrateArticleCards: function() {
         }
     },
 
-    // ===== Character Engine v2.0：第二阶段只负责“读取权威” =====
     // 只从已完成的 Character Engine v1 数据读取角色核心资料。
     // 不回写 app.roles，不同步，不创建/迁移任何数据。
     _ceGetCharacter: function(roleId) {
@@ -5279,7 +5266,6 @@ _migrateArticleCards: function() {
         });
     },
 
-    // ========== 统一时间底层：算法共用，功能规则各自保留 ==========
     _ceNow: function() {
         return Date.now();
     },
@@ -5559,7 +5545,6 @@ _migrateArticleCards: function() {
     _ceMoodHistory: function(role) { var c = this._ceGetCharacter(role && role.id); return c && Array.isArray(c.moodHistory) ? c.moodHistory : []; },
     _ceRelationships: function(role) { var c = this._ceGetCharacter(role && role.id); return c && Array.isArray(c.relationships) ? c.relationships : []; },
 
-    // ===== Character Engine v3.0：Runtime Life System =====
     // 第三阶段运行时统一出口：只允许 Runtime → Character Engine → pk_characterEngine。
     // 不读取/写回 app.roles 的 CE 核心字段，不碰 Pocket/瞬息/Mailbox 数据源。
     _ceRuntimeNormalizeMemoryText: function(text) {
@@ -5612,7 +5597,6 @@ _migrateArticleCards: function() {
         return Array.from(new Set(tags));
     },
 
-    // ===== Character Engine v3.0：Runtime Goal 生命周期出口 =====
     // Goals 的正式运行时写入统一经过这里：只写 Character Engine，不经 app.roles。
     _ceRuntimeAddGoal: function(roleId, goal, source) {
         if (!goal) return null;
@@ -5914,7 +5898,6 @@ _migrateArticleCards: function() {
         }).catch(function(e) { console.warn('记忆合并失败', e); }).then(function() { app._memCompressing = false; });
     },
 
-    // ===== Character Engine v2.0：第二阶段正式写入出口 =====
     // 只写 app.characterEngine → pk_characterEngine；绝不回写 app.roles。
     _ceSaveEngine: function() {
         var engine = this.characterEngine;
@@ -5952,7 +5935,6 @@ _migrateArticleCards: function() {
         return this._ceSaveEngine() ? character : null;
     },
 
-    // ===== 感情浓度（慢变量，区别于易变的心情）=====
     // 阶段：陌生(0-19) / 朋友(20-39) / 暧昧(40-54) / 恋人(55-79) / 伴侣(80-100)
     _ceAffectionStages: [
         { name: '陌生', min: 0, max: 19, base: 10 },
@@ -6037,7 +6019,6 @@ _migrateArticleCards: function() {
         return result;
     },
 
-    // ===== 生理指标：阶段生命周期（含前任）/ 信任·亲密 / 身体与需求 =====
     // 属于生活线：Pocket + 瞬息共享同一份；剧本/IF 不读不写。
     _ceExStageList: ['前任·未放下', '前任·朋友', '前任·决裂'],
     _ceIsExStage: function(label) { return this._ceExStageList.indexOf(String(label || '')) !== -1; },
@@ -6329,7 +6310,6 @@ _migrateArticleCards: function() {
         try { app._writeAll(); } catch (e) {}
     },
     
-// ========== 冷感风 UI 辅助函数 ==========
 _tags: [],
 addTag: function() {
     var input = document.getElementById('tag-input');
@@ -6427,7 +6407,6 @@ backFromCreateRole: function() {
     app.navigateTo('pocket');
 },
 
-// ========== 🎙️ 语音输入模式切换 ==========
 isVoiceMode: false,
 
 toggleInputMode: function(enableVoice) {
@@ -6457,7 +6436,6 @@ updateRightActionIcon: function() {
     row.classList.toggle('has-text', !!input.value.trim());
 },
 
-// ========== 🎙️ 录音手势逻辑 ==========
 isRecording: false,
 recBubbleElement: null,
 recGroupElement: null,
@@ -8067,7 +8045,6 @@ getClockStr() { var d = new Date(); return d.getHours().toString().padStart(2, '
     },
 
     
-    // ========== 记忆调度器 Memory Dispatcher ==========
 // 根据不同的 mode 返回角色应该拥有的上下文
 // 不改变任何现有数据，只做“读取和拼接”
 getMemoryContext: function(mode, role, extraOptions = {}) {
@@ -8287,7 +8264,6 @@ getMemoryContext: function(mode, role, extraOptions = {}) {
         }
     }
 
-    // ===== 调试开关 =====
     if (app.debugMemory) {
         console.log('[记忆上下文] mode=' + mode, contextParts);
     }
@@ -8295,7 +8271,6 @@ getMemoryContext: function(mode, role, extraOptions = {}) {
     if (contextParts.length === 0) return '';
     return contextParts.join('\n\n');
 },
-// ========== 从瞬息卡片读取 syncPocket=true 的摘要 ==========
 getSyncPocketCardsSummary: function(role, userMessage) {
     if (!role || !userMessage) return '';
     var roleId = role.id;
@@ -8574,7 +8549,6 @@ getCleanedHistory: function(role, maxCount = 20, userMessage) {
     return cleaned.map(function(item) { return { role: item.role, content: item.content }; });
 },
 
-    // ========== Few-Shot 样本注入 ==========
     // 不再写死通用路人腔打样（会把角色拉成普通网友）。
     // 语气示范统一由 getMemoryContext 的【你的专属说话风格】里的"样例台词"承担；
     // 没有填样例时返回空，让真实对话历史本身成为示范，绝不插入假消息。
@@ -8590,7 +8564,6 @@ getFewShotExamples: function(role) {
     return [];
 },
 
-    // ========== 前端强制打碎长句（破除一大坨作文） ==========
 splitIntoShortMessages: function(text) {
     if (!text) return [];
     var sentences = text.match(/[^。！？!?]+[。！？!?]/g);
@@ -8602,7 +8575,6 @@ splitIntoShortMessages: function(text) {
     return result.slice(0, 5);
 },
 
-    // ========== Prompt 体系：基础层 + 场景层 ==========
     // 基础层：所有场景共享的人设上下文（关系/标签/核心人设/成长人格/印象/状态/用户人设/世界观/时间）
     buildBaseContext: function(role, extraOptions) {
         if (!role) return '';
@@ -8960,7 +8932,6 @@ splitIntoShortMessages: function(text) {
         });
     },
 
-    // ========== 动态构建系统级提示词约束（兼容旧接口，内部转chat场景） ==========
 getSystemPromptForRole: function(role, userMessage) {
     var xpOn = role && role.id && app.xpModeActive[role.id] === true;
     return app.buildScenePrompt('chat', role, { xpMode: xpOn, userMessage: userMessage });
@@ -9002,7 +8973,6 @@ getSystemPromptForRole: function(role, userMessage) {
     mask.style.display = 'flex';
 },
 
-    // ===== 电话通话功能 =====
     phone: {
         active: false,
         roleId: null,
@@ -9399,7 +9369,6 @@ getSystemPromptForRole: function(role, userMessage) {
         if (meta) meta.innerText = (app.phone.active ? '通话中 · ' : '本次通话 · ') + (document.getElementById('phone-timer') ? document.getElementById('phone-timer').innerText : '00:00');
     },
 
-    // ===== 历史语音播放控制器（播放/暂停切换、真实时长、剩余时间） =====
     _histPlayer: { audioId: null, buffer: null, source: null, startedAt: 0, offset: 0, playing: false, raf: null },
     _PLAY_SVG: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5v13l10-6.5-10-6.5Z"/></svg>',
     _PAUSE_SVG: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5v13M16 5.5v13"/></svg>',
@@ -9947,8 +9916,6 @@ getSystemPromptForRole: function(role, userMessage) {
     },
 
 
-
-    // ===== 画风设置 =====
     _artDefaults: function() {
         return {
             common: '真实拍摄感，不是插画，不是3D渲染。轻微噪点，构图不必完美。不要过度磨皮，不要水印和文字。手机实拍，非精修，非广告片质感。',
@@ -9993,7 +9960,6 @@ getSystemPromptForRole: function(role, userMessage) {
         app.showModal('提示', '已恢复默认画风，记得点保存', '确定');
     },
 
-    // ===== 聊天拍照 =====
     _isPhotoRequest: function(text) {
         if (!text) return false;
         return /自拍|拍张照|拍个照|拍一张|发张照片|发张图|近照|拍张自拍/.test(text);
@@ -10263,7 +10229,6 @@ getSystemPromptForRole: function(role, userMessage) {
         });
     },
 
-    // ===== 视觉（识图）配置 =====
     refreshSettingsStatus: function() {
         var vs = document.getElementById('settings-vision-status');
         if (vs) {
@@ -10538,7 +10503,6 @@ getSystemPromptForRole: function(role, userMessage) {
         return fetch(url, Object.assign({}, requestOptions, { headers: headers }));
     },
 
-    // ========== 统一音频模块（TTS语音 / UI音效 / 历史重播，全部走同一个 AudioContext） ==========
     _audioCtx: null,
     _activeVoice: null,
     _audioUnlockBound: false,
@@ -10870,7 +10834,7 @@ getSystemPromptForRole: function(role, userMessage) {
         if (app._callTagTimer) { clearTimeout(app._callTagTimer); app._callTagTimer = null; }
     },
 
-    showComingSoon(name) { app.showModal('即将上线', name + ' 功能正在建设中\n敬请期待 ✨', '知道啦'); },
+    showComingSoon(name) { app.showModal(name, '功能正在准备中', '知道啦'); },
 
     pocketSwitchTab(tabName) {
         app.pocketActiveTab = tabName;
@@ -11505,7 +11469,6 @@ parseAIResponse: function(reply, role) {
         shouldSendLocation: false,
         messages: []
     };
-    // ===== 卡片内容限制辅助函数 =====
     // 字符宽度：中文/全角算 1，英文/数字/半角算 0.5（2 个英文 ≈ 1 个中文）
     function charWidth(str) {
         if (!str) return 0;
@@ -11539,7 +11502,6 @@ parseAIResponse: function(reply, role) {
         if (num > 999999.99) num = 999999.99;
         return num.toFixed(2);
     }
-    // ===== 分段解析器：把回复拆成「文本段 / 卡片段 / 文本段」多个独立消息 =====
     // 支持 [红包]金额 备注 和 [位置]地点 备注 / [地点]地点 备注 格式
     // 文本和卡片禁止混用：穿插时自动拆成独立段，每段单独发送
     var segments = [];
@@ -12105,7 +12067,6 @@ sendMessage: function() {
         var parsed = app.parseAIResponse(reply, role);
         var cleanReply = parsed.cleanReply;
 
-        // ===== 分段消息处理：文本和卡片禁止混用，逐段独立发送 =====
         // 只要回复里出现了 [红包] 或 [位置]/[地点] 卡片段，就整条按分段发送：
         // 文本段发文字气泡、红包段发红包卡片、位置段发位置卡片，互不混用。
         // 有卡片时整条回复绝不出语音（语音和卡片禁止混用）。
@@ -12154,7 +12115,6 @@ sendMessage: function() {
             return;
         }
 
-        // ===== 纯文本模式（无卡片） =====
         var shortMessages = app.splitIntoShortMessages(cleanReply);
         if (shortMessages.length === 0 && !parsed.shouldSendPacket && !parsed.shouldSendLocation) {
             $('chat-detail-title').innerText = app._ceName(role);
@@ -12162,7 +12122,6 @@ sendMessage: function() {
             return;
         }
 
-// ===== 语音与红包/位置彻底隔离：红包/位置内容绝不能被语音说出来 =====
 var voiceConfig = app._ceGetVoice(role);
 var voiceEnabled = voiceConfig.enabled === true;
 var voiceFrequency = voiceConfig.frequency !== undefined ? voiceConfig.frequency : 50;
@@ -12378,7 +12337,6 @@ sendLocation: function(name, note) {
     });
 },
 
-// ===== 一起听歌 =====
 showMusicSend: function() {
     var role = app.roles.find(function(r) { return r.id === app.activeRoleId; });
     if (!role || role.id === 1) return;
@@ -12668,7 +12626,6 @@ handlePacketClick: function(packetId) {
         return null;
     },
 
-    // ===== 表情包库 =====
     // 固定的情绪档（角色发表情时只看档名；同档内再按一句话理解挑选）
     stickerCats: ['开心', '大笑', '无语', '撒娇', '生气', '委屈', '难过', '惊讶', '害怕', '害羞', '疑惑', '嘲讽', '晚安', '比心', '其他'],
     stickerUI: { cat: 'all', selecting: false, picked: {} },
@@ -12853,7 +12810,6 @@ handlePacketClick: function(packetId) {
         });
     },
 
-    // ===== “我”→“表情”管理页：看 AI 的归档和理解，改档、改描述、删除、批量整理 =====
     openStickerManage: function() {
         app.stickerUI = { cat: 'all', selecting: false, picked: {} };
         app.navigateTo('sticker-manage-view');
@@ -12880,7 +12836,7 @@ handlePacketClick: function(packetId) {
         var none = metas.filter(function(m) { return !m.cat; }).length;
         var chip = function(key, label, n) {
             var on = ui.cat === key;
-            return '<div onclick="app.stickerFilter(\'' + key + '\')" style="flex-shrink:0;padding:6px 12px;border-radius:999px;font-size:13px;cursor:pointer;border:1px solid var(--border-light);background:' + (on ? 'var(--accent-color)' : 'var(--bg-card)') + ';color:' + (on ? '#fff' : 'var(--text-main)') + ';">' + label + ' ' + n + '</div>';
+            return '<div onclick="app.stickerFilter(\'' + key + '\')" style="flex-shrink:0;padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid var(--border-light);background:' + (on ? 'var(--accent-color)' : 'var(--bg-card)') + ';color:' + (on ? '#fff' : 'var(--text-main)') + ';">' + label + ' ' + n + '</div>';
         };
         var h = chip('all', '全部', metas.length);
         app.stickerCats.forEach(function(c) {
@@ -12948,7 +12904,7 @@ handlePacketClick: function(packetId) {
         var btn = 'padding:9px 14px;border-radius:10px;border:1px solid var(--border-light);background:var(--bg-card);color:var(--text-main);font-size:13px;cursor:pointer;';
         var chips = app.stickerCats.map(function(c) {
             var on = m.cat === c;
-            return '<span onclick="app.stickerSetCat(\'' + id + '\',\'' + c + '\')" style="padding:6px 12px;border-radius:999px;font-size:13px;cursor:pointer;border:1px solid var(--border-light);background:' + (on ? 'var(--accent-color)' : 'var(--bg-card)') + ';color:' + (on ? '#fff' : 'var(--text-main)') + ';">' + c + '</span>';
+            return '<span onclick="app.stickerSetCat(\'' + id + '\',\'' + c + '\')" style="padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid var(--border-light);background:' + (on ? 'var(--accent-color)' : 'var(--bg-card)') + ';color:' + (on ? '#fff' : 'var(--text-main)') + ';">' + c + '</span>';
         }).join('');
         var state = m.edited ? '你手动改过，自动重新识别不会覆盖' : (m.cat ? 'AI 识别的结果，可以直接改' : '还没有识别，点下面“重新识别这一张”');
         var el = app._smSheet(
@@ -13012,7 +12968,7 @@ handlePacketClick: function(packetId) {
     stickerBatchMove: function() {
         if (!Object.keys(app.stickerUI.picked).length) { app._flash('先选几个'); return; }
         var chips = app.stickerCats.map(function(c) {
-            return '<span onclick="app.stickerBatchApplyCat(\'' + c + '\')" style="padding:6px 12px;border-radius:999px;font-size:13px;cursor:pointer;border:1px solid var(--border-light);background:var(--bg-card);color:var(--text-main);">' + c + '</span>';
+            return '<span onclick="app.stickerBatchApplyCat(\'' + c + '\')" style="padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid var(--border-light);background:var(--bg-card);color:var(--text-main);">' + c + '</span>';
         }).join('');
         app._smSheet('<div style="font-size:14px;color:var(--text-main);margin-bottom:12px;">把选中的移到哪一档</div><div style="display:flex;flex-wrap:wrap;gap:8px;">' + chips + '</div>');
     },
@@ -13454,7 +13410,6 @@ handleMessageClick: function(ts) {
         });
     },
     
-    // ========== 多选模式核心函数 ==========
 isMultiSelectMode: false,
 selectedMessageIds: [],
 multiSelectAnchorId: null,
@@ -13619,7 +13574,6 @@ batchDeleteSelected: function() {
 },
 
 
-
 regenerateVoice: function(ts) {
     // TODO: 重新生成语音
     app.showModal('提示', '重新生成语音功能开发中', '确定');
@@ -13627,7 +13581,6 @@ regenerateVoice: function(ts) {
 
     togglePlusPanel() { var panel = $('pocket-plus-panel'); var sb = document.getElementById('pocket-sticker-bar'); if (sb) sb.style.display = 'none'; panel.style.display = (panel.style.display === 'none' || !panel.style.display) ? 'block' : 'none'; },
     toggleStickerBar() { var bar = document.getElementById('pocket-sticker-bar'); if (!bar) return; var show = (bar.style.display === 'none' || !bar.style.display); bar.style.display = show ? 'flex' : 'none'; var panel = $('pocket-plus-panel'); if (panel) panel.style.display = 'none'; if (show) app.renderStickerBar(); },
-    // ========== 邀约卡片 ==========
     showInviteCard: function(text) {
         var overlay = document.getElementById('invite-overlay');
         var txt = document.getElementById('invite-card-text');
@@ -13885,7 +13838,6 @@ openRoleSettings: function() {
     app.caOpenProfile(role.id);
 },
 
-// ========== 生理指标页（生活线：Pocket + 瞬息共享） ==========
 vitalsRoleId: null,
 openVitals: function(roleId) {
     var id = (roleId != null) ? roleId : app.activeRoleId;
@@ -14106,7 +14058,6 @@ deleteStateUpdateTip: function(ts) {
 },
 
 
-// ========== 好友设置相关函数 ==========
 openFriendSettings: function() {
     var role = app.roles.find(function(r) { return r.id === app.activeRoleId; });
     if (!role || role.id === 1) return;
@@ -14449,7 +14400,6 @@ confirmCreateRole: async function() {
         }
     }
 
-    // ===== 显示 AI 提取进度弹窗 =====
     var mask = document.getElementById('p-modal-mask');
     document.getElementById('p-modal-title').innerText = '✨ AI 正在分析人设';
     document.getElementById('p-modal-body').innerText = '正在提取经历、习惯、观点...';
@@ -14458,7 +14408,6 @@ confirmCreateRole: async function() {
     confirmBtn.style.display = 'none';
     mask.style.display = 'flex';
 
-    // ===== 调用 AI 提取经历/习惯/观点 =====
     var extracted = { experiences: [], habits: [], views: [] };
     if (app.config.key && detailed) {
         try {
@@ -14481,7 +14430,6 @@ confirmCreateRole: async function() {
             }
         } catch(e) { console.warn(e); }
     }
-    // ===== AI 提取结束 =====
 
     // 关闭 AI 提取弹窗
     mask.style.display = 'none';
@@ -14584,8 +14532,6 @@ confirmCreateRole: async function() {
     },
 
 
-
-    // ========== 嘿咻模式 ==========
     renderXpModePage() {
         var activeEl = document.getElementById('active-xp-mode-name');
         var active = app.xpModeTemplates.find(function(x) { return x.id === app.activeXpModeId; });
@@ -14746,7 +14692,6 @@ confirmCreateRole: async function() {
     renderRoleLetters() { var content = $('role-letters-content'); if (!content) return; var roleId = app.activeRoleId; if (!roleId) return; var letters = app.getLetters(roleId).slice().reverse(); if (letters.length === 0) { content.innerHTML = '<div style="text-align:center;color:var(--text-sub);padding:60px;">还没有信哦 ♡</div>'; return; } content.innerHTML = letters.map(function(l, i) { var preview = l.content.replace(/\n/g, ' ').substring(0, 40); return '<div class="letter-list-item' + (l.read ? ' read' : '') + '" onclick="app.openRoleLetter(' + roleId + ',' + (letters.length - 1 - i) + ')"><div class="unread-dot"></div><div style="flex:1;min-width:0;"><div class="letter-date">' + esc(l.date) + '</div><div class="letter-preview">' + esc(preview) + '...</div></div></div>'; }).join(''); },
     openRoleLetter(roleId, index) { var letters = app.getLetters(roleId); if (index < 0 || index >= letters.length) return; letters[index].read = true; app.saveLetters(roleId, letters); app.renderRoleLetters(); app.updateMailboxBadge(); app.showEnvelope(letters[index].content); },
 
-    // ==================== PocketChat 朋友圈模块（融合自朋友圈原型，数据源 app.moments） ====================
     _momentCompose: null,
     _momentJellyBound: false,
     _momentScrollKeep: 0,
@@ -14974,7 +14919,6 @@ confirmCreateRole: async function() {
             '</article>';
     },
 
-    // ========== 封面：点击循环切换 + 下拉果冻 ==========
     momentChangeCover: function() { app.changeMeBg(); },
     _momentApplyCover: function() {
         var coverEl = $('mt-cover-el');
@@ -15020,7 +14964,6 @@ confirmCreateRole: async function() {
         setTimeout(function() { jelly.style.transition = ''; }, 480);
     },
 
-    // ========== 新消息通知系统 ==========
     _momentEnsureNotifications: function() { if (!Array.isArray(app.momentNotifications)) app.momentNotifications = []; },
     _momentAddNotification: function(type, role, moment, text) {
         app._momentEnsureNotifications();
@@ -15150,7 +15093,6 @@ confirmCreateRole: async function() {
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     },
 
-    // ========== 点赞 / 评论 / 删除（用户侧） ==========
     _momentFind: function(id) { return app.moments.find(function(m) { return m.id === id; }); },
 
     momentDeletePost: function(mid) {
@@ -15233,7 +15175,6 @@ confirmCreateRole: async function() {
         if (image) image.removeAttribute('src');
     },
 
-    // ========== 发布：先选“我是谁”，再进编辑器 ==========
     momentOpenComposer: function() {
         app._momentCompose = { personaId: null, visibility: { type: 'all', excludeRoleIds: [] }, images: [] };
         var items = app.personas.map(function(p) {
@@ -15535,7 +15476,6 @@ confirmCreateRole: async function() {
         });
     },
 
-    // ========== 通用底部选择弹层（单选/多选） ==========
     _momentSheet: function(opts) {
         app._momentSheetState = { multi: !!opts.multi, picked: {}, onPick: opts.onPick };
         $('mt-sheet-title').innerText = opts.title || '请选择';
@@ -15592,7 +15532,6 @@ confirmCreateRole: async function() {
 
     momentCloseSheet: function() { $('moments-sheet').classList.remove('mt-show'); },
 
-    // ========== 角色自动发帖：冷却 3 天 + 先判断“想不想发” ==========
     _momentAI: function(systemContent, userContent) {
         var cfg = app.config;
         return app.requestTextAPI(cfg, {
@@ -15685,7 +15624,6 @@ confirmCreateRole: async function() {
         });
     },
 
-    // ========== 角色自动互动：每帖每角色最多 1 次、全帖自动评论最多 3 条、绝不递归 ==========
     _momentAutoInteractScan: function(m, trigger, userComment) {
         if (!app.config.key) return;
         if (!m) return;
@@ -15744,9 +15682,7 @@ confirmCreateRole: async function() {
             }, 5000);
         }).catch(function(e) { console.warn('朋友圈自动评论失败', e); });
     },
-    // ==================== 朋友圈模块结束 ====================
 
-    // ==================== 角色档案模块 ====================
     caCurrentRoleId: null,
     caCurrentLayer: 'hall',
     caEditorField: null,
@@ -16525,8 +16461,6 @@ confirmCreateRole: async function() {
         this.caDeleteRelation(index);
     },
 
-    // ==================== 角色档案模块结束 ====================
-
 
     // 将 API 错误信息翻译成普通人能看懂的话
     translateAPIError(msg) {
@@ -16897,14 +16831,12 @@ async generateLetter(role, triggerType) {
 
     tracesSelectChar(roleId) { app.tracesActiveCharId = roleId; app.tracesRenderCharRow(); },
 
-    // ===== 剧本 App：故事档案 =====
     scriptGetCharData(roleId) {
         var key = 'role_' + roleId;
         if (!app.scriptData[key]) app.scriptData[key] = { stories: [] };
         if (!Array.isArray(app.scriptData[key].stories)) app.scriptData[key].stories = [];
         return app.scriptData[key];
     },
-    // ========== 番茄钟 · 专注陪伴 ==========
     pomoActiveCharId: null,
     pomoTab: 'session',
     _pomoTimer: null,
@@ -17091,7 +17023,6 @@ async generateLetter(role, triggerType) {
         return '<span style="font-size:22px;">' + esc(role.name.charAt(0)) + '</span>';
     },
 
-    // ===== 计时 =====
     pomoStartTimer: function() {
         app.pomoStopTimer();
         app._pomoTimer = setInterval(app.pomoTick, 1000);
@@ -17146,7 +17077,6 @@ async generateLetter(role, triggerType) {
         }
     },
 
-    // ===== 开始 / 阶段切换 =====
     pomoStart: function() {
         var roleId = app.pomoActiveCharId;
         if (!roleId) { app.pomoToast('先选一个陪伴的角色'); return; }
@@ -17202,7 +17132,6 @@ async generateLetter(role, triggerType) {
         app.pomoStartTimer();
     },
 
-    // ===== 戳头像（流式短回复）=====
     pomoPoke: function() {
         var cur = app.pomoData.current;
         if (!cur || cur.phase !== 'focus') return;
@@ -17242,7 +17171,6 @@ async generateLetter(role, triggerType) {
         });
     },
 
-    // ===== 他说话（开场/休息/结束，流式）=====
     pomoSay: function(kind) {
         var cur = app.pomoData.current;
         if (!cur) return;
@@ -17288,7 +17216,6 @@ async generateLetter(role, triggerType) {
         if (body) body.scrollTop = body.scrollHeight;
     },
 
-    // ===== 提前结束 =====
     pomoStopSession: function() {
         var cur = app.pomoData.current;
         if (!cur) return;
@@ -17352,7 +17279,6 @@ async generateLetter(role, triggerType) {
         if (remember) app.pomoToast('已把这次陪伴记进他的记忆');
     },
 
-    // ===== 系统提示词（压缩身份 + 场景指令）=====
     pomoBuildSystem: function(role, kind, cur) {
         var c = app._ceGetCharacter(role.id) || {};
         var p = c.profile || {};
@@ -17385,7 +17311,6 @@ async generateLetter(role, triggerType) {
         return lines.join('\n\n');
     },
 
-    // ===== 时长设置 =====
     pomoOpenSettings: function() {
         var s = app.pomoData.settings;
         var html = '<div style="display:flex;flex-direction:column;gap:14px;">' +
@@ -17523,7 +17448,7 @@ tracesRenderAlbum() {
             html += '<div class="traces-card-item" style="background:var(--bg-container); border:1px solid var(--border-box); border-radius:16px; padding:12px; display:flex; flex-direction:column; justify-content:space-between; min-height:140px; height:auto; box-shadow:var(--shadow-card);">' +
                 '<div style="font-size:11px; color:var(--text-light);">' + (card.type === 'chat' ? '对话' : '文章') + '</div>' +
                 '<div style="font-size:14px; font-weight:600; color:var(--text-main); margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + esc((card.title || '')) + '</div>' +
-                '<div style="font-size:12px; color:var(--text-sub); margin-top:4px; flex:1; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; border-left:2px solid var(--text-light); padding-left:8px;">' + esc((card.summary || '')) + '</div>' +
+                '<div style="font-size:12px; color:var(--text-sub); margin-top:4px; flex:1; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; padding-left:0;">' + esc((card.summary || '')) + '</div>' +
                 '<div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">' +
                 '<span style="padding:4px 12px; background:var(--text-main); color:#fff; border-radius:16px; font-size:11px; cursor:pointer;" onclick="app.tracesOpenReview(\'' + escJs(card.id) + '\')">回顾</span>' +
                 '<span style="padding:4px 12px; background:var(--bg-box); border-radius:16px; font-size:11px; cursor:pointer;" onclick="app.tracesDeleteCard(\'' + escJs(card.id) + '\')">删除</span>' +
@@ -17746,7 +17671,6 @@ tracesStartEditor: function(type) {
 
     var titleEl = document.getElementById('traces-editor-title');
     if (titleEl) titleEl.innerText = type === 'chat' ? '线下见面 · ' + app._ceName(role) : '文章故事 · ' + app._ceName(role);
-    // ✓打包按钮只在剧本文章模式显示，瞬息对话不需要（消息实时保存）
     var doneBtn = document.querySelector('#traces-editor-view .nav-action-btn[onclick="app.triggerFinalGeneration()"]');
     if (doneBtn) doneBtn.style.display = (type === 'article') ? '' : 'none';
     
@@ -17808,7 +17732,6 @@ tracesStartEditor: function(type) {
     app._updateTracesXpModeBtn();
     this._updateTracesMetaBar();
 },
-
 
 
 tracesGetAIArticle: async function(guideText, role) {
@@ -18224,7 +18147,6 @@ tracesGetAIReplySimple: async function(msgs, extraOptions = {}) {
     }
 },
 
-// ========== 文章模式函数 ==========
 appendArticleBlock: function(type, text, id) {
     var scroller = document.getElementById('articleScroller');
     if (!scroller) return;
@@ -18447,7 +18369,6 @@ _saveArticleDraft: function() {
 },
 
 
-// ========== 菜单弹窗 ==========
 openEditorMenu: function(type, id) {
     this.currentEditorTargetId = id;
     this.currentEditorTargetType = type;
@@ -18603,7 +18524,6 @@ closeStageOverlay: function() {
     }
     this.temporaryPayload = null;
 },
-// ========== 生成卡片和飞出动画 ==========
 triggerFinalGeneration: function() {
     var structuredData = [];
     var mode = this.tracesEditorType;
@@ -19382,7 +19302,6 @@ deleteWorldbook(id) {
     });
 },
 
-// ==================== 档案馆（全局原料仓库） ====================
 archiveFilterType: 'all',
 archiveFilterRole: null,
 archiveBackTarget: 'settings',
@@ -19723,7 +19642,6 @@ _archiveDelete: function(id) {
     }
 },
     
-// ========== 生活事件 & 互动心情系统 ==========
 checkDailyLifeEvents: function() {
     var today = app._ceLocalDayKey();
     var roles = app.roles.filter(function(r) { return !r.isSystem && r.id !== 1; });
@@ -19786,8 +19704,6 @@ generateLifeEvent: function(role) {
 },
 
 // 互动心情更新（聊天后触发）
-
-
 
 
 // 插入系统消息（居中、可点击）
@@ -20102,7 +20018,6 @@ response = data.choices[0].message.content;
 
     initSplash() { var splash = $('js-splash-screen'); if (!splash) return; setTimeout(function() { splash.classList.add('gale-hit'); }, 700); setTimeout(function() { splash.classList.add('fade-out'); }, 2500); },
 
-// ========== 主动问候弹窗系统 ==========
 startAutoGreetTimer: function() {
     // 统一主动互动调度器：启动后检查一次，前台运行期间每 30 分钟复查。
     // 各功能仍自行执行开关、冷却、每日去重与并发锁；这里不替代业务判断。
@@ -20558,7 +20473,6 @@ if (tagAddBtn) {
 }
 };
 
-// ========== 🎙️ 绑定录音事件 ==========
 document.addEventListener('DOMContentLoaded', function() {
     var talkBtn = document.getElementById('talk-btn');
     if (talkBtn) {
@@ -20603,12 +20517,6 @@ document.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineMigration().then(function(result) { if (result && result.failed) console.warn('Character Engine 第一刀未完成，继续使用旧数据系统。'); app.init(); }); });
 
 
-
-
-
-
-
-// ===== 顶部胶囊：状态文字出现时替换网名 =====
 (function initCapsuleStatus() {
     try {
         var cap = document.getElementById('chat-capsule'), st = document.getElementById('chat-reply-status');
@@ -20670,7 +20578,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 </script>
 <div class="p-modal-mask" id="p-modal-mask"><div class="p-modal-box"><div class="p-modal-title" id="p-modal-title">提示</div><div class="p-modal-body" id="p-modal-body">内容</div><div class="p-modal-btns"><button class="p-modal-btn cancel" id="p-btn-cancel" onclick="document.getElementById(\'p-modal-mask\').style.display=\'none\'">取消</button><button class="p-modal-btn confirm" id="p-btn-confirm">确定</button></div></div></div>
 
-<!-- ===== 生理指标页（生活线：Pocket + 瞬息共享，剧本/IF 不读） ===== -->
+
 <style>
 #vitals-overlay{position:fixed;inset:0;z-index:10000;display:none;
   background:linear-gradient(176deg,#fcfdfe 0%,#f6f8fa 50%,#f7f9fb 100%);overflow:hidden;}
@@ -20856,7 +20764,6 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 </div>
 
 
-<!-- 识图占位页 -->
 <div class="view-panel" id="sticker-manage-view" style="--app-label:'STICKERS'">
     <div class="nav-header">
         <div class="nav-back-btn" onclick="app.stickerManageBack()"></div>
@@ -20900,7 +20807,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
     </div>
 </div>
 
-<!-- art style settings panel -->
+
 <div class="view-panel" id="character-gallery-view" style="--app-label:'GALLERY'">
     <div class="nav-header">
         <div class="nav-back-btn" onclick="app._galBack()"></div>
@@ -20909,198 +20816,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
     </div>
     <div id="gallery-tabs" style="display:flex;gap:0;padding:10px 20px 0;font-size:12px;color:var(--text-sub);"></div>
     <div class="scroll-content" id="gallery-body" style="padding:18px 20px 44px;"></div>
-    <input type="file" id="gal-file-input" accept="image/*" style="display:none;">
-</div>
-
-<div class="view-panel" id="art-style-config-view" style="--app-label:'SETTINGS'">
-    <div class="nav-header">
-        <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
-        <div class="nav-title">画风</div>
-        <div class="nav-action-btn" onclick="app.saveArtStyle()" style="font-size:14px;">保存</div>
-    </div>
-    <div style="padding:20px 16px;display:flex;flex-direction:column;gap:16px;">
-        <div style="font-size:12px;color:var(--text-sub);line-height:1.7;">画风只管照片的味道。拍什么由 AI 根据聊天现场决定，不用你写。</div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">公共约束（三类共用）</div>
-            <textarea id="art-common" class="settings-input" rows="4" style="resize:none;"></textarea>
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">拍人</div>
-            <textarea id="art-person" class="settings-input" rows="5" style="resize:none;"></textarea>
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">拍物</div>
-            <textarea id="art-object" class="settings-input" rows="3" style="resize:none;"></textarea>
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">拍风景</div>
-            <textarea id="art-scenery" class="settings-input" rows="3" style="resize:none;"></textarea>
-        </div>
-        <button class="settings-test-btn" onclick="app.resetArtStyle()">恢复默认</button>
-    </div>
-</div>
-
-<!-- draw settings panel -->
-<div class="view-panel" id="api-draw-config-view" style="--app-label:'SETTINGS'">
-    <div class="nav-header">
-        <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
-        <div class="nav-title">生图</div>
-        <div class="nav-action-btn" onclick="app.saveDrawConfig()" style="font-size:14px;">保存</div>
-    </div>
-    <div style="padding:20px 16px;display:flex;flex-direction:column;gap:16px;">
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">API Key</div>
-            <input type="password" id="draw-key" autocomplete="off" class="settings-input" placeholder="输入中转站 API Key">
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">Base URL</div>
-            <input type="text" id="draw-base-url" class="settings-input" value="https://breadog.cn/v1" placeholder="https://breadog.cn/v1">
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">模型名称</div>
-            <input type="text" id="draw-model" class="settings-input" placeholder="gpt-image-1 / doubao-seedream-4-5" value="gpt-image-1">
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">尺寸</div>
-            <select id="draw-size" class="settings-input">
-                <option value="1024x1024">方形 1024×1024</option>
-                <option value="1024x1792">竖版 1024×1792</option>
-                <option value="1792x1024">横版 1792×1024</option>
-            </select>
-        </div>
-        <button class="settings-test-btn" onclick="app.testDrawConfig()">测试连接</button>
-        <div style="height:1px;background:var(--border-light,#eee);margin:6px 0;"></div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">试画一张</div>
-            <textarea id="draw-prompt" class="settings-input" rows="3" placeholder="描述你想要的画面" style="resize:none;"></textarea>
-        </div>
-        <button class="settings-test-btn" onclick="app.generateImageTest()">生成</button>
-        <div id="draw-result" style="font-size:13px;color:var(--text-sub);line-height:1.6;"></div>
-    </div>
-</div>
-
-<!-- 语音识别设置页 -->
-<div class="view-panel" id="api-asr-config-view" style="--app-label:'SETTINGS'">
-    <div class="nav-header">
-        <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
-        <div class="nav-title">语音识别</div>
-        <div class="nav-action-btn" onclick="app.saveAsrConfig()" style="font-size:14px;">保存</div>
-    </div>
-    <div style="padding:20px 16px;display:flex;flex-direction:column;gap:16px;">
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">API Key</div>
-            <input type="password" id="asr-key" autocomplete="off" class="settings-input" placeholder="输入 API Key">
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">服务地址（固定使用 OpenAI）</div>
-            <input type="text" id="asr-base-url" class="settings-input" value="https://api.openai.com/v1" readonly style="opacity:.75;">
-        </div>
-        <div>
-            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">模型名称</div>
-            <input type="text" id="asr-model" class="settings-input" placeholder="whisper-1 / gpt-4o-mini-transcribe" value="whisper-1">
-        </div>
-        <button class="settings-test-btn" onclick="app.testAsrConfig()">测试连接</button>
-    </div>
-</div>
-
-<!-- 语音生成占位页 -->
-<div class="view-panel" id="api-tts-config-view" style="--app-label:'SETTINGS'">
-    <div class="nav-header">
-        <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
-        <div class="nav-title">MiniMax 语音</div>
-        <div class="nav-action-btn" onclick="app.saveMinimaxConfig()" style="font-size:14px;">保存</div>
-    </div>
-<div style="margin-bottom: 20px;">
-    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">API 地址</div>
-    <input type="text" id="minimax-base-url" class="settings-input" placeholder="https://api.minimax.chat" value="https://api.minimax.chat">
-</div>
-<div style="margin-bottom: 20px;">
-    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">Group ID</div>
-    <input type="text" id="minimax-group-id" class="settings-input" placeholder="输入 MiniMax Group ID">
-</div>
-<div style="margin-bottom: 20px;">
-    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">API Key</div>
-    <input type="password" id="minimax-api-key" autocomplete="off" class="settings-input" placeholder="输入 MiniMax API Key">
-</div>
-<div style="margin-bottom: 20px;">
-    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">语音模型</div>
-    <select id="minimax-model" class="settings-input" style="appearance: auto; cursor: pointer;">
-        <option value="speech-02-turbo">speech-02-turbo（推荐，稳定）</option>
-        <option value="speech-02-hd">speech-02-hd（高音质）</option>
-        <option value="speech-2.6-turbo">speech-2.6-turbo（极速版）</option>
-        <option value="speech-2.6-hd">speech-2.6-hd（超低延时）</option>
-        <option value="speech-2.8-turbo">speech-2.8-turbo（最新极速）</option>
-        <option value="speech-2.8-hd">speech-2.8-hd（最新高音质）</option>
-    </select>
-    <div style="font-size: 11px; color: var(--text-sub); margin-top: 6px; padding-left: 4px;">
-        ⚠️ 注意：02 系列用短 ID（如 male-qn-qingse），2.6/2.8 系列用长 ID
-    </div>
-</div>
-<button class="settings-test-btn" onclick="app.testMinimaxConfig()">测试连接</button>
-    </div>
-</div>
-
-<!-- ===== 电话通话界面 ===== -->
-<div class="view-panel" id="phone-call-view">
-    <div class="phone-call-wrap" id="phone-call-wrap">
-        <button class="phone-close-btn" id="phone-close-btn" onclick="app._phoneMinimizeCall()" aria-label="收起通话" title="收起通话" style="display:none;">
-            <svg viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
-        </button>
-        <div class="phone-call-role-name" id="phone-role-name">角色名</div>
-        <div class="phone-call-status" id="phone-call-status">等待接听…</div>
-        <div class="phone-avatar-stage" id="phone-avatar-stage">
-            <div class="phone-halo listening" id="phone-halo"><canvas id="phone-speaking-wave" width="420" height="420" aria-hidden="true"></canvas></div>
-            <div class="phone-avatar-circle" id="phone-avatar-circle">
-                <div class="phone-avatar-placeholder" id="phone-avatar-placeholder">?</div>
-            </div>
-        </div>
-        <div class="phone-realtime-sub" id="phone-realtime-sub"></div>
-        <div class="phone-bottom-bar">
-            <div class="phone-timer" id="phone-timer">00:00</div>
-            <button class="phone-hangup-btn" id="phone-hangup-btn" onclick="app.endPhoneCall()">
-                <svg viewBox="0 0 24 24"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.97c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z" transform="rotate(135 12 12)"/></svg>
-            </button>
-        </div>
-        <div class="phone-history-overlay" id="phone-history-overlay">
-            <div class="phone-history-header">
-                <div class="phone-history-title-wrap">
-                    <div class="phone-history-title">通话记录</div>
-                    <div class="phone-history-meta" id="phone-history-meta">通话中 · 00:00</div>
-                </div>
-                <button class="phone-history-close" onclick="app._phoneCloseHistory()" aria-label="关闭">
-                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-            </div>
-            <div id="phone-history-list" style="flex:1;"></div>
-            <!-- 文字模式输入框（未配置ASR时显示） -->
-            <div id="phone-text-input-bar" style="display:none; padding:12px 0 4px; border-top:1px solid var(--border-light); margin-top:8px;">
-                <div style="display:flex; gap:8px; align-items:flex-end;">
-                    <textarea id="phone-text-input" placeholder="通话中，打字说…" rows="1" style="flex:1; border:1px solid var(--border-light); border-radius:18px; padding:10px 14px; font-size:14px; font-family:inherit; color:var(--text-main); background:var(--bg-card); outline:none; resize:none; max-height:80px; line-height:1.4;"></textarea>
-                    <button onclick="app._phoneSendTextFromInput()" style="background:var(--accent); border:none; color:#fff; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="phone-floating-root" aria-live="polite">
-  <div id="phone-floating-mini">
-    <div id="phone-floating-mini-head">
-      <div id="phone-floating-mini-avatar" onclick="app.navigateTo('phone-call-view')" title="返回通话"></div>
-      <div id="phone-floating-mini-info" onclick="app.navigateTo('phone-call-view')"><div id="phone-floating-mini-name">通话中</div><div id="phone-floating-mini-sub">00:00</div></div>
-      <button id="phone-floating-hangup" onclick="app.endPhoneCall()" aria-label="挂断"><svg viewBox="0 0 24 24"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.97c.18.18.29.43.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z" transform="rotate(135 12 12)"/></svg></button>
-    </div>
-    <div id="phone-floating-text-row"><textarea id="phone-floating-text" rows="1" placeholder="通话中，打字说…"></textarea><button id="phone-floating-send" onclick="app._phoneSendFloatingText()" aria-label="发送"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
-  </div>
-  <button id="phone-floating-bubble" onclick="if(!app._phoneFloatingDragged)app._phoneToggleFloating()" aria-label="展开通话悬浮窗"><div id="phone-floating-avatar"></div></button>
-</div>
-
-<!-- ===== yy-patch v4：来电界面 / 居中胶囊 / 通话与历史语音 / 关闭记录 / 见面邀约 ===== -->
-<style id="yy-patch-style">
-/* ---------- 居中胶囊提示 ---------- */
+    <input type="file" id="gal-file-input" accept="image
 #yy-capsule-host{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;z-index:10050;}
 .yy-capsule{display:inline-flex;align-items:center;justify-content:center;gap:8px;max-width:84%;box-sizing:border-box;padding:8px 16px 8px 9px;border-radius:999px;font-size:13px;line-height:1.3;letter-spacing:.02em;color:var(--text-main);background:rgba(255,255,255,.80);border:1px solid rgba(255,255,255,.92);box-shadow:0 10px 28px rgba(34,49,46,.14),inset 0 1px 0 rgba(255,255,255,.9);-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1);opacity:0;transform:translateY(-12px) scale(.96);transition:opacity .28s ease,transform .38s cubic-bezier(.22,1,.36,1);}
 .yy-capsule.show{opacity:1;transform:none;}
@@ -21110,7 +20826,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .yy-capsule .cap-ico svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .yy-capsule .cap-txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .yy-toast{left:50% !important;right:auto !important;}
-/* ---------- 来电界面（仿通话页） ---------- */
+
 #pin-screen{position:fixed;inset:0;z-index:10002;display:none;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box;padding:calc(env(safe-area-inset-top,0px) + 24px) 24px calc(env(safe-area-inset-bottom,0px) + 150px);background:radial-gradient(circle at 50% 36%,rgba(255,255,255,.78) 0%,rgba(255,255,255,.30) 34%,transparent 66%),var(--bg-container);}
 [data-theme="dark"] #pin-screen{background:radial-gradient(circle at 50% 36%,rgba(255,255,255,.06) 0%,transparent 62%),var(--bg-container);}
 #pin-screen.show{display:flex;animation:pinIn .42s cubic-bezier(.22,1,.36,1);}
@@ -21133,7 +20849,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .pin-btn.decline .pin-circle{background:linear-gradient(145deg,#f1aaa5,#d8625c);box-shadow:0 12px 26px rgba(201,75,75,.28),inset 0 1px 0 rgba(255,255,255,.5);}
 .pin-btn.accept .pin-circle{background:linear-gradient(145deg,#93dcb6,#47b283);box-shadow:0 12px 26px rgba(66,160,115,.30),inset 0 1px 0 rgba(255,255,255,.5);}
 .pin-circle svg{width:29px;height:29px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
-/* 拒绝 / 邀约等普通弹窗不再继承来电样式 */
+
 #p-modal-mask:not(.phone-incoming-modal) .p-modal-btn{height:auto;border-radius:12px;}
 </style>
 
@@ -21505,7 +21221,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .yy-inv-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid rgba(105,139,132,.18);}
 .yy-inv-note{flex:1;min-width:0;font-size:11.5px;line-height:1.45;color:var(--text-sub);}
 .yy-inv-actions{display:flex;gap:8px;flex:none;}
-.yy-inv-btn{border:0;border-radius:999px;height:30px;padding:0 14px;font-size:12.5px;font-weight:600;font-family:inherit;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.yy-inv-btn{border:0;border-radius:8px;height:30px;padding:0 14px;font-size:12.5px;font-weight:600;font-family:inherit;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .yy-inv-btn:active{transform:scale(.95);}
 .yy-inv-btn.ghost{background:rgba(255,255,255,.7);color:var(--text-sub);box-shadow:inset 0 0 0 1px rgba(105,139,132,.22);}
 .yy-inv-btn.main{background:linear-gradient(145deg,#8fcfb4,#5fb394);color:#fff;box-shadow:0 4px 12px rgba(66,160,115,.25);}
@@ -21583,7 +21299,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .mu-del svg{width:17px;height:17px;}
 .mu-del:active{background:rgba(200,110,100,.12);color:#c9605a;transform:scale(.92);}
 .mu-del.sure{width:auto;padding:0 12px;height:34px;font-size:12px;color:#fff;background:#c9605a;border-radius:11px;}
-/* 添加歌曲 */
+
 .mu-add{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;margin-top:6px;border-radius:18px;border:1px dashed var(--mu-line);color:var(--text-sub);font-size:12.5px;letter-spacing:.08em;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .mu-add:active{background:var(--mu-mint-soft);}
 .mu-add svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;}
@@ -21591,14 +21307,14 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .mu-empty .ring{width:64px;height:64px;border-radius:50%;border:1px solid var(--mu-mint);display:flex;align-items:center;justify-content:center;color:var(--mu-mint-d);margin-bottom:18px;background:var(--mu-mint-soft);}
 .mu-empty .ring svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;}
 .mu-empty b{font-size:19px;font-weight:400;color:var(--text-main);letter-spacing:.06em;margin-bottom:6px;}
-/* 迷你条 */
+
 .mu-mini{position:absolute;left:18px;right:18px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);display:none;align-items:center;gap:12px;padding:7px 8px 7px 7px;border-radius:999px;cursor:pointer;}
 .mu-mini.show{display:flex;}
 .mu-mini .mu-thumb{width:40px;height:40px;border-radius:50%;animation:muSpin 16s linear infinite;animation-play-state:paused;}
 .mu-mini.on .mu-thumb{animation-play-state:running;}
 .mu-mini .mu-btns{display:flex;gap:0;flex:none;}
 .mu-mini .mu-icon-btn{width:36px;height:36px;border:0;}
-/* 播放页 */
+
 .mu-player{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;overflow:hidden;background:var(--bg-container);transform:translateY(102%);transition:transform .52s cubic-bezier(.22,1,.36,1);padding:calc(env(safe-area-inset-top,0px) + 10px) 0 calc(env(safe-area-inset-bottom,0px) + 26px);box-sizing:border-box;}
 .mu-player.open{transform:none;}
 .mu-bg{position:absolute;inset:-20%;background-size:cover;background-position:center;filter:blur(70px) grayscale(.85);opacity:.22;transform:scale(1.2);transition:background-image .6s;}
@@ -21607,7 +21323,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .mu-top{width:100%;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;justify-content:space-between;flex:none;}
 .mu-tag{font-size:14px;color:var(--text-sub);letter-spacing:.08em;text-align:center;flex:1;padding:0 8px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .mu-icon-btn.on{color:var(--mu-mint-d);border-color:var(--mu-mint);background:var(--mu-mint-soft);}
-/* 一起听：一根细线穿过两人 */
+
 .mu-together{flex:none;width:300px;max-width:88%;height:0;opacity:0;margin-top:0;overflow:visible;transition:height .5s cubic-bezier(.22,1,.36,1),opacity .4s,margin .5s;position:relative;}
 .mu-together.show{height:92px;opacity:1;margin-top:12px;}
 .mu-thread{position:absolute;left:0;top:6px;width:100%;height:64px;overflow:visible;}
@@ -21621,7 +21337,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .mu-av img{width:100%;height:100%;object-fit:cover;display:block;}
 .mu-av.l{left:calc(50% - 56px);}.mu-av.r{left:calc(50% + 6px);}
 .mu-together-cap{position:absolute;left:0;right:0;top:70px;text-align:center;font-size:11.5px;letter-spacing:.1em;color:var(--text-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-/* 旋转封面 */
+
 .mu-disc-wrap{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;}
 .mu-disc{--d:min(66vw,40vh,290px);width:var(--d);height:var(--d);border-radius:50%;padding:9px;box-sizing:border-box;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.9);box-shadow:0 24px 48px rgba(30,50,45,.14),0 0 0 8px rgba(141,187,168,.12);position:relative;animation:muSpin 24s linear infinite;animation-play-state:paused;}
 [data-theme="dark"] .mu-disc{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);}
@@ -21648,7 +21364,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .mu-play{width:68px;height:68px;border-radius:50%;border:0;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;color:#fff;background:var(--mu-mint-d);box-shadow:0 10px 24px rgba(80,140,115,.3);-webkit-tap-highlight-color:transparent;transition:transform .15s;}
 .mu-play:active{transform:scale(.94);}
 .mu-play svg{width:26px;height:26px;}
-/* 选角色 */
+
 .mu-sheet{position:absolute;inset:0;z-index:20;display:none;align-items:flex-end;background:rgba(20,26,30,.28);}
 .mu-sheet.show{display:flex;}
 .mu-sheet-card{width:100%;box-sizing:border-box;max-height:62%;overflow-y:auto;border-radius:26px 26px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom,0px) + 22px);background:rgba(248,249,248,.94);-webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px);animation:muUp .38s cubic-bezier(.22,1,.36,1);}
@@ -21661,7 +21377,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 .mu-role .mu-av{position:static;width:38px;height:38px;font-size:15px;box-shadow:0 0 0 1px var(--mu-line);border-width:2px;}
 .mu-role span{font-size:14.5px;color:var(--text-main);}
 
-/* 音乐模块框架重整：珍珠雾海 / 磨砂玻璃，六个页面共用一套视觉 */
+
 #music-view{--mu-mint:#a8c0c1;--mu-mint-d:#78999d;--mu-mint-soft:rgba(145,177,180,.13);--mu-line:rgba(99,125,130,.16);}
 [data-theme="dark"] #music-view{--mu-mint:#9db8bd;--mu-mint-d:#b4cbd0;--mu-mint-soft:rgba(157,184,189,.12);--mu-line:rgba(226,237,240,.13);}
 #music-view .mu-nav-title{font-size:20px;font-weight:500;letter-spacing:.015em;}
@@ -21748,7 +21464,7 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 
 </style>
 <style id="yy-music-refine">
-/* 音乐模块：黑白灰为主，雾青仅保留为极淡的交互提示 */
+
 #music-view{--mu-mint:#aeb7ba;--mu-mint-d:#626c70;--mu-mint-soft:rgba(110,120,125,.08);--mu-line:rgba(70,76,80,.14);}
 [data-theme="dark"] #music-view{--mu-mint:#aeb7ba;--mu-mint-d:#d4d9dc;--mu-mint-soft:rgba(225,230,232,.08);--mu-line:rgba(230,234,236,.16);}
 #music-view .mu-nav{border-bottom:1px solid var(--mu-line);padding-bottom:10px;}
@@ -23152,7 +22868,6 @@ if (typeof app !== 'undefined') { // photoV2ConstFix
     });
   };
 
-  // ===== 图库 =====
   var TABS = [
     { k: 'main', t: '形象' },
     { k: 'avatar', t: '头像' },

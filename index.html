@@ -3452,7 +3452,7 @@
         </div>
         
         <div style="margin-bottom:20px;">
-            <input type="text" id="new-role-name" placeholder="输入真名" style="width:100%; background:none; border:none; border-bottom:1px solid var(--line-color); font-family:'SimSun','STSong',serif; font-size:22px; font-weight:bold; letter-spacing:1px; text-align:center; color:var(--text-primary); outline:none; padding:8px 0;">
+            <input type="text" id="new-role-name" placeholder="填写角色姓名" style="width:100%; background:none; border:none; border-bottom:1px solid var(--line-color); font-family:'SimSun','STSong',serif; font-size:22px; font-weight:bold; letter-spacing:1px; text-align:center; color:var(--text-primary); outline:none; padding:8px 0;">
         </div>
         
         <div style="margin-bottom:16px;">
@@ -3462,7 +3462,7 @@
             </div>
             <div id="tag-container" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
                 <div id="tag-input-wrapper" style="display:flex; align-items:center; border:1px dashed var(--line-color); height:28px; padding:0 6px; border-radius:4px;">
-                    <input type="text" id="tag-input" placeholder="+ 标签" style="background:none; border:none; outline:none; font-size:11px; color:var(--text-primary); max-width:80px; padding:0;">
+                    <input type="text" id="tag-input" placeholder="填写标签" style="background:none; border:none; outline:none; font-size:11px; color:var(--text-primary); max-width:80px; padding:0;">
                     <button id="tag-add-btn" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:14px; padding:0 2px;">+</button>
                 </div>
             </div>
@@ -3474,7 +3474,7 @@
                 <span style="flex:1; height:1px; background:var(--line-color);"></span>
             </div>
             <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">双人关系</div>
-            <input type="text" id="new-role-relationship" placeholder="输入我们之间的关系" style="width:100%; background:none; border:none; border-bottom:1px solid var(--line-color); font-size:15px; color:var(--text-primary); outline:none; padding:4px 0;">
+            <input type="text" id="new-role-relationship" placeholder="填写你与角色的关系" style="width:100%; background:none; border:none; border-bottom:1px solid var(--line-color); font-size:15px; color:var(--text-primary); outline:none; padding:4px 0;">
         </div>
         
         <div style="margin-bottom:24px;">
@@ -3784,7 +3784,7 @@
         <div style="font-size:11px;color:#a0a0a0;font-family:monospace;letter-spacing:2px;">DATA INPUT</div>
         <button class="ca-editor-btn" onclick="app.caSaveEditor()">SAVE</button>
     </div>
-    <textarea class="ca-editor-textarea" id="ca-editor-textarea" placeholder="在此输入数据..."></textarea>
+    <textarea class="ca-editor-textarea" id="ca-editor-textarea" placeholder="填写档案内容"></textarea>
 </div>
 
 
@@ -3812,15 +3812,15 @@
         </div>
         <div class="ca-relation-field" id="ca-relation-custom-field" style="display:none;">
             <label class="ca-relation-label">角色名字（手动输入）</label>
-            <input type="text" class="ca-relation-input" id="ca-relation-custom-name" placeholder="输入不在档案里的角色名">
+            <input type="text" class="ca-relation-input" id="ca-relation-custom-name" placeholder="填写未建档的角色名">
         </div>
         <div class="ca-relation-field">
             <label class="ca-relation-label">关系（对方对于我是）</label>
-            <input type="text" class="ca-relation-input" id="ca-relation-text" placeholder="例如：哥哥、挚友、下属">
+            <input type="text" class="ca-relation-input" id="ca-relation-text" placeholder="填写角色之间的关系">
         </div>
         <div class="ca-relation-field">
             <label class="ca-relation-label">备注（选填）</label>
-            <textarea class="ca-relation-textarea" id="ca-relation-note" placeholder="补充说明..."></textarea>
+            <textarea class="ca-relation-textarea" id="ca-relation-note" placeholder="填写与这段关系有关的补充说明"></textarea>
         </div>
         <div class="ca-relation-btns">
             <button class="ca-relation-btn delete" id="ca-relation-delete-btn" style="display:none;" onclick="app.caDeleteRelationFromEditor()">删除</button>
@@ -4128,7 +4128,7 @@
     </div>
     <div class="scroll-content" style="padding:25px;display:flex;flex-direction:column;gap:20px;">
         <input class="field-input" id="edit-xp-mode-name" placeholder="模板名称" style="width:100%;background:var(--bg-card);border:none;border-radius:12px;padding:14px;font-size:15px;color:var(--text-main);outline:none;">
-        <textarea class="field-input" id="edit-xp-mode-desc" placeholder="内容..." style="width:100%;height:300px;background:var(--bg-card);border:none;border-radius:12px;padding:14px;font-size:14px;color:var(--text-main);outline:none;resize:none;line-height:1.6;font-family:inherit;"></textarea>
+        <textarea class="field-input" id="edit-xp-mode-desc" placeholder="填写模板内容" style="width:100%;height:300px;background:var(--bg-card);border:none;border-radius:12px;padding:14px;font-size:14px;color:var(--text-main);outline:none;resize:none;line-height:1.6;font-family:inherit;"></textarea>
         <button onclick="app.saveXpModeEdit()" style="width:100%;padding:14px;background:var(--text-main);color:var(--bg-container);border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;">保存</button>
     </div>
 </div>
@@ -7201,7 +7201,7 @@ case 'traces-view':
         var panel = $('pocket-plus-panel'); if (panel) panel.style.display = 'none';
         var html = '<div style="display:flex;flex-direction:column;gap:12px;">' +
             '<div style="font-size:12px;color:var(--text-sub);">想对 ta 说的话（不超过 20 字）</div>' +
-            '<input id="invite-text" maxlength="20" value="想见你" placeholder="比如：想见你，下楼好不好" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:15px;color:var(--text-main);outline:none;">' +
+            '<input id="invite-text" maxlength="20" value="想见你" placeholder="填写想邀请他做的事" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:15px;color:var(--text-main);outline:none;">' +
             '</div>';
         var mask = document.getElementById('p-modal-mask');
         document.getElementById('p-modal-title').innerText = '想见你';
@@ -12303,9 +12303,9 @@ showLocationSend: function() {
     if (!role || role.id === 1) return;
     var html = '<div style="display:flex;flex-direction:column;gap:12px;">' +
         '<div style="font-size:12px;color:var(--text-sub);">地点名称</div>' +
-        '<input id="loc-name" placeholder="比如：旧城区书店" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:15px;color:var(--text-main);outline:none;">' +
+        '<input id="loc-name" placeholder="填写地点名称" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:15px;color:var(--text-main);outline:none;">' +
         '<div style="font-size:12px;color:var(--text-sub);margin-top:4px;">想说的话（可选）</div>' +
-        '<input id="loc-note" placeholder="比如：上次在这躲雨" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:14px;color:var(--text-main);outline:none;">' +
+        '<input id="loc-note" placeholder="填写与这个地点有关的记录" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:14px;color:var(--text-main);outline:none;">' +
         '</div>';
     var mask = document.getElementById('p-modal-mask');
     document.getElementById('p-modal-title').innerText = '发送地点';
@@ -12437,7 +12437,7 @@ joinMusicFromCard: function(songId) {
             '<div style="font-size:12px;color:var(--text-sub);">金额</div>' +
             '<input id="pkt-amount" type="number" placeholder="0.00" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:18px;color:var(--text-main);outline:none;">' +
             '<div style="font-size:12px;color:var(--text-sub);margin-top:4px;">留言（可选）</div>' +
-            '<input id="pkt-note" placeholder="恭喜发财，大吉大利" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:14px;color:var(--text-main);outline:none;">' +
+            '<input id="pkt-note" placeholder="填写红包留言" style="width:100%;background:var(--bg-card);border:none;border-radius:10px;padding:12px;font-size:14px;color:var(--text-main);outline:none;">' +
             '</div>';
         var mask = document.getElementById('p-modal-mask');
         document.getElementById('p-modal-title').innerText = '发红包';
@@ -16203,7 +16203,7 @@ confirmCreateRole: async function() {
         var isNew = (index === null || index === undefined);
         var target = isNew ? null : exps[index];
         var oldText = target ? (target.content || '') : '';
-        var ph = '补一条他的经历，一条只写一件事，按时间先后写。\n例如：2024年夏天，他独自搬到海边小城，在巷口旧书店打工。\n只写“确定发生过”的背景经历；日常聊天的细节系统会自动记录，不用手动搬。';
+        var ph = '补充角色的经历，一条只写一件事，按时间先后写。\n只写确定发生过的背景经历；日常聊天细节会自动记录。';
         var html = '<textarea id="ca-exp-input" placeholder="' + esc(ph) + '" style="width:100%;height:180px;box-sizing:border-box;padding:12px;background:var(--bg-card);border:1px solid var(--border-light);border-radius:12px;color:var(--text-main);font-size:14px;line-height:1.7;resize:none;white-space:pre-wrap;">' + esc(oldText) + '</textarea>';
         var mask = document.getElementById('p-modal-mask');
         document.getElementById('p-modal-title').innerText = isNew ? '新增经历' : '编辑经历';
@@ -16951,7 +16951,7 @@ async generateLetter(role, triggerType) {
         return '<div class="pm-tabs"><div class="pm-tab on" onclick="app.pomoSwitchTab(\'session\')">本次</div><div class="pm-tab" onclick="app.pomoSwitchTab(\'stats\')">历史</div></div>' +
             '<div class="pm-card">' +
                 '<div class="pm-setup-goal">这次想完成什么？</div>' +
-                '<input id="pm-goal-input" class="pm-input" type="text" maxlength="60" placeholder="比如：背刑法第三章、做一套阅读…">' +
+                '<input id="pm-goal-input" class="pm-input" type="text" maxlength="60" placeholder="填写本次专注要完成的事">' +
                 '<div class="pm-dur">' +
                     '<div class="pm-dur-item"><div class="v">' + s.focus + '</div><div class="k">专注(分)</div></div>' +
                     '<div class="pm-dur-item"><div class="v">' + s.shortBreak + '</div><div class="k">短休(分)</div></div>' +
@@ -19231,7 +19231,7 @@ openWorldbookEditor(id) {
     var wb = id ? app.worldbooks.find(function(w) { return w.id === id; }) : null;
     var isNew = !wb;
     var isDefault = !!(wb && wb.id === 'wb_default');
-    var namePh = '世界书名称，例如：深海纪元、民国旧梦、现代校园';
+    var namePh = '填写世界书名称';
     var descPh = '只写这个世界“稳定的背景设定”，不写具体剧情或角色经历。\n建议分行写：\n· 时代 / 地点：什么年代、什么城市或架空世界\n· 社会规则：制度、阶层、禁忌、习俗\n· 科技 / 异能水平：有无魔法、系统、特殊能力\n· 日常设定：货币、通讯、交通、常用场景\n· 与现实不同的地方：需要 AI 始终遵守的世界规则\n\n这里没写的，一律按现实世界处理。';
     var nameInput = '<input id="wb-name" placeholder="' + esc(namePh) + '" style="width:100%;margin-bottom:12px;padding:12px;background:var(--bg-card);border:none;border-radius:12px;color:var(--text-main);" value="' + esc((wb ? wb.name : '')) + '"' + (isDefault ? ' disabled' : '') + '>';
     var descArea = '<textarea id="wb-desc" placeholder="' + esc(descPh) + '" style="width:100%;height:180px;padding:12px;background:var(--bg-card);border:none;border-radius:12px;color:var(--text-main);resize:none;white-space:pre-wrap;line-height:1.7;"' + (isDefault ? ' disabled' : '') + '>' + esc((wb ? (wb.desc || '') : '')) + '</textarea>';
@@ -19478,8 +19478,8 @@ _arRenderEditor: function(p) {
     var html = '<div class="ar-box">' +
         '<div class="ar-box-head"><span>' + (p ? '编辑素材包' : '新建素材包') + '</span><button type="button" class="ar-box-x" onclick="app._archiveCloseEditor()">×</button></div>' +
         '<div class="ar-box-body">' +
-            '<div><label>名称（卡名 / 世界名 / 故事名）</label><input class="ar-f" id="ar-name" value="' + esc(d.name) + '" placeholder="例如：星海之下、黎深·主线、无尽回响（AU）"></div>' +
-            '<div><label>来源作品（可空）</label><input class="ar-f" id="ar-source" value="' + esc(d.source) + '" placeholder="例如：某游戏、某篇文、完全原创"></div>' +
+            '<div><label>名称（卡名 / 世界名 / 故事名）</label><input class="ar-f" id="ar-name" value="' + esc(d.name) + '" placeholder="填写世界、角色或故事包的名称"></div>' +
+            '<div><label>来源作品（可空）</label><input class="ar-f" id="ar-source" value="' + esc(d.source) + '" placeholder="填写来源作品，原创可留空"></div>' +
             '<div><label>类型</label>' + seg('type', [{k:'world',t:'世界包'},{k:'character',t:'角色包'},{k:'story',t:'故事包'}]) +
                 '<div style="font-size:11px;color:var(--text-light);margin-top:6px;line-height:1.6;">' + esc(typeHint) + '</div></div>' +
             '<div><label>归属</label>' + seg('canon', [{k:'true',t:'正史'},{k:'false',t:'平行 / AU'}]) +
@@ -19488,8 +19488,8 @@ _arRenderEditor: function(p) {
                 '<div style="font-size:11px;color:var(--text-light);margin-top:6px;line-height:1.6;">' + esc(tierHint) + '</div></div>' +
             auWarn +
             '<div><label>关联角色（世界包可留空，代表全角色共用）</label><div class="ar-roles">' + roleChips + '</div></div>' +
-            '<div><label>标签（用逗号或空格分隔，可空）</label><input class="ar-f" id="ar-tags" value="' + esc(d.tags) + '" placeholder="例如：医院线, 失忆, 重逢"></div>' +
-            '<div><label>召回词（聊到这些词时更容易取出本包，用逗号分隔，可空）</label><input class="ar-f" id="ar-recall" value="' + esc(d.recallWords) + '" placeholder="例如：旧书店, 海边, 那场手术"></div>' +
+            '<div><label>标签（用逗号或空格分隔，可空）</label><input class="ar-f" id="ar-tags" value="' + esc(d.tags) + '" placeholder="填写便于分类的标签"></div>' +
+            '<div><label>召回词（聊到这些词时更容易取出本包，用逗号分隔，可空）</label><input class="ar-f" id="ar-recall" value="' + esc(d.recallWords) + '" placeholder="填写用于取出本包的关键词"></div>' +
             '<div><label>一句话摘要（列表和检索用，建议 50 字内）</label><textarea class="ar-f" id="ar-summary" rows="2" style="height:auto;" placeholder="这包讲了什么、在什么场景下该用">' + esc(d.summary) + '</textarea></div>' +
             '<div><label>原文（卡面/日卡/设定正文，可直接整段粘贴；只会按需取出，不会全文塞进聊天）</label><textarea class="ar-f" id="ar-content" rows="10" placeholder="把原文粘在这里，多长都可以。"></textarea></div>' +
         '</div>' +

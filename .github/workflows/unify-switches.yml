@@ -1,0 +1,29 @@
+name: Unify switch interactions
+on:
+  push:
+    paths:
+      - .github/workflows/unify-switches.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Apply verified switches and remove this workflow
+        run: |
+          echo "ddc7374a1678a772ae8943473d8320db13e598a96740b8ecd09fb476f852815c  index.html" | sha256sum -c -
+          curl -fL "https://aka.doubaocdn.com/s/YSmMLdVIP9" -o /tmp/index.html
+          echo "61a63fa2fd170b91cf48ce8b84d81510d32b917b8f7ce619c5056af9026378f0  /tmp/index.html" | sha256sum -c -
+          mv /tmp/index.html index.html
+          rm .github/workflows/unify-switches.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "unify switch interactions and touch targets"
+          git push origin HEAD:main

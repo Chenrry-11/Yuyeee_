@@ -20909,6 +20909,106 @@ window.addEventListener('DOMContentLoaded', function() { app.runCharacterEngineM
 </div>
 
 
+
+<div class="view-panel" id="api-draw-config-view" style="--app-label:'SETTINGS'">
+    <div class="nav-header">
+        <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
+        <div class="nav-title">生图</div>
+        <div class="nav-action-btn" onclick="app.saveDrawConfig()" style="font-size:14px;">保存</div>
+    </div>
+    <div style="padding:20px 16px;display:flex;flex-direction:column;gap:16px;">
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">API Key</div>
+            <input type="password" id="draw-key" autocomplete="off" class="settings-input" placeholder="输入中转站 API Key">
+        </div>
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">Base URL</div>
+            <input type="text" id="draw-base-url" class="settings-input" value="https://breadog.cn/v1" placeholder="https://breadog.cn/v1">
+        </div>
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">模型名称</div>
+            <input type="text" id="draw-model" class="settings-input" placeholder="gpt-image-1 / doubao-seedream-4-5" value="gpt-image-1">
+        </div>
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">尺寸</div>
+            <select id="draw-size" class="settings-input">
+                <option value="1024x1024">方形 1024×1024</option>
+                <option value="1024x1792">竖版 1024×1792</option>
+                <option value="1792x1024">横版 1792×1024</option>
+            </select>
+        </div>
+        <button class="settings-test-btn" onclick="app.testDrawConfig()">测试连接</button>
+        <div style="height:1px;background:var(--border-light,#eee);margin:6px 0;"></div>
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">试画一张</div>
+            <textarea id="draw-prompt" class="settings-input" rows="3" placeholder="描述你想要的画面" style="resize:none;"></textarea>
+        </div>
+        <button class="settings-test-btn" onclick="app.generateImageTest()">生成</button>
+        <div id="draw-result" style="font-size:13px;color:var(--text-sub);line-height:1.6;"></div>
+    </div>
+</div>
+
+<!-- 语音识别设置页 -->
+<div class="view-panel" id="api-asr-config-view" style="--app-label:'SETTINGS'">
+    <div class="nav-header">
+        <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
+        <div class="nav-title">语音识别</div>
+        <div class="nav-action-btn" onclick="app.saveAsrConfig()" style="font-size:14px;">保存</div>
+    </div>
+    <div style="padding:20px 16px;display:flex;flex-direction:column;gap:16px;">
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">API Key</div>
+            <input type="password" id="asr-key" autocomplete="off" class="settings-input" placeholder="输入 API Key">
+        </div>
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">服务地址（固定使用 OpenAI）</div>
+            <input type="text" id="asr-base-url" class="settings-input" value="https://api.openai.com/v1" readonly style="opacity:.75;">
+        </div>
+        <div>
+            <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;">模型名称</div>
+            <input type="text" id="asr-model" class="settings-input" placeholder="whisper-1 / gpt-4o-mini-transcribe" value="whisper-1">
+        </div>
+        <button class="settings-test-btn" onclick="app.testAsrConfig()">测试连接</button>
+    </div>
+</div>
+
+<!-- 语音生成占位页 -->
+<div class="view-panel" id="api-tts-config-view" style="--app-label:'SETTINGS'">
+    <div class="nav-header">
+        <div class="nav-back-btn" onclick="app.navigateTo('settings')"></div>
+        <div class="nav-title">MiniMax 语音</div>
+        <div class="nav-action-btn" onclick="app.saveMinimaxConfig()" style="font-size:14px;">保存</div>
+    </div>
+<div style="margin-bottom: 20px;">
+    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">API 地址</div>
+    <input type="text" id="minimax-base-url" class="settings-input" placeholder="https://api.minimax.chat" value="https://api.minimax.chat">
+</div>
+<div style="margin-bottom: 20px;">
+    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">Group ID</div>
+    <input type="text" id="minimax-group-id" class="settings-input" placeholder="输入 MiniMax Group ID">
+</div>
+<div style="margin-bottom: 20px;">
+    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">API Key</div>
+    <input type="password" id="minimax-api-key" autocomplete="off" class="settings-input" placeholder="输入 MiniMax API Key">
+</div>
+<div style="margin-bottom: 20px;">
+    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; margin-left: 4px;">语音模型</div>
+    <select id="minimax-model" class="settings-input" style="appearance: auto; cursor: pointer;">
+        <option value="speech-02-turbo">speech-02-turbo（推荐，稳定）</option>
+        <option value="speech-02-hd">speech-02-hd（高音质）</option>
+        <option value="speech-2.6-turbo">speech-2.6-turbo（极速版）</option>
+        <option value="speech-2.6-hd">speech-2.6-hd（超低延时）</option>
+        <option value="speech-2.8-turbo">speech-2.8-turbo（最新极速）</option>
+        <option value="speech-2.8-hd">speech-2.8-hd（最新高音质）</option>
+    </select>
+    <div style="font-size: 11px; color: var(--text-sub); margin-top: 6px; padding-left: 4px;">
+        ⚠️ 注意：02 系列用短 ID（如 male-qn-qingse），2.6/2.8 系列用长 ID
+    </div>
+</div>
+<button class="settings-test-btn" onclick="app.testMinimaxConfig()">测试连接</button>
+    </div>
+</div>
+
 <div class="view-panel" id="character-gallery-view" style="--app-label:'GALLERY'">
     <div class="nav-header">
         <div class="nav-back-btn" onclick="app._galBack()"></div>

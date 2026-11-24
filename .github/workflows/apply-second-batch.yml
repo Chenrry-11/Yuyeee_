@@ -1,0 +1,33 @@
+name: Apply second interaction batch
+on:
+  push:
+    paths:
+      - .github/workflows/apply-second-batch.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Apply verified files and remove this workflow
+        run: |
+          echo "c575c702f4b799339bab631ab228545e6586c185b0e6d5436e672f3b21ae98aa  index.html" | sha256sum -c -
+          curl -fL "https://aka.doubaocdn.com/s/s4TzE9NSTZ" -o /tmp/index.html
+          echo "eb033f633551e0dd67079404232395995b9b48e5ede139868d526911cff9c7c3  /tmp/index.html" | sha256sum -c -
+          mv /tmp/index.html index.html
+          mkdir -p patches
+          for file in patch_*.py; do
+            if [ -f "$file" ]; then git mv "$file" patches/; fi
+          done
+          rm .github/workflows/apply-second-batch.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "refine visual hierarchy and organize archive scripts"
+          git push origin HEAD:main

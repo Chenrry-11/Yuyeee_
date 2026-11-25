@@ -1,0 +1,31 @@
+name: Sync media interaction
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download verified build
+        run: |
+          curl -fL "https://aka.doubaocdn.com/s/E8dZi65vgL" -o /tmp/index.html
+          echo "fe18aca956874280bdabf6f5b31477109ebbc9af6d73e2d8dfabc9a1e359ed65  /tmp/index.html" | sha256sum -c -
+
+      - name: Replace index and remove this workflow
+        run: |
+          mv /tmp/index.html index.html
+          rm .github/workflows/sync-media-interaction.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "sync: media stack gestures and fullscreen viewer"
+          git push origin HEAD:main

@@ -3263,7 +3263,7 @@
             <div style="display:flex;gap:12px;"><button onclick="app.closeQuickEdit()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--bg-card);color:var(--text-sub);cursor:pointer;">取消</button><button onclick="app.saveQuickEdit()" style="flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;background:var(--text-main);color:var(--bg-container);cursor:pointer;font-weight:600;">保存</button></div>
         </div>
     </div>
-    <input type="file" id="file-input" hidden accept="image/*">
+    <input type="file" id="file-input" hidden accept="image/*" multiple>
 </div>
 
 <div class="view-panel" id="pocket-view" style="--app-label:'POCKET'">
@@ -3465,10 +3465,7 @@
 <div class="chat-input-dock" id="chat-input-dock">
     <div id="yy-quote-bar" style="display:none;"><div class="yy-qb-inner"><span class="yy-qb-text" id="yy-qb-text"></span><button type="button" class="yy-qb-x" onclick="app.clearQuote()" aria-label="取消引用">×</button></div></div>
     <div id="chat-image-draft" style="display:none;padding:8px 12px 0;">
-  <div style="position:relative;display:inline-block;">
-    <img id="chat-image-draft-thumb" style="max-height:90px;max-width:90px;border-radius:10px;display:block;object-fit:cover;">
-    <button type="button" onclick="app.clearChatImageDraft()" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;border:none;font-size:13px;line-height:1;cursor:pointer;">×</button>
-  </div>
+  <div id="chat-image-draft-list" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
 </div>
 <div class="text-input-row" id="dynamic-input-row">
         <button class="floating-btn-3d input-dock-btn" id="plus-toggle-btn" onclick="app.togglePlusPanel()" aria-label="更多"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -8014,6 +8011,29 @@ handleFileChange(e) {
     if (!target) return;
     var fi = e.target;
     if (!fi.files || fi.files.length === 0) return;
+
+    // 聊天照片：支持一次多选，最多 6 张，逐张存入 IndexedDB 后进入图片草稿。
+    if (target === 'chatImage') {
+        var picked = Array.prototype.slice.call(fi.files).filter(function(f) { return /^image\//i.test(f.type || ''); });
+        if (!picked.length) { app._flash('请选择图片文件'); window._pendingFileTarget = null; fi.value = ''; return; }
+        if (picked.length > 6) { app._flash('最多一次发送 6 张图片'); picked = picked.slice(0, 6); }
+        picked.forEach(function(file) {
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var b64 = ev.target.result;
+                var imageId = 'chatimg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '_' + Math.random().toString(36).slice(2, 4);
+                app.imageDB.save(imageId, b64).then(function() {
+                    app.addChatImageDraft(imageId, b64);
+                }).catch(function(err) {
+                    console.warn('[照片] 图片保存失败:', err);
+                    app._flash('照片保存失败，请重试');
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+        window._pendingFileTarget = null; fi.value = ''; return;
+    }
+
     var file = fi.files[0];
     var reader = new FileReader();
     reader.onload = function(ev) {
@@ -8030,18 +8050,6 @@ handleFileChange(e) {
             fi.value = '';
             window._pendingFileTarget = null;
             return;
-        }
-        // 聊天照片：原图进入 IndexedDB，聊天记录只保存图片 ID，避免撑爆 localStorage。
-        if (target === 'chatImage') {
-            if (!/^image\//i.test(file.type || '')) { app._flash('请选择图片文件'); window._pendingFileTarget = null; fi.value = ''; return; }
-            var imageId = 'chatimg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-            app.imageDB.save(imageId, b64).then(function() {
-                app.setChatImageDraft(imageId, b64);
-            }).catch(function(err) {
-                console.warn('[照片] 图片保存失败:', err);
-                app._flash('照片保存失败，请重试');
-            });
-            window._pendingFileTarget = null; fi.value = ''; return;
         }
         // 背景图：存到 IndexedDB，app.user 只保存图片 ID
 if (target === 'bgHome' || target === 'bgChat') {
@@ -12090,6 +12098,103 @@ _bindMsViewerGesture: function() {
     });
 },
 
+sendChatImages: function(images, userText) {
+    var roleId = app.activeRoleId;
+    var role = app.roles.find(function(r) { return String(r.id) === String(roleId); });
+    if (!role || !images || !images.length) return;
+    images = images.slice(0, 6);
+    app.clearChatImageDraft();
+    if (!app.chats[roleId]) app.chats[roleId] = [];
+
+    var firstMsg = null, firstImageId = images[0].imageId;
+    images.forEach(function(item, idx) {
+        var msg = { sender: 'user', msgType: 'image', content: { imageId: item.imageId, text: idx === 0 ? (userText || '') : '' }, ts: Date.now() + idx };
+        app.chats[roleId].push(msg);
+        if (idx === 0) firstMsg = msg;
+    });
+    role.lastMsg = '[照片]'; role.lastTime = app.getClockStr(); role.lastChatTime = app._ceNow();
+    app._ceRuntimeProcessPocketMessage(roleId, '（用户发送了一组照片，共 ' + images.length + ' 张）');
+    app.renderChatMessages(); app.renderPocketChatList(); app.saveAll();
+
+    var status = document.getElementById('chat-reply-status');
+    if (status) { status.style.opacity = '1'; resetReplyStatusText(); }
+    app.showThinkingBubble();
+
+    var fallbackText = '用户刚刚给你发来了 ' + images.length + ' 张照片，但你这边没有成功看清图片内容。请自然回应，并说明你没看清，不能假装看到具体内容，也不能同意换头像。';
+
+    var _applyAvatarSwitch = function(replyText) {
+      if (!firstMsg || !firstMsg.content.desc) return Promise.resolve(replyText);
+      var userWantSwitch = /(换.{0,4}头像|做.{0,4}头像|当.{0,4}头像|设为.{0,4}头像|用.{0,6}头像|换成这个|换这个|换了吧|换上)/.test(userText || '');
+      var hasMarker = /(^|\n)\s*\[换头像\]\s*($|\n)/m.test(replyText);
+      var refuse = /(不换|别换|不想换|不愿意|再想想|不喜欢|不好看|不合适)/.test(replyText);
+      var agreeWords = /(现在就换|就换这个|好[，,。\s]{0,10}换|同意[，,。\s]{0,10}换|听你的|听宝宝的|好嘞|好啊|换成这个|这就换|这就换上|换上了|换好了)/.test(replyText);
+      var explicitAgree = agreeWords && !refuse;
+      if (!hasMarker && !(userWantSwitch && explicitAgree)) return Promise.resolve(replyText);
+      var cleanedText = replyText.replace(/(^|\n)\s*\[换头像\]\s*($|\n)/g, '\n').trim();
+      var avatarDesc = firstMsg.content.desc.length > 300 ? firstMsg.content.desc.substring(0, 300) : firstMsg.content.desc;
+      return app.imageDB.get(firstImageId).then(function(data) {
+        var avatarId = 'img_avatar_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        return app.imageDB.save(avatarId, data).then(function() {
+          app._ceWriteCharacter(roleId, function(c) { c.profile.avatar = avatarId; c.profile.avatarDesc = avatarDesc; });
+          if (role) role.avatar = avatarId;
+          app.caRenderProfile && app.caRenderProfile();
+          app.renderPocketChatList && app.renderPocketChatList();
+          app.updateChatHeaderAvatar && app.updateChatHeaderAvatar(role);
+          app.renderChatMessages && app.renderChatMessages();
+          if (app._flash) app._flash('头像已更新');
+          return cleanedText;
+        });
+      }).catch(function() { return cleanedText; });
+    };
+
+    var visionTasks = images.map(function(item) {
+      if (!item.dataUrl || !/^data:image\//i.test(item.dataUrl)) return Promise.resolve(null);
+      return app.visionUnderstand(item.dataUrl, '请客观描述这张图：主体、场景、人物动作和表情、画面氛围、可能的情绪。不要编造看不清的细节。')
+        .then(function(desc) { return desc || null; })
+        .catch(function(e) { console.warn('[照片] 识图失败:', e); return null; });
+    });
+
+    Promise.all(visionTasks).then(function(descs) {
+      var valid = descs.filter(Boolean);
+      if (!valid.length) return app.fetchAI(fallbackText, role);
+      firstMsg.content.desc = valid[0].length > 300 ? valid[0].substring(0, 300) : valid[0];
+      app.saveAll();
+      var joined = valid.map(function(d, i) { return '第' + (i + 1) + '张：' + d; }).join('\n');
+      var prompt = '用户刚发来一组照片，共 ' + images.length + ' 张' + (userText ? '，并附上一句话：「' + userText + '」' : '') + '。各张图片内容（由视觉识别得到）：\n' + joined + '\n请结合你的性格、审美、你们的关系和当前聊天，像真的看到这组照片一样自然回应用户的话和这些照片，可以问照片里的内容；想回表情包就单独一行写 [表情包]档名（如 [表情包]开心）。关于换头像：只有当用户这句话里明确表达了想让你把这组照片设为头像的意愿时，你才按自己的性格和审美决定是否同意。如果你同意，必须在回复的最后一行单独写 [换头像] 这个标记——系统只认这个标记来真正更换头像，你只说“好/听你的/听宝宝的”是不会执行的；如果不同意就自然拒绝或商量，不要写标记。如果用户只是分享照片、没有提换头像，就不要主动换，也不要写标记。';
+      return app.fetchAI(prompt, role);
+    }).then(function(reply) {
+      return reply ? String(reply) : app.fetchAI(fallbackText, role);
+    }).then(function(reply) {
+      app.removeThinkingBubble();
+      return _applyAvatarSwitch(String(reply || '').trim());
+    }).then(function(cleaned) {
+      if (app._extractAIQuote) cleaned = app._extractAIQuote(cleaned, role);
+      if (!cleaned || /请在设置中配置|请配置 API Key|网络波动中/.test(cleaned)) cleaned = '照片收到啦。刚刚我这边没能看清图片内容，你可以再跟我说说照片里是什么。';
+      var parsed = app.parseAIResponse(cleaned, role);
+      var hasCard = parsed.messages && parsed.messages.some(function(s) { return s.type !== 'text'; });
+      if (hasCard) {
+        app.dispatchSegments(parsed.messages, role);
+        role.lastMsg = '回复了照片';
+      } else {
+        var parts = app.splitIntoShortMessages(cleaned);
+        if (!parts.length) parts = [cleaned];
+        parts.forEach(function(part) { app.sendMessageCore(roleId, 'text', { text: part }, 'ai'); });
+        role.lastMsg = parts[0] || '回复了照片';
+      }
+      role.lastTime = app.getClockStr();
+      app.renderChatMessages(); app.renderPocketChatList(); app.saveAll();
+    }).catch(function(err) {
+      console.warn('[照片] 回复流程失败:', err);
+      app.removeThinkingBubble();
+      if (status) status.style.opacity = '0';
+      app._flash('照片已发送，但回复失败；请检查网络后再发一条消息');
+    }).finally(function() {
+      app.removeThinkingBubble();
+      var rs = document.getElementById('chat-reply-status'); if (rs) rs.style.opacity = '0';
+      if (window.replyDotInterval) clearInterval(window.replyDotInterval);
+    });
+},
+
 sendChatImage: function(imageId, dataUrl, userText) {
     var _applyAvatarSwitch = function(replyText) {
       if (!imageMsg.content.desc) return Promise.resolve(replyText);
@@ -12333,11 +12438,11 @@ _requestImmediateIncomingCall: function(role) {
 sendMessage: function() {
     var input = $('chat-detail-input');
     var text = input.value.trim();
-    var _imgDraft = app._chatImageDraft;
-    if (_imgDraft && _imgDraft.imageId) {
+    var _imgDraft = (app._chatImageDraft || []).slice();
+    if (_imgDraft.length) {
         app.clearChatImageDraft();
         input.value = '';
-        app.sendChatImage(_imgDraft.imageId, _imgDraft.dataUrl, text);
+        app.sendChatImages(_imgDraft, text);
         return;
     }
     if (!text) return;
@@ -23667,20 +23772,47 @@ if (typeof app !== 'undefined') { // richTextFix
 
 <script>
 if (typeof app !== 'undefined') { // imageTextBind
-  app._chatImageDraft = null;
-  app.setChatImageDraft = function(imageId, dataUrl) {
-    app._chatImageDraft = { imageId: imageId, dataUrl: dataUrl };
-    var thumb = document.getElementById('chat-image-draft-thumb');
+  app._chatImageDraft = [];
+  app._renderChatImageDraft = function() {
     var bar = document.getElementById('chat-image-draft');
-    if (thumb) thumb.src = dataUrl;
-    if (bar) bar.style.display = 'block';
+    var list = document.getElementById('chat-image-draft-list');
+    if (!bar || !list) return;
+    list.innerHTML = '';
+    (app._chatImageDraft || []).forEach(function(item, i) {
+      var wrap = document.createElement('div');
+      wrap.style.position = 'relative';
+      wrap.style.display = 'inline-block';
+      var img = document.createElement('img');
+      img.src = item.dataUrl;
+      img.style.cssText = 'max-height:90px;max-width:90px;border-radius:10px;display:block;object-fit:cover;';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '×';
+      btn.style.cssText = 'position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;border:none;font-size:13px;line-height:1;cursor:pointer;';
+      btn.onclick = function() { app.removeChatImageDraft(i); };
+      wrap.appendChild(img);
+      wrap.appendChild(btn);
+      list.appendChild(wrap);
+    });
+    bar.style.display = (app._chatImageDraft && app._chatImageDraft.length) ? 'block' : 'none';
+  };
+  app.addChatImageDraft = function(imageId, dataUrl) {
+    if (!Array.isArray(app._chatImageDraft)) app._chatImageDraft = [];
+    if (app._chatImageDraft.length >= 6) { app._flash('最多一次发送 6 张图片'); return; }
+    app._chatImageDraft.push({ imageId: imageId, dataUrl: dataUrl });
+    app._renderChatImageDraft();
     var inp = document.getElementById('chat-detail-input');
     if (inp) inp.focus();
   };
+  app.setChatImageDraft = function(imageId, dataUrl) { app.addChatImageDraft(imageId, dataUrl); };
+  app.removeChatImageDraft = function(index) {
+    if (!Array.isArray(app._chatImageDraft)) app._chatImageDraft = [];
+    app._chatImageDraft.splice(index, 1);
+    app._renderChatImageDraft();
+  };
   app.clearChatImageDraft = function() {
-    app._chatImageDraft = null;
-    var bar = document.getElementById('chat-image-draft');
-    if (bar) bar.style.display = 'none';
+    app._chatImageDraft = [];
+    app._renderChatImageDraft();
   };
 }
 </script>

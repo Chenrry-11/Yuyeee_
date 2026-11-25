@@ -1,5 +1,8 @@
 name: Sync media interaction
 on:
+  push:
+    paths:
+      - .github/workflows/sync-media-interaction.yml
   workflow_dispatch:
 
 permissions:

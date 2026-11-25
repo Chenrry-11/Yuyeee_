@@ -2724,6 +2724,33 @@
     transition: box-shadow .2s ease;
 }
 #chat-detail-messages .msg-bubble.chat-photo-bubble { width: auto; max-width: min(230px, 62vw) !important; }
+
+/* 微信式合并媒体卡片：堆叠探边 + 全屏手势查看 */
+.ms-group { display: flex; align-items: flex-end; gap: 10px; }
+.ms-toggle { border: 1px solid var(--g-edge, rgba(255,255,255,.18)); background: rgba(255,255,255,.12); color: var(--g-text, #e8eaed); border-radius: 999px; padding: 7px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.ms-stage { position: relative; width: 150px; height: 200px; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; cursor: grab; touch-action: pan-y; transition: transform .12s ease; }
+.ms-stage.pressing { transform: scale(.97); }
+.ms-stage:active { cursor: grabbing; }
+.ms-card { position: absolute; inset: 0; background: transparent; border-radius: 16px; overflow: hidden; box-shadow: 0 3px 14px rgba(0,0,0,.18); transition: transform .32s cubic-bezier(.2,.7,.3,1), opacity .3s ease; }
+.ms-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: scale(1.04); }
+.ms-list { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: flex-end; }
+.ms-row { display: flex; justify-content: flex-end; opacity: 0; transform: translateY(18px); transition: opacity .28s ease, transform .28s cubic-bezier(.22,1,.36,1); }
+.ms-row.visible { opacity: 1; transform: translateY(0); }
+.ms-row .ms-thumb { width: 132px; aspect-ratio: 3/4; border-radius: 16px; overflow: hidden; box-shadow: 0 3px 14px rgba(0,0,0,.16); }
+.ms-list.collapsing .ms-row { opacity: 0; transform: translateY(-16px); }
+.ms-viewer { position: fixed; inset: 0; z-index: 100001; background: rgba(8,12,14,.98); display: none; flex-direction: column; color: #fff; touch-action: none; overflow: hidden; user-select: none; }
+.ms-viewer.open { display: flex; }
+.ms-viewer-stage { position: absolute; inset: 0; overflow: hidden; transition: transform .28s cubic-bezier(.22,1,.36,1), opacity .25s ease; }
+.ms-viewer-stage.closing { transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .26s ease; }
+.ms-viewer-item { position: absolute; inset: 0; transition: transform .32s cubic-bezier(.22,1,.36,1), opacity .3s ease; }
+.ms-viewer-item.prev { transform: translateX(-100%) scale(.96); opacity: .6; }
+.ms-viewer-item.next { transform: translateX(100%) scale(.96); opacity: .6; }
+.ms-viewer-item.hidden { opacity: 0; pointer-events: none; }
+.ms-viewer-media { width: 100%; height: 100%; overflow: hidden; }
+.ms-viewer-media img { width: 100%; height: 100%; object-fit: cover; }
+.ms-viewer-actions { position: absolute; left: 18px; right: 18px; bottom: calc(env(safe-area-inset-bottom, 0px) + 22px); display: flex; justify-content: flex-end; gap: 10px; z-index: 40; transform: translateY(18px); opacity: 0; pointer-events: none; transition: transform .24s cubic-bezier(.22,1,.36,1), opacity .24s ease; }
+.ms-viewer-actions.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.ms-viewer-btn { border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.12); color: #fff; border-radius: 999px; padding: 10px 16px; font-size: 13px; backdrop-filter: blur(12px); }
 #chat-detail-messages .msg-bubble:has(.voice-pill) { width: auto; max-width: min(78%, 340px) !important; }
 #chat-detail-messages .msg-bubble[style*="var(--bubble-char)"] {
     background: var(--g-bubble-char) !important;
@@ -11282,6 +11309,9 @@ renderChatMessages: function() {
         var mins = String(d.getMinutes()).padStart(2, '0');
         return { date: mon + ' ' + day, time: String(hrs).padStart(2, '0') + ':' + mins + ' ' + ampm };
     }
+    function plainImageMsg(x) {
+        return x && x.msgType === 'image' && x.content && x.content.imageId && !x.content.pending && !x.content.failed;
+    }
     
     for (var g = 0; g < groups.length; g++) {
         var group = groups[g];
@@ -11389,13 +11419,29 @@ switch (msgType) {
     }
     case 'image': {
         var imageContent = m.content || {};
-        var imageId = imageContent.imageId || '';
         if (imageContent.pending) { html += app._photoPendingHtml(imageContent); break; }
         if (imageContent.failed) { html += app._photoFailedHtml(imageContent, m.ts); break; }
-        var imageHtml = '<div class="msg-bubble chat-photo-bubble" style="padding:5px;border-radius:15px;background:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.62);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);max-width:min(230px,62vw);"><img class="chat-photo-image" data-chat-image-id="' + esc(imageId) + '" alt="聊天照片" style="display:block;width:100%;max-height:280px;object-fit:cover;border-radius:11px;min-height:70px;background:rgba(130,150,145,.12);" onclick="app.previewChatImage(\'' + escJs(imageId) + '\')"><div style="font-size:10px;color:var(--text-sub);padding:4px 5px 1px;">照片</div></div>';
-        html += app._wrapMessageWithMenu(imageHtml, m.ts, 'image', m.ts);
-        if (imageContent.text) {
-            var imgTextHtml = '<div class="msg-bubble" style="padding:7px 12px;background:' + (isUserGroup ? 'var(--bubble-me)' : 'var(--bubble-char)') + ';border-radius:12px;font-size:13.5px;line-height:1.45;color:var(--text-main);word-wrap:break-word;max-width:85%;border:1px solid var(--border-light);margin-top:4px;">' + app.richText(imageContent.text) + '</div>';
+
+        var runStart = k;
+        while (runStart > 0 && plainImageMsg(group.msgs[runStart - 1])) runStart--;
+        if (k !== runStart) continue;
+
+        var runMsgs = [], runIds = [];
+        for (var ri = runStart; ri < group.msgs.length && plainImageMsg(group.msgs[ri]); ri++) {
+            runMsgs.push(group.msgs[ri]);
+            runIds.push(group.msgs[ri].content.imageId);
+        }
+        var idsJson = escJs(JSON.stringify(runIds));
+        var stackHtml = '<div class="ms-group" data-ms-ids="' + idsJson + '">'
+            + '<button class="ms-toggle" type="button" data-ms-toggle>展开</button>'
+            + '<div class="ms-stage" data-ms-stage data-ms-ids="' + idsJson + '"></div>'
+            + '<div class="ms-list" data-ms-list hidden></div>'
+            + '</div>';
+        html += app._wrapMessageWithMenu(stackHtml, m.ts, 'image', m.ts);
+
+        var firstText = runMsgs[0] && runMsgs[0].content && runMsgs[0].content.text;
+        if (firstText) {
+            var imgTextHtml = '<div class="msg-bubble" style="padding:7px 12px;background:' + (isUserGroup ? 'var(--bubble-me)' : 'var(--bubble-char)') + ';border-radius:12px;font-size:13.5px;line-height:1.45;color:var(--text-main);word-wrap:break-word;max-width:85%;border:1px solid var(--border-light);margin-top:4px;">' + app.richText(firstText) + '</div>';
             html += app._wrapMessageWithMenu(imgTextHtml, m.ts, 'text', m.ts);
         }
         break;
@@ -11428,6 +11474,7 @@ switch (msgType) {
     
 box.innerHTML = html;
 box.scrollTop = box.scrollHeight;
+if (app._initMediaStacks) app._initMediaStacks();
 
 // 异步加载 IndexedDB 头像
 setTimeout(function() {
@@ -11765,12 +11812,282 @@ _hydrateChatImages: function() {
 },
 
 previewChatImage: function(imageId) {
-    app.imageDB.get(imageId).then(function(data) {
-        if (!data) { app._flash('照片暂时无法读取'); return; }
-        var overlay = document.createElement('div'); overlay.className = 'preview-overlay'; overlay.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(8,12,16,.92);display:flex;align-items:center;justify-content:center;padding:18px;';
-        overlay.innerHTML = '<img src="' + app._imgSrcOf(data) + '" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;">';
-        overlay.onclick = function() { overlay.remove(); }; document.body.appendChild(overlay);
-    }).catch(function() { app._flash('照片暂时无法读取'); });
+    app.openMediaViewer([imageId], 0);
+},
+
+_loadMsImage: function(img) {
+    var id = img.getAttribute('data-ms-image-id');
+    if (!id || img.getAttribute('data-ms-loaded') === '1') return;
+    img.setAttribute('data-ms-loaded', '1');
+    app.imageDB.get(id).then(function(data) {
+        if (data && img.isConnected) img.src = app._imgSrcOf(data);
+        else if (img.isConnected) img.removeAttribute('data-ms-loaded');
+    }).catch(function() { if (img.isConnected) img.removeAttribute('data-ms-loaded'); });
+},
+
+_applyStackLayout: function(state) {
+    var o = { peek: 12, peekStep: 10, rotStep: 2, scaleStep: .07 };
+    state.cards.forEach(function(card, i) {
+        var t, z, op = 1;
+        if (i < state.cur) {
+            var d = state.cur - i;
+            t = 'translateX(' + (-o.peek - (d - 1) * o.peekStep) + 'px) rotate(' + (-o.rotStep * d) + 'deg) scale(' + (1 - o.scaleStep * d) + ')';
+            z = 40 - d; op = d > 2 ? 0 : 1;
+        } else if (i === state.cur) {
+            t = 'translateX(0)'; z = 100;
+        } else {
+            var d2 = i - state.cur;
+            t = 'translateX(' + (o.peek + (d2 - 1) * o.peekStep) + 'px) rotate(' + (o.rotStep * d2) + 'deg) scale(' + (1 - o.scaleStep * d2) + ')';
+            z = 100 - d2; op = d2 > 2 ? 0 : 1;
+        }
+        card.style.transform = t; card.style.zIndex = z; card.style.opacity = op;
+    });
+},
+
+_bindStackGesture: function(state) {
+    var st = state.stage;
+    var sx = 0, sy = 0, moved = false, dragging = false, horizontal = false;
+    var lastX = 0, lastT = 0, velX = 0;
+    st.addEventListener('pointerdown', function(e) {
+        sx = e.clientX; sy = e.clientY; lastX = sx; lastT = e.timeStamp;
+        moved = false; dragging = false; horizontal = false; velX = 0;
+        st.classList.add('pressing');
+        try { st.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+    st.addEventListener('pointermove', function(e) {
+        if (!sx) return;
+        var dx = e.clientX - sx, dy = e.clientY - sy;
+        if (!moved && Math.max(Math.abs(dx), Math.abs(dy)) > 8) {
+            moved = true; horizontal = Math.abs(dx) > Math.abs(dy);
+        }
+        if (!moved || !horizontal) return;
+        e.preventDefault(); dragging = true;
+        if (e.timeStamp > lastT) velX = .7 * ((e.clientX - lastX) / (e.timeStamp - lastT)) + .3 * velX;
+        lastX = e.clientX; lastT = e.timeStamp;
+        var w = st.offsetWidth || 150;
+        var cur = state.cur, curCard = state.cards[cur], prev = state.cards[cur - 1], next = state.cards[cur + 1];
+        var resist = (cur === 0 && dx > 0) || (cur === state.ids.length - 1 && dx < 0) ? .35 : 1;
+        var dragX = dx * resist;
+        state.cards.forEach(function(c) { c.style.transition = 'none'; });
+        if (curCard) curCard.style.transform = 'translateX(' + dragX + 'px) scale(' + (1 - Math.min(.05, Math.abs(dragX) / w * .05)) + ')';
+        if (prev) prev.style.transform = 'translateX(' + (-w + dragX) + 'px) scale(.93)';
+        if (next) next.style.transform = 'translateX(' + (w + dragX) + 'px) scale(.93)';
+    });
+    st.addEventListener('pointerup', function() {
+        if (!sx) return;
+        var dx = 0;
+        if (dragging) {
+            dx = (state.cards[state.cur] ? 0 : 0);
+            var w = st.offsetWidth || 150, threshold = w * .22;
+            var rawDx = arguments[0] ? arguments[0].clientX - sx : 0;
+            if (rawDx < -threshold || velX < -.5) state.cur = Math.min(state.ids.length - 1, state.cur + 1);
+            else if (rawDx > threshold || velX > .5) state.cur = Math.max(0, state.cur - 1);
+            state.cards.forEach(function(c) { c.style.transition = ''; });
+            app._applyStackLayout(state);
+        }
+        sx = 0; dragging = false;
+        st.classList.remove('pressing');
+    });
+    st.addEventListener('click', function() {
+        if (dragging || moved) return;
+        app.openMediaViewer(state.ids, state.cur);
+    });
+    st.addEventListener('pointercancel', function() {
+        sx = 0; dragging = false;
+        st.classList.remove('pressing');
+        state.cards.forEach(function(c) { c.style.transition = ''; });
+        app._applyStackLayout(state);
+    });
+},
+
+_initMediaStacks: function() {
+    document.querySelectorAll('img[data-ms-image-id]').forEach(app._loadMsImage);
+    document.querySelectorAll('[data-ms-stage]').forEach(function(stage) {
+        if (stage._msInit) return;
+        stage._msInit = true;
+        var ids = [];
+        try { ids = JSON.parse(stage.dataset.msIds || '[]'); } catch (_) {}
+        var group = stage.closest('.ms-group');
+        var list = group ? group.querySelector('[data-ms-list]') : null;
+        var toggle = group ? group.querySelector('[data-ms-toggle]') : null;
+        var cards = [];
+        ids.forEach(function(id) {
+            var card = document.createElement('div');
+            card.className = 'ms-card';
+            var img = document.createElement('img');
+            img.setAttribute('data-ms-image-id', id);
+            img.alt = '聊天照片';
+            img.draggable = false;
+            card.appendChild(img);
+            stage.appendChild(card);
+            cards.push(card);
+            app._loadMsImage(img);
+        });
+        var state = { ids: ids, cards: cards, stage: stage, list: list, toggle: toggle, cur: 0 };
+        app._applyStackLayout(state);
+        app._bindStackGesture(state);
+        if (toggle) toggle.onclick = function() {
+            var expanded = group.dataset.expanded === '1';
+            if (!expanded) {
+                list.innerHTML = '';
+                ids.forEach(function(id, i) {
+                    var row = document.createElement('div'); row.className = 'ms-row';
+                    var thumb = document.createElement('div'); thumb.className = 'ms-thumb';
+                    var img = document.createElement('img');
+                    img.setAttribute('data-ms-image-id', id); img.draggable = false;
+                    thumb.appendChild(img); row.appendChild(thumb); list.appendChild(row);
+                    app._loadMsImage(img);
+                    thumb.onclick = function() { app.openMediaViewer(ids, i); };
+                });
+                list.hidden = false; stage.hidden = true; toggle.textContent = '收起';
+                group.dataset.expanded = '1';
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        [...list.children].forEach(function(row, i) {
+                            row.style.transitionDelay = (i * 55) + 'ms';
+                            row.classList.add('visible');
+                        });
+                    });
+                });
+            } else {
+                list.classList.add('collapsing');
+                setTimeout(function() {
+                    list.hidden = true; stage.hidden = false; toggle.textContent = '展开';
+                    group.dataset.expanded = '0'; list.classList.remove('collapsing'); list.innerHTML = '';
+                }, 260);
+            }
+        };
+    });
+},
+
+_ensureMediaViewer: function() {
+    if (document.getElementById('ms-viewer')) return;
+    var v = document.createElement('div');
+    v.id = 'ms-viewer'; v.className = 'ms-viewer';
+    v.innerHTML = '<div class="ms-viewer-stage" id="ms-viewer-stage"><div id="ms-viewer-track"></div></div>'
+        + '<div class="ms-viewer-actions" id="ms-viewer-actions">'
+        + '<button class="ms-viewer-btn" id="ms-save-btn">保存到手机</button>'
+        + '<button class="ms-viewer-btn" id="ms-fav-btn">收藏</button></div>';
+    document.body.appendChild(v);
+    app._bindMsViewerGesture();
+    document.getElementById('ms-save-btn').onclick = function() {
+        var id = app._msViewerIds[app._msViewerIndex];
+        if (!id) return;
+        app.imageDB.get(id).then(function(data) {
+            if (!data) { app._flash('照片暂时无法保存'); return; }
+            var a = document.createElement('a');
+            a.href = app._imgSrcOf(data); a.download = 'photo-' + id + '.jpg';
+            document.body.appendChild(a); a.click(); a.remove();
+            app._flash('已保存到手机');
+        }).catch(function() { app._flash('照片暂时无法保存'); });
+    };
+    document.getElementById('ms-fav-btn').onclick = function() { app._flash('已收藏'); };
+},
+
+_renderMsViewer: function() {
+    var track = document.getElementById('ms-viewer-track');
+    if (!track) return;
+    track.innerHTML = '';
+    app._msViewerIds.forEach(function(id, i) {
+        var wrap = document.createElement('div');
+        wrap.className = 'ms-viewer-item';
+        if (i === app._msViewerIndex) wrap.classList.add('current');
+        else if (i === app._msViewerIndex - 1) wrap.classList.add('prev');
+        else if (i === app._msViewerIndex + 1) wrap.classList.add('next');
+        else wrap.classList.add('hidden');
+        var box = document.createElement('div'); box.className = 'ms-viewer-media';
+        var img = document.createElement('img'); img.alt = '聊天照片';
+        img.setAttribute('data-ms-image-id', id);
+        box.appendChild(img); wrap.appendChild(box); track.appendChild(wrap);
+        app._loadMsImage(img);
+    });
+},
+
+openMediaViewer: function(ids, index) {
+    app._ensureMediaViewer();
+    app._msViewerIds = (ids || []).slice();
+    app._msViewerIndex = index || 0;
+    app._renderMsViewer();
+    document.getElementById('ms-viewer').classList.add('open');
+},
+
+_closeMsViewer: function() {
+    var viewer = document.getElementById('ms-viewer');
+    var stage = document.getElementById('ms-viewer-stage');
+    if (stage) { stage.style.transition = ''; stage.style.transform = ''; stage.style.opacity = ''; }
+    var actions = document.getElementById('ms-viewer-actions');
+    if (actions) actions.classList.remove('show');
+    if (viewer) viewer.classList.remove('open');
+},
+
+_bindMsViewerGesture: function() {
+    var viewer = document.getElementById('ms-viewer');
+    var stage = document.getElementById('ms-viewer-stage');
+    var actions = document.getElementById('ms-viewer-actions');
+    var vp = false, moved = false, vertical = false, suppressClick = false;
+    var sx = 0, sy = 0, lastX = 0, lastY = 0, lastT = 0, velX = 0, velY = 0;
+
+    stage.addEventListener('pointerdown', function(e) {
+        vp = true; moved = false; vertical = false; suppressClick = false;
+        sx = e.clientX; sy = e.clientY; lastX = sx; lastY = sy; lastT = e.timeStamp; velX = 0; velY = 0;
+        stage.style.transition = 'none';
+        try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+    stage.addEventListener('pointermove', function(e) {
+        if (!vp) return;
+        var dx = e.clientX - sx, dy = e.clientY - sy;
+        if (!moved && Math.max(Math.abs(dx), Math.abs(dy)) > 8) { moved = true; suppressClick = true; vertical = Math.abs(dy) > Math.abs(dx); }
+        if (!moved) return;
+        e.preventDefault();
+        var dt = e.timeStamp - lastT;
+        if (vertical) {
+            if (dt > 0) velY = .7 * ((e.clientY - lastY) / dt) + .3 * velY;
+            lastY = e.clientY; lastT = e.timeStamp;
+            var dragScale = Math.max(.82, 1 - Math.min(.18, dy / 600));
+            stage.style.transform = 'translateY(' + dy + 'px) scale(' + dragScale + ')';
+            stage.style.opacity = String(1 - Math.min(.45, dy / 300));
+            return;
+        }
+        if (dt > 0) velX = .7 * ((e.clientX - lastX) / dt) + .3 * velX;
+        lastX = e.clientX; lastT = e.timeStamp;
+        var w = stage.offsetWidth || window.innerWidth;
+        var items = [...stage.querySelectorAll('.ms-viewer-item')];
+        items.forEach(function(it) { it.style.transition = 'none'; });
+        var cur = items[app._msViewerIndex], prev = items[app._msViewerIndex - 1], next = items[app._msViewerIndex + 1];
+        if (cur) cur.style.transform = 'translateX(' + dx + 'px) scale(' + (1 - Math.min(.05, Math.abs(dx) / w * .05)) + ')';
+        if (prev) prev.style.transform = 'translateX(' + (-w + dx) + 'px) scale(.96)';
+        if (next) next.style.transform = 'translateX(' + (w + dx) + 'px) scale(.96)';
+    });
+    stage.addEventListener('pointerup', function(e) {
+        if (!vp) return;
+        var dx = e.clientX - sx, dy = e.clientY - sy;
+        vp = false; stage.style.transition = '';
+        if (!moved) return;
+        if (vertical) {
+            if (dy > 80 || (velY > .45 && dy > 60)) {
+                actions.classList.remove('show');
+                stage.classList.add('closing');
+                stage.style.transform = 'translateY(' + Math.max(dy, 140) + 'px) scale(.7)';
+                stage.style.opacity = '0';
+                setTimeout(app._closeMsViewer, 300);
+                return;
+            }
+            stage.style.transform = ''; stage.style.opacity = '';
+            return;
+        }
+        var w = stage.offsetWidth || window.innerWidth, threshold = w * .22;
+        if (dx < -threshold || velX < -.5) app._msViewerIndex = Math.min(app._msViewerIds.length - 1, app._msViewerIndex + 1);
+        else if (dx > threshold || velX > .5) app._msViewerIndex = Math.max(0, app._msViewerIndex - 1);
+        app._renderMsViewer();
+        stage.style.transform = ''; stage.style.opacity = '';
+    });
+    stage.addEventListener('click', function() {
+        if (suppressClick) { suppressClick = false; return; }
+        actions.classList.toggle('show');
+    });
+    stage.addEventListener('pointercancel', function() {
+        vp = false; stage.style.transition = ''; stage.style.transform = ''; stage.style.opacity = '';
+    });
 },
 
 sendChatImage: function(imageId, dataUrl, userText) {

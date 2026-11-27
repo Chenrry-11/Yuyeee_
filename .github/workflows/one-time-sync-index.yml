@@ -1,0 +1,24 @@
+name: one-time-sync-index
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download synced index.html
+        run: curl -sL "https://aka.doubaocdn.com/s/LFUPr3uHxf" -o index.html
+      - name: Verify sha256
+        run: |
+          echo "e72156c6755b52aa7d14784fc562d2e6ba8679b477366bc017f2a53d925dbd70  index.html" | sha256sum -c -
+      - name: Commit index.html and remove self workflow
+        run: |
+          git config user.name "Chenrry-11"
+          git config user.email "chenrry-11@users.noreply.github.com"
+          git rm -f .github/workflows/one-time-sync-index.yml
+          git add index.html
+          git commit -m "chore: phase-1 layout fixes (R1 lock chat horizontal, R3 qr overlay dvh)"
+          git push origin HEAD:main

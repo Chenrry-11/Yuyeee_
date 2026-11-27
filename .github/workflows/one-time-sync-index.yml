@@ -2,6 +2,8 @@ name: one-time-sync-index
 on:
   workflow_dispatch:
   push:
+permissions:
+  contents: write
 jobs:
   sync:
     runs-on: ubuntu-latest
